@@ -40,7 +40,7 @@ export default async function NewsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {news.map((item) => (
             <Link key={item.id} href={`/haber/${item.slug}`}>
-              <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer">
+              <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200">
                 {item.imageUrl ? (
                   <div className="relative w-full h-48">
                     <Image

@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import AdSense from '@/components/AdSense'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
+import CommentForm from '@/components/CommentForm'
 
 async function getNews(slug: string) {
   const news = await prisma.news.findUnique({
@@ -31,7 +32,7 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8 max-w-7xl mx-auto">
-      <Link href="/news" className="text-[#93D419] hover:text-[#7fb315] mb-4 inline-block">
+      <Link href="/news" className="text-gray-600 hover:text-[#93D419] mb-4 inline-block text-sm transition-colors">
         ← Back to News
       </Link>
 
@@ -91,24 +92,35 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
       </div>
 
       {/* Comments Section */}
-      {news.comments.length > 0 && (
-        <div className="mt-8 bg-white rounded-xl shadow-md p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Comments</h2>
-          <div className="space-y-4">
-            {news.comments.map((comment) => (
-              <div key={comment.id} className="border-b border-gray-200 pb-4 last:border-0">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="font-semibold text-gray-900">{comment.name}</span>
-                  <span className="text-gray-500 text-sm">
-                    {format(new Date(comment.createdAt), 'MMM d, yyyy', { locale: enUS })}
-                  </span>
+      <div className="mt-8">
+        <CommentForm newsId={news.id} onCommentAdded={() => window.location.reload()} />
+        
+        {news.comments.length > 0 && (
+          <div className="mt-8 bg-white rounded-xl shadow-md p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              Comments ({news.comments.length})
+            </h2>
+            <div className="space-y-6">
+              {news.comments.map((comment) => (
+                <div key={comment.id} className="border-b border-gray-200 pb-6 last:border-0 last:pb-0">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 bg-[#93D419] rounded-full flex items-center justify-center text-white font-semibold">
+                      {comment.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div>
+                      <span className="font-semibold text-gray-900 block">{comment.name}</span>
+                      <span className="text-gray-500 text-sm">
+                        {format(new Date(comment.createdAt), 'MMM d, yyyy', { locale: enUS })}
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-gray-700 leading-relaxed">{comment.content}</p>
                 </div>
-                <p className="text-gray-700">{comment.content}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }

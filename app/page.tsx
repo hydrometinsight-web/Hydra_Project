@@ -27,15 +27,6 @@ async function getAllNews() {
   return news
 }
 
-async function getEvents() {
-  const events = await prisma.event.findMany({
-    where: { published: true },
-    orderBy: { startDate: 'asc' },
-    take: 3,
-  })
-  return events
-}
-
 async function getTechInsights() {
   const insights = await prisma.techInsight.findMany({
     where: { published: true },
@@ -45,19 +36,28 @@ async function getTechInsights() {
   return insights
 }
 
+async function getEvents() {
+  const events = await prisma.event.findMany({
+    where: { published: true },
+    orderBy: { startDate: 'asc' },
+    take: 3,
+  })
+  return events
+}
+
 export default async function Home() {
   const latestNews = await getLatestNews()
   const allNews = await getAllNews()
-  const events = await getEvents()
   const techInsights = await getTechInsights()
+  const events = await getEvents()
 
   return (
     <Suspense fallback={<div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-6 max-w-7xl mx-auto"><div className="text-center py-12">Loading...</div></div>}>
       <HomePageClient
         latestNews={latestNews}
         allNews={allNews}
-        events={events}
         techInsights={techInsights}
+        events={events}
       />
     </Suspense>
   )

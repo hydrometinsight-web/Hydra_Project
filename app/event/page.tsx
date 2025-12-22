@@ -36,10 +36,10 @@ export default async function EventPage() {
           {events.map((event) => (
             <div
               key={event.id}
-              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300"
+              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-200"
             >
               {event.imageUrl ? (
-                <div className="relative w-full h-48">
+                <div className="relative w-full h-48 flex-shrink-0">
                   <Image
                     src={event.imageUrl}
                     alt={event.title}
@@ -48,18 +48,18 @@ export default async function EventPage() {
                   />
                 </div>
               ) : (
-                <div className="relative w-full h-48">
+                <div className="relative w-full h-48 flex-shrink-0">
                   <ImagePlaceholder />
                 </div>
               )}
-              <div className="p-6">
+              <div className="p-6 flex flex-col flex-grow">
                 <h3 className="text-xl font-semibold text-gray-900 mb-2 line-clamp-2">
                   {event.title}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
                   {event.description}
                 </p>
-                <div className="space-y-2 text-sm text-gray-500">
+                <div className="space-y-2 text-sm text-gray-500 mt-auto">
                   <div className="flex items-center gap-2">
                     <span className="font-semibold">📍</span>
                     <span>{event.location}</span>

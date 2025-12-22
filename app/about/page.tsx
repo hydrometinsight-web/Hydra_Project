@@ -12,8 +12,8 @@ export default function AboutPage() {
               <Image src="/logo1.png" alt="HydroMetInsight Logo" width={80} height={80} className="w-20 h-20 object-contain" />
             </div>
             <h1 className="text-5xl lg:text-6xl font-bold mb-4">About HydroMetInsight</h1>
-            <p className="text-xl lg:text-2xl text-[#E2FFAC] max-w-3xl mx-auto">
-              Your trusted source for hydrometallurgy news, insights, and developments
+            <p className="text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto">
+              Independent insights on hydrometallurgy, critical metals, and battery recycling
             </p>
           </div>
         </div>
@@ -154,14 +154,13 @@ export default function AboutPage() {
       {/* Contact CTA */}
       <div className="bg-gray-900 rounded-xl shadow-lg p-8 lg:p-12 text-center">
         <h2 className="text-3xl font-bold text-white mb-4">Get in Touch</h2>
-        <p className="text-[#E2FFAC] text-lg mb-6 max-w-2xl mx-auto">
+        <p className="text-gray-300 text-lg mb-6 max-w-2xl mx-auto">
           Have questions or want to contribute? We'd love to hear from you!
         </p>
         <a
           href="/sorular"
-          className="inline-flex items-center gap-2 bg-[#93D419] text-gray-900 px-8 py-3 rounded-lg hover:bg-[#7fb315] transition-colors font-semibold"
+          className="inline-flex items-center gap-2 bg-[#93D419] text-white px-8 py-3 rounded-lg hover:bg-[#7fb315] transition-colors font-medium text-sm"
         >
-          <Image src="/logo1.png" alt="Logo" width={20} height={20} className="w-5 h-5 object-contain" />
           Contact Us
         </a>
       </div>
