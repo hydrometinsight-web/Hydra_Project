@@ -22,11 +22,6 @@ export default function HomePageClient({
 }: HomePageClientProps) {
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-6 max-w-7xl mx-auto">
-      {/* AdSense Ad - Top */}
-      <div className="mb-6">
-        <AdSense adSlot="1234567890" className="w-full" />
-      </div>
-
       {/* Latest News Section */}
       <section className="mb-6">
         <div className="flex items-center gap-4 mb-4">
