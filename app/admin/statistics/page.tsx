@@ -66,6 +66,7 @@ interface Stats {
     last7Days: number
     last30Days: number
     bySection: Array<{ section: string; count: number }>
+    byCountry: Array<{ country: string; count: number }>
   }
 }
 
@@ -86,16 +87,35 @@ export default function StatisticsPage() {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
+      .then((res) => {
+        if (res.status === 401 || res.status === 403) {
+          // Unauthorized - token expired or invalid
+          localStorage.removeItem('adminToken')
           router.push('/admin')
+          return null
+        }
+        return res.json()
+      })
+      .then((data) => {
+        if (!data) return // Already handled error case
+        
+        if (data.error) {
+          // Only logout on auth errors
+          if (data.error === 'Unauthorized' || data.error === 'Access denied') {
+            localStorage.removeItem('adminToken')
+            router.push('/admin')
+            return
+          }
+          // For other errors, just show empty stats
+          setStats(null)
         } else {
           setStats(data)
         }
       })
-      .catch(() => {
-        router.push('/admin')
+      .catch((error) => {
+        console.error('Error fetching stats:', error)
+        // Don't logout on network errors
+        setStats(null)
       })
       .finally(() => setLoading(false))
   }, [router])
@@ -189,6 +209,19 @@ export default function StatisticsPage() {
               {stats.pageViews.bySection.map((item) => (
                 <div key={item.section} className="flex items-center justify-between">
                   <span className="text-sm text-gray-600 capitalize">{item.section}</span>
+                  <span className="text-sm font-semibold text-gray-900">{item.count}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {stats?.pageViews?.byCountry && stats.pageViews.byCountry.length > 0 && (
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Countries</h3>
+            <div className="space-y-2">
+              {stats.pageViews.byCountry.map((item) => (
+                <div key={item.country} className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600 uppercase">{item.country}</span>
                   <span className="text-sm font-semibold text-gray-900">{item.count}</span>
                 </div>
               ))}

@@ -56,16 +56,35 @@ export default function AdminDashboard() {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
+      .then((res) => {
+        if (res.status === 401 || res.status === 403) {
+          // Unauthorized - token expired or invalid
+          localStorage.removeItem('adminToken')
           router.push('/admin')
+          return null
+        }
+        return res.json()
+      })
+      .then((data) => {
+        if (!data) return // Already handled error case
+        
+        if (data.error) {
+          // Only logout on auth errors, for other errors just show empty stats
+          if (data.error === 'Unauthorized' || data.error === 'Access denied') {
+            localStorage.removeItem('adminToken')
+            router.push('/admin')
+            return
+          }
+          // For other errors, just show empty stats
+          setStats(null)
         } else {
           setStats(data)
         }
       })
-      .catch(() => {
-        router.push('/admin')
+      .catch((error) => {
+        console.error('Error fetching stats:', error)
+        // Don't logout on network errors, just show empty stats
+        setStats(null)
       })
       .finally(() => setLoading(false))
   }, [router])

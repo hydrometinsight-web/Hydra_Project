@@ -57,6 +57,7 @@ export async function GET(request: NextRequest) {
       pageViewsLast7Days,
       pageViewsLast30Days,
       pageViewsBySection,
+      pageViewsByCountry,
     ] = await Promise.all([
       prisma.news.count(),
       prisma.news.count({ where: { published: true } }),
@@ -93,6 +94,23 @@ export async function GET(request: NextRequest) {
             id: 'desc',
           },
         },
+      }),
+      prisma.pageView.groupBy({
+        by: ['country'],
+        _count: {
+          id: true,
+        },
+        where: {
+          country: {
+            not: null,
+          },
+        },
+        orderBy: {
+          _count: {
+            id: 'desc',
+          },
+        },
+        take: 10, // Top 10 countries
       }),
     ])
 
@@ -160,6 +178,10 @@ export async function GET(request: NextRequest) {
         last30Days: pageViewsLast30Days,
         bySection: pageViewsBySection.map((item) => ({
           section: item.section,
+          count: item._count.id,
+        })),
+        byCountry: pageViewsByCountry.map((item) => ({
+          country: item.country || 'Unknown',
           count: item._count.id,
         })),
       },

@@ -33,16 +33,30 @@ export default function TechInsightPage() {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
+      .then((res) => {
+        if (res.status === 401 || res.status === 403) {
+          localStorage.removeItem('adminToken')
           router.push('/admin')
+          return null
+        }
+        return res.json()
+      })
+      .then((data) => {
+        if (!data) return
+        if (data.error) {
+          if (data.error === 'Unauthorized' || data.error === 'Access denied') {
+            localStorage.removeItem('adminToken')
+            router.push('/admin')
+            return
+          }
+          setInsights([])
         } else {
           setInsights(data)
         }
       })
-      .catch(() => {
-        router.push('/admin')
+      .catch((error) => {
+        console.error('Error fetching techinsight:', error)
+        setInsights([])
       })
       .finally(() => setLoading(false))
   }, [router])

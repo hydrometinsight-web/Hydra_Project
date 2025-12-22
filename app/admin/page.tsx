@@ -27,8 +27,9 @@ export default function AdminLogin() {
 
       const data = await response.json()
 
-      if (response.ok) {
+      if (response.ok && data.token) {
         localStorage.setItem('adminToken', data.token)
+        // Navigate to dashboard
         router.push('/admin/dashboard')
       } else {
         setError(data.error || 'Login failed')

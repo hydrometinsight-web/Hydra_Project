@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma'
 
 export async function POST(request: NextRequest) {
   try {
-    const { path, section } = await request.json()
+    const { path, section, country } = await request.json()
 
     if (!path || !section) {
       return NextResponse.json({ error: 'Path and section are required' }, { status: 400 })
@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
       data: {
         path,
         section,
+        country: country || null,
       },
     })
 
