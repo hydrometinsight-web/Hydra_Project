@@ -1,14 +1,15 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 
 interface CommentFormProps {
   newsId: string
-  onCommentAdded: () => void
 }
 
-export default function CommentForm({ newsId, onCommentAdded }: CommentFormProps) {
+export default function CommentForm({ newsId }: CommentFormProps) {
+  const router = useRouter()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [content, setContent] = useState('')
@@ -43,7 +44,8 @@ export default function CommentForm({ newsId, onCommentAdded }: CommentFormProps
         setName('')
         setEmail('')
         setContent('')
-        onCommentAdded()
+        // Refresh the page to show updated comments
+        router.refresh()
       } else {
         setSubmitStatus('error')
         setSubmitMessage(data.error || 'Failed to submit comment. Please try again.')
@@ -71,6 +73,12 @@ export default function CommentForm({ newsId, onCommentAdded }: CommentFormProps
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
+              onInvalid={(e) => {
+                e.currentTarget.setCustomValidity('Please fill in this field.')
+              }}
+              onInput={(e) => {
+                e.currentTarget.setCustomValidity('')
+              }}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#93D419] focus:border-transparent"
             />
           </div>
@@ -84,6 +92,12 @@ export default function CommentForm({ newsId, onCommentAdded }: CommentFormProps
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              onInvalid={(e) => {
+                e.currentTarget.setCustomValidity('Please enter a valid email address.')
+              }}
+              onInput={(e) => {
+                e.currentTarget.setCustomValidity('')
+              }}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#93D419] focus:border-transparent"
             />
           </div>
@@ -97,6 +111,12 @@ export default function CommentForm({ newsId, onCommentAdded }: CommentFormProps
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
+            onInvalid={(e) => {
+              e.currentTarget.setCustomValidity('Please fill in this field.')
+            }}
+            onInput={(e) => {
+              e.currentTarget.setCustomValidity('')
+            }}
             rows={5}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#93D419] focus:border-transparent resize-none"
           />

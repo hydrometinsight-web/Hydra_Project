@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import jwt from 'jsonwebtoken'
+import { sanitizeString, sanitizeSlug } from '@/lib/validation'
 
 const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'your-secret-key'
 
@@ -49,11 +50,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Name and slug are required' }, { status: 400 })
     }
 
+    // Sanitize inputs
+    const sanitizedName = sanitizeString(name, 100)
+    const sanitizedSlug = sanitizeSlug(slug)
+    const sanitizedDescription = description ? sanitizeString(description, 500) : null
+
+    if (!sanitizedName || !sanitizedSlug) {
+      return NextResponse.json({ error: 'Invalid name or slug format' }, { status: 400 })
+    }
+
     const category = await prisma.category.create({
       data: {
-        name,
-        slug,
-        description: description || null,
+        name: sanitizedName,
+        slug: sanitizedSlug,
+        description: sanitizedDescription,
       },
     })
 

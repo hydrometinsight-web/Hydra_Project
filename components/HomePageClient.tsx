@@ -20,6 +20,10 @@ export default function HomePageClient({
   techInsights,
   events,
 }: HomePageClientProps) {
+  // Filter out latest news from all news
+  const latestNewsIds = new Set(latestNews.map((news) => news.id))
+  const filteredAllNews = allNews.filter((news) => !latestNewsIds.has(news.id))
+
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-6 max-w-7xl mx-auto">
       {/* Latest News Section */}
@@ -197,7 +201,7 @@ export default function HomePageClient({
           </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {allNews.slice(0, 6).map((news) => (
+          {filteredAllNews.slice(0, 6).map((news) => (
             <Link key={news.id} href={`/haber/${news.slug}`}>
               <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200">
                 {news.imageUrl ? (

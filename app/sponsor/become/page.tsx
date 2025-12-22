@@ -139,6 +139,12 @@ export default function BecomeSponsorPage() {
                       value={formData.companyName}
                       onChange={handleChange}
                       required
+                      onInvalid={(e) => {
+                        e.currentTarget.setCustomValidity('Please fill in this field.')
+                      }}
+                      onInput={(e) => {
+                        e.currentTarget.setCustomValidity('')
+                      }}
                       className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm"
                     />
                   </div>
@@ -153,6 +159,12 @@ export default function BecomeSponsorPage() {
                       value={formData.contactName}
                       onChange={handleChange}
                       required
+                      onInvalid={(e) => {
+                        e.currentTarget.setCustomValidity('Please fill in this field.')
+                      }}
+                      onInput={(e) => {
+                        e.currentTarget.setCustomValidity('')
+                      }}
                       className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm"
                     />
                   </div>
@@ -169,6 +181,12 @@ export default function BecomeSponsorPage() {
                       value={formData.email}
                       onChange={handleChange}
                       required
+                      onInvalid={(e) => {
+                        e.currentTarget.setCustomValidity('Please enter a valid email address.')
+                      }}
+                      onInput={(e) => {
+                        e.currentTarget.setCustomValidity('')
+                      }}
                       className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm"
                     />
                   </div>
@@ -210,6 +228,12 @@ export default function BecomeSponsorPage() {
                     value={formData.message}
                     onChange={handleChange}
                     required
+                    onInvalid={(e) => {
+                      e.currentTarget.setCustomValidity('Please fill in this field.')
+                    }}
+                    onInput={(e) => {
+                      e.currentTarget.setCustomValidity('')
+                    }}
                     rows={5}
                     placeholder="Tell us about your sponsorship interests..."
                     className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm resize-none"

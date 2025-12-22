@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "translate-categories": "npx tsx scripts/translate-categories.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.7.1",

@@ -8,7 +8,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   const pathname = usePathname()
   const isAdminPage = pathname?.startsWith('/admin')
 
-  // Admin sayfalarında header ve footer gösterme
+  // Don't show header and footer on admin pages
   if (isAdminPage) {
     return <>{children}</>
   }

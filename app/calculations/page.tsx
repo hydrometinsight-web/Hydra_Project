@@ -187,7 +187,291 @@ function calculateMolecularWeight(formula: string): {
   }
 }
 
+// Unit Converter Component
+type UnitCategory = 'concentration' | 'temperature' | 'pressure' | 'volume' | 'weight' | 'length' | 'energy'
+
+const UNIT_CONVERSIONS: {
+  [key in UnitCategory]: { name: string; units: { [key: string]: number } }
+} = {
+  concentration: {
+    name: 'Concentration',
+    units: {
+      'g/L': 1,
+      'mg/L': 1000,
+      'ppm': 1000,
+      'ppb': 1000000,
+      'mol/L': 0.001, // Assuming molar mass of 1000 g/mol for conversion
+      'M': 0.001,
+      '%': 0.1,
+    }
+  },
+  temperature: {
+    name: 'Temperature',
+    units: {
+      '°C': 1,
+      '°F': 1,
+      'K': 1,
+    }
+  },
+  pressure: {
+    name: 'Pressure',
+    units: {
+      'bar': 1,
+      'atm': 0.986923,
+      'psi': 14.5038,
+      'Pa': 100000,
+      'kPa': 100,
+      'MPa': 0.1,
+    }
+  },
+  volume: {
+    name: 'Volume',
+    units: {
+      'L': 1,
+      'mL': 1000,
+      'm³': 0.001,
+      'gal (US)': 0.264172,
+      'gal (UK)': 0.219969,
+      'fl oz (US)': 33.814,
+      'fl oz (UK)': 35.1951,
+    }
+  },
+  weight: {
+    name: 'Weight/Mass',
+    units: {
+      'g': 1,
+      'kg': 0.001,
+      'mg': 1000,
+      'lb': 0.00220462,
+      'oz': 0.035274,
+      'ton (metric)': 0.000001,
+    }
+  },
+  length: {
+    name: 'Length',
+    units: {
+      'm': 1,
+      'cm': 100,
+      'mm': 1000,
+      'km': 0.001,
+      'in': 39.3701,
+      'ft': 3.28084,
+      'yd': 1.09361,
+      'mi': 0.000621371,
+    }
+  },
+  energy: {
+    name: 'Energy',
+    units: {
+      'J': 1,
+      'kJ': 0.001,
+      'cal': 0.239006,
+      'kcal': 0.000239006,
+      'kWh': 0.000000277778,
+      'BTU': 0.000947817,
+    }
+  }
+}
+
+function UnitConverter() {
+  const [category, setCategory] = useState<UnitCategory>('concentration')
+  const [fromUnit, setFromUnit] = useState('')
+  const [toUnit, setToUnit] = useState('')
+  const [value, setValue] = useState('')
+  const [result, setResult] = useState<number | null>(null)
+
+  const handleConvert = () => {
+    if (!value || !fromUnit || !toUnit || fromUnit === toUnit) {
+      setResult(null)
+      return
+    }
+
+    const numValue = parseFloat(value)
+    if (isNaN(numValue)) {
+      setResult(null)
+      return
+    }
+
+    // Special handling for temperature
+    if (category === 'temperature') {
+      let celsius = 0
+      
+      // Convert to Celsius first
+      if (fromUnit === '°C') {
+        celsius = numValue
+      } else if (fromUnit === '°F') {
+        celsius = (numValue - 32) * 5 / 9
+      } else if (fromUnit === 'K') {
+        celsius = numValue - 273.15
+      }
+
+      // Convert from Celsius to target unit
+      if (toUnit === '°C') {
+        setResult(celsius)
+      } else if (toUnit === '°F') {
+        setResult(celsius * 9 / 5 + 32)
+      } else if (toUnit === 'K') {
+        setResult(celsius + 273.15)
+      }
+      return
+    }
+
+    // For other units, use conversion factors
+    const fromFactor = UNIT_CONVERSIONS[category].units[fromUnit]
+    const toFactor = UNIT_CONVERSIONS[category].units[toUnit]
+
+    if (fromFactor && toFactor) {
+      // Convert to base unit, then to target unit
+      const baseValue = numValue / fromFactor
+      const convertedValue = baseValue * toFactor
+      setResult(convertedValue)
+    } else {
+      setResult(null)
+    }
+  }
+
+  const handleClear = () => {
+    setValue('')
+    setResult(null)
+    setFromUnit('')
+    setToUnit('')
+  }
+
+  // Update units when category changes
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newCategory = e.target.value as UnitCategory
+    setCategory(newCategory)
+    const units = Object.keys(UNIT_CONVERSIONS[newCategory].units)
+    setFromUnit(units[0] || '')
+    setToUnit(units[1] || units[0] || '')
+    setValue('')
+    setResult(null)
+  }
+
+  const availableUnits = Object.keys(UNIT_CONVERSIONS[category].units)
+
+  return (
+    <div className="space-y-6">
+      {/* Category Selection */}
+      <div>
+        <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
+          Category
+        </label>
+        <select
+          id="category"
+          value={category}
+          onChange={handleCategoryChange}
+          className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm bg-white"
+        >
+          {Object.keys(UNIT_CONVERSIONS).map((cat) => (
+            <option key={cat} value={cat}>
+              {UNIT_CONVERSIONS[cat as UnitCategory].name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Conversion Inputs */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label htmlFor="value" className="block text-sm font-medium text-gray-700 mb-2">
+            Value
+          </label>
+          <input
+            id="value"
+            type="number"
+            value={value}
+            onChange={(e) => {
+              setValue(e.target.value)
+              setResult(null)
+            }}
+            onKeyPress={(e) => e.key === 'Enter' && handleConvert()}
+            placeholder="Enter value"
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm"
+          />
+        </div>
+        <div>
+          <label htmlFor="fromUnit" className="block text-sm font-medium text-gray-700 mb-2">
+            From
+          </label>
+          <select
+            id="fromUnit"
+            value={fromUnit}
+            onChange={(e) => {
+              setFromUnit(e.target.value)
+              setResult(null)
+            }}
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm bg-white"
+          >
+            <option value="">Select unit</option>
+            {availableUnits.map((unit) => (
+              <option key={unit} value={unit}>
+                {unit}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="toUnit" className="block text-sm font-medium text-gray-700 mb-2">
+            To
+          </label>
+          <select
+            id="toUnit"
+            value={toUnit}
+            onChange={(e) => {
+              setToUnit(e.target.value)
+              setResult(null)
+            }}
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm bg-white"
+          >
+            <option value="">Select unit</option>
+            {availableUnits.map((unit) => (
+              <option key={unit} value={unit}>
+                {unit}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      {/* Buttons */}
+      <div className="flex gap-3">
+        <button
+          onClick={handleConvert}
+          className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
+        >
+          <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain" />
+          Convert
+        </button>
+        <button
+          onClick={handleClear}
+          className="inline-flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
+        >
+          <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain brightness-0 opacity-80" />
+          Clear
+        </button>
+      </div>
+
+      {/* Result */}
+      {result !== null && value && fromUnit && toUnit && (
+        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+          <div className="text-center">
+            <p className="text-sm text-gray-600 mb-2">Result</p>
+            <p className="text-3xl font-bold text-gray-900">
+              {result.toFixed(6).replace(/\.?0+$/, '')} {toUnit}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">
+              {value} {fromUnit} = {result.toFixed(6).replace(/\.?0+$/, '')} {toUnit}
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function CalculationsPage() {
+  const [activeTab, setActiveTab] = useState<'molecular' | 'converter'>('molecular')
   const [formula, setFormula] = useState('')
   const [selectedCompound, setSelectedCompound] = useState('')
   const [selectedElement, setSelectedElement] = useState('')
@@ -239,9 +523,38 @@ export default function CalculationsPage() {
         <AdSense adSlot="1234567890" className="w-full" />
       </div>
 
-      {/* Molecular Weight Calculator */}
-      <div className="bg-white rounded-lg shadow-md p-8 mb-8 border border-gray-200">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Molecular Weight Calculator</h2>
+      {/* Tabs */}
+      <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+        {/* Tab Headers */}
+        <div className="flex border-b border-gray-200">
+          <button
+            onClick={() => setActiveTab('molecular')}
+            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
+              activeTab === 'molecular'
+                ? 'bg-[#93D419] text-white border-b-2 border-[#93D419]'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+            }`}
+          >
+            Molecular Weight Calculator
+          </button>
+          <button
+            onClick={() => setActiveTab('converter')}
+            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
+              activeTab === 'converter'
+                ? 'bg-[#93D419] text-white border-b-2 border-[#93D419]'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+            }`}
+          >
+            Unit Converter
+          </button>
+        </div>
+
+        {/* Tab Content */}
+        <div className="p-8">
+          {/* Molecular Weight Calculator Tab */}
+          {activeTab === 'molecular' && (
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Molecular Weight Calculator</h2>
         <p className="text-gray-600 mb-6 text-sm">
           Enter the chemical formula to calculate the molecular weight. You can also select from common compounds or elements.
         </p>
@@ -412,13 +725,58 @@ export default function CalculationsPage() {
             </p>
           </div>
         </div>
-      </div>
+            </div>
+          )}
 
-      {/* Other calculation tools placeholder */}
-      <div className="bg-white rounded-lg shadow-md p-8 border border-gray-200">
-        <p className="text-gray-600 text-lg mb-4">
-          More calculation tools and resources will be available here soon.
-        </p>
+          {/* Unit Converter Tab */}
+          {activeTab === 'converter' && (
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Unit Converter</h2>
+              <p className="text-gray-600 mb-6 text-sm">
+                Convert between different units commonly used in hydrometallurgy and chemistry.
+              </p>
+              <UnitConverter />
+
+              {/* Disclaimer and Information */}
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                  <p className="text-yellow-800 text-xs leading-relaxed">
+                    <strong>Disclaimer:</strong> HydroMetInsight cannot be held responsible for errors in the conversion calculations, 
+                    the program itself or the explanation. For questions or remarks please contact us.
+                  </p>
+                </div>
+
+                <div className="prose prose-sm max-w-none text-gray-600">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">About Unit Conversion</h3>
+                  <p className="text-sm leading-relaxed mb-3">
+                    Unit conversion is essential in <strong>hydrometallurgy</strong> and <strong>chemical engineering</strong> for accurate 
+                    process calculations, material balances, and equipment sizing.
+                  </p>
+                  <p className="text-sm leading-relaxed mb-3">
+                    This converter supports conversions for:
+                  </p>
+                  <ul className="text-sm leading-relaxed mb-3 list-disc list-inside space-y-1">
+                    <li><strong>Concentration:</strong> Essential for solution preparation, leaching processes, and analytical chemistry (g/L, ppm, mol/L, %)</li>
+                    <li><strong>Temperature:</strong> Critical for process control, reaction kinetics, and thermodynamic calculations (°C, °F, K)</li>
+                    <li><strong>Pressure:</strong> Important for autoclave operations, filtration, and pressure vessel design (bar, atm, psi, Pa)</li>
+                    <li><strong>Volume:</strong> Used in material balances, reactor sizing, and flow rate calculations (L, mL, m³, gallons)</li>
+                    <li><strong>Weight/Mass:</strong> Fundamental for stoichiometric calculations and material handling (g, kg, lb, oz)</li>
+                    <li><strong>Length:</strong> Required for equipment dimensions, pipe sizing, and facility layout (m, cm, mm, in, ft)</li>
+                    <li><strong>Energy:</strong> Important for heat balance calculations, power consumption, and process economics (J, kJ, cal, kWh, BTU)</li>
+                  </ul>
+                  <p className="text-sm leading-relaxed mb-3">
+                    <strong>Note:</strong> For concentration conversions involving molarity (mol/L or M), the conversion assumes a reference 
+                    molar mass. For precise molarity conversions, use the Molecular Weight Calculator to determine the exact molar mass 
+                    of your compound.
+                  </p>
+                  <p className="text-sm leading-relaxed">
+                    Always verify critical conversions using multiple sources, especially for process design and safety-critical applications.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

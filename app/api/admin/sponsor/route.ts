@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
 import jwt from 'jsonwebtoken'
+import { sanitizeString, validateUrl } from '@/lib/validation'
 
 const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'your-secret-key'
 
@@ -24,8 +26,15 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  // Return empty array - sponsor management not yet implemented
-  return NextResponse.json([])
+  try {
+    const sponsors = await prisma.sponsor.findMany({
+      orderBy: { createdAt: 'desc' },
+    })
+    return NextResponse.json(sponsors)
+  } catch (error) {
+    console.error('Error fetching sponsors:', error)
+    return NextResponse.json({ error: 'Failed to fetch sponsors' }, { status: 500 })
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -34,7 +43,35 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  // Sponsor management not yet implemented
-  return NextResponse.json({ error: 'Sponsor management coming soon' }, { status: 501 })
+  try {
+    const { name, website, logoUrl, description, tier, active } = await request.json()
+
+    if (!name) {
+      return NextResponse.json({ error: 'Name is required' }, { status: 400 })
+    }
+
+    // Sanitize inputs
+    const sanitizedName = sanitizeString(name, 200)
+    const sanitizedWebsite = website ? (validateUrl(website) ? website : null) : null
+    const sanitizedLogoUrl = logoUrl ? (validateUrl(logoUrl) ? logoUrl : null) : null
+    const sanitizedDescription = description ? sanitizeString(description, 1000) : null
+    const sanitizedTier = tier ? sanitizeString(tier, 50) : null
+
+    const sponsor = await prisma.sponsor.create({
+      data: {
+        name: sanitizedName,
+        website: sanitizedWebsite,
+        logoUrl: sanitizedLogoUrl,
+        description: sanitizedDescription,
+        tier: sanitizedTier,
+        active: active !== undefined ? active : true,
+      },
+    })
+
+    return NextResponse.json(sponsor, { status: 201 })
+  } catch (error: any) {
+    console.error('Error creating sponsor:', error)
+    return NextResponse.json({ error: 'Failed to create sponsor' }, { status: 500 })
+  }
 }
 

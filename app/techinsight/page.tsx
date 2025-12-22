@@ -1,10 +1,21 @@
 import { prisma } from '@/lib/prisma'
 import { format } from 'date-fns'
 import { enUS } from 'date-fns/locale'
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import AdSense from '@/components/AdSense'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
+
+export const metadata: Metadata = {
+  title: 'TechInsight',
+  description: 'In-depth technical insights and analysis on hydrometallurgy processes, technologies, and innovations.',
+  openGraph: {
+    title: 'TechInsight | HydroMetInsight',
+    description: 'In-depth technical insights and analysis on hydrometallurgy processes, technologies, and innovations.',
+    type: 'website',
+  },
+}
 
 async function getTechInsights() {
   const insights = await prisma.techInsight.findMany({

@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  // Örnek eventler
+  // Sample events
   const sampleEvents = [
     {
       title: 'International Hydrometallurgy Conference 2024',
@@ -37,7 +37,7 @@ async function main() {
     },
   ]
 
-  // Eventleri oluştur
+  // Create events
   for (const eventData of sampleEvents) {
     await prisma.event.upsert({
       where: { slug: eventData.slug },
@@ -46,7 +46,7 @@ async function main() {
     })
   }
 
-  console.log('Örnek eventler başarıyla oluşturuldu!')
+  console.log('Sample events created successfully!')
 }
 
 main()

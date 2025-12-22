@@ -1,10 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { rateLimit, getClientIdentifier } from '@/lib/rateLimit'
+import { sanitizeString, sanitizeEmail, sanitizeHtml } from '@/lib/validation'
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const clientId = getClientIdentifier(request)
+    const rateLimitResult = rateLimit(`comment:${clientId}`, {
+      windowMs: 60 * 1000, // 1 minute
+      maxRequests: 3, // 3 comments per minute
+    })
+
+    if (!rateLimitResult.allowed) {
+      return NextResponse.json(
+        { error: 'Too many comment submissions. Please try again later.' },
+        { 
+          status: 429,
+          headers: {
+            'Retry-After': Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000).toString(),
+          },
+        }
+      )
+    }
+
     const body = await request.json()
-    const { newsId, name, email, content } = body
+    let { newsId, name, email, content } = body
 
     // Validation
     if (!newsId || !name || !email || !content) {
@@ -14,11 +35,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
+    // Sanitize inputs
+    name = sanitizeString(name, 100)
+    email = sanitizeEmail(email)
+    content = sanitizeHtml(sanitizeString(content, 2000))
+    newsId = sanitizeString(newsId, 50)
+
+    if (!name || !email || !content || !newsId) {
       return NextResponse.json(
-        { error: 'Invalid email address' },
+        { error: 'Invalid input data' },
         { status: 400 }
       )
     }

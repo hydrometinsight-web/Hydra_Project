@@ -6,12 +6,20 @@ import { useState } from 'react'
 
 export default function Footer() {
   const [email, setEmail] = useState('')
+  const [consent, setConsent] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null)
   const [submitMessage, setSubmitMessage] = useState('')
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!consent) {
+      setSubmitStatus('error')
+      setSubmitMessage('Please accept the privacy policy to subscribe.')
+      return
+    }
+
     setIsSubmitting(true)
     setSubmitStatus(null)
 
@@ -30,6 +38,7 @@ export default function Footer() {
         setSubmitStatus('success')
         setSubmitMessage(data.message || 'Successfully subscribed to newsletter!')
         setEmail('')
+        setConsent(false)
       } else {
         setSubmitStatus('error')
         setSubmitMessage(data.error || 'Failed to subscribe. Please try again.')
@@ -150,6 +159,18 @@ export default function Footer() {
               >
                 About
               </Link>
+              <Link 
+                href="/privacy" 
+                className="text-gray-400 hover:text-[#93D419] transition-colors text-sm"
+              >
+                Privacy Policy
+              </Link>
+              <Link 
+                href="/terms" 
+                className="text-gray-400 hover:text-[#93D419] transition-colors text-sm"
+              >
+                Terms of Service
+              </Link>
             </nav>
           </div>
 
@@ -167,14 +188,41 @@ export default function Footer() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
                   required
+                  onInvalid={(e) => {
+                    e.currentTarget.setCustomValidity('Please enter a valid email address.')
+                  }}
+                  onInput={(e) => {
+                    e.currentTarget.setCustomValidity('')
+                  }}
                   className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm transition-all"
                 />
               </div>
+              
+              {/* Privacy Consent Checkbox */}
+              <div className="flex items-start space-x-2">
+                <input
+                  id="newsletter-consent"
+                  type="checkbox"
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  required
+                  className="mt-1 h-4 w-4 text-[#93D419] focus:ring-[#93D419] border-gray-600 rounded bg-gray-800"
+                />
+                <label htmlFor="newsletter-consent" className="text-gray-400 text-xs leading-relaxed">
+                  I agree to the{' '}
+                  <Link href="/privacy" className="text-[#93D419] hover:text-[#7fb315] underline">
+                    Privacy Policy
+                  </Link>
+                  {' '}and consent to receiving newsletter emails. You can unsubscribe at any time.
+                </label>
+              </div>
+
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-4 py-2.5 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                disabled={isSubmitting || !consent}
+                className="w-full bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-4 py-2.5 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm inline-flex items-center justify-center gap-2"
               >
+                <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain" />
                 {isSubmitting ? 'Subscribing...' : 'Subscribe'}
               </button>
               {submitStatus === 'success' && (
@@ -189,9 +237,18 @@ export default function Footer() {
 
         {/* Copyright Section */}
         <div className="border-t border-gray-800 pt-8 mt-8">
-          <p className="text-gray-500 text-xs text-center opacity-70">
-            © 2025 HydroMetInsight. All rights reserved.
-          </p>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-gray-500 text-xs opacity-70">
+            <p>© 2025 HydroMetInsight. All rights reserved.</p>
+            <div className="flex items-center gap-4">
+              <Link href="/privacy" className="hover:text-[#93D419] transition-colors">
+                Privacy Policy
+              </Link>
+              <span className="text-gray-600">|</span>
+              <Link href="/terms" className="hover:text-[#93D419] transition-colors">
+                Terms of Service
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

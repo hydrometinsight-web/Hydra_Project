@@ -4,9 +4,11 @@ import { format } from 'date-fns'
 import { enUS } from 'date-fns/locale'
 import Image from 'next/image'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import AdSense from '@/components/AdSense'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
 import CommentForm from '@/components/CommentForm'
+import StructuredData from '@/components/StructuredData'
 
 async function getNews(slug: string) {
   const news = await prisma.news.findUnique({
@@ -23,6 +25,55 @@ async function getNews(slug: string) {
   return news
 }
 
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const news = await getNews(params.slug)
+
+  if (!news || !news.published) {
+    return {
+      title: 'News Not Found',
+    }
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const url = `${baseUrl}/haber/${news.slug}`
+  const imageUrl = news.imageUrl || `${baseUrl}/logo1.png`
+
+  return {
+    title: news.title,
+    description: news.excerpt || 'Read the latest news in hydrometallurgy and critical metals.',
+    keywords: news.category ? [news.category.name, 'hydrometallurgy', 'critical metals', 'mining'] : ['hydrometallurgy', 'critical metals', 'mining'],
+    authors: [{ name: news.author.name }],
+    openGraph: {
+      type: 'article',
+      url,
+      title: news.title,
+      description: news.excerpt || 'Read the latest news in hydrometallurgy and critical metals.',
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: news.title,
+        },
+      ],
+      publishedTime: news.createdAt.toISOString(),
+      modifiedTime: news.updatedAt.toISOString(),
+      authors: [news.author.name],
+      section: news.category?.name,
+      tags: news.category ? [news.category.name] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: news.title,
+      description: news.excerpt || 'Read the latest news in hydrometallurgy and critical metals.',
+      images: [imageUrl],
+    },
+    alternates: {
+      canonical: url,
+    },
+  }
+}
+
 export default async function NewsDetailPage({ params }: { params: { slug: string } }) {
   const news = await getNews(params.slug)
 
@@ -30,13 +81,48 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
     notFound()
   }
 
-  return (
-    <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8 max-w-7xl mx-auto">
-      <Link href="/news" className="text-gray-600 hover:text-[#93D419] mb-4 inline-block text-sm transition-colors">
-        ← Back to News
-      </Link>
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const url = `${baseUrl}/haber/${news.slug}`
+  const imageUrl = news.imageUrl || `${baseUrl}/logo1.png`
 
-      <article className="bg-white rounded-xl shadow-md overflow-hidden">
+  // Structured Data for Article
+  const articleStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: news.title,
+    description: news.excerpt || '',
+    image: imageUrl,
+    datePublished: news.createdAt.toISOString(),
+    dateModified: news.updatedAt.toISOString(),
+    author: {
+      '@type': 'Person',
+      name: news.author.name,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'HydroMetInsight',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${baseUrl}/logo1.png`,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': url,
+    },
+    articleSection: news.category?.name,
+    keywords: news.category ? news.category.name : 'hydrometallurgy',
+  }
+
+  return (
+    <>
+      <StructuredData data={articleStructuredData} />
+      <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8 max-w-7xl mx-auto">
+        <Link href="/news" className="text-gray-600 hover:text-[#93D419] mb-4 inline-block text-sm transition-colors">
+          ← Back to News
+        </Link>
+
+        <article className="bg-white rounded-xl shadow-md overflow-hidden" itemScope itemType="https://schema.org/NewsArticle">
         {news.imageUrl ? (
           <div className="relative w-full h-96">
             <Image
@@ -64,23 +150,26 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
             </span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4" itemProp="headline">
             {news.title}
           </h1>
 
           {news.excerpt && (
-            <p className="text-xl text-gray-600 mb-6 italic">
+            <p className="text-xl text-gray-600 mb-6 italic" itemProp="description">
               {news.excerpt}
             </p>
           )}
 
-          <div className="prose prose-lg max-w-none mb-8">
+          <div className="prose prose-lg max-w-none mb-8" itemProp="articleBody">
             <div dangerouslySetInnerHTML={{ __html: news.content }} />
           </div>
 
           <div className="border-t border-gray-200 pt-4 mt-8">
             <p className="text-sm text-gray-500">
-              By {news.author.name} • {format(new Date(news.createdAt), 'MMMM d, yyyy', { locale: enUS })}
+              By <span itemProp="author">{news.author.name}</span> • 
+              <time itemProp="datePublished" dateTime={news.createdAt.toISOString()}>
+                {format(new Date(news.createdAt), 'MMMM d, yyyy', { locale: enUS })}
+              </time>
             </p>
           </div>
         </div>
@@ -93,7 +182,7 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
 
       {/* Comments Section */}
       <div className="mt-8">
-        <CommentForm newsId={news.id} onCommentAdded={() => window.location.reload()} />
+        <CommentForm newsId={news.id} />
         
         {news.comments.length > 0 && (
           <div className="mt-8 bg-white rounded-xl shadow-md p-6">
@@ -122,6 +211,7 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
         )}
       </div>
     </div>
+    </>
   )
 }
 

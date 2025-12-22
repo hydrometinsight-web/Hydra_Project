@@ -71,6 +71,12 @@ export default function NewSponsorPage() {
               type="text"
               id="name"
               required
+              onInvalid={(e) => {
+                e.currentTarget.setCustomValidity('Please fill in this field.')
+              }}
+              onInput={(e) => {
+                e.currentTarget.setCustomValidity('')
+              }}
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#93D419] focus:border-transparent"
