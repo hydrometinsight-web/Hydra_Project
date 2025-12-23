@@ -60,7 +60,7 @@ export default async function TechInsightDetailPage({ params }: { params: { slug
             </p>
           )}
 
-          <div className="prose prose-lg max-w-none mb-8">
+          <div className="prose prose-lg max-w-none mb-8" style={{ textAlign: 'inherit' }}>
             <div dangerouslySetInnerHTML={{ __html: insight.content }} />
           </div>
         </div>

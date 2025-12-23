@@ -160,7 +160,7 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
             </p>
           )}
 
-          <div className="prose prose-lg max-w-none mb-8" itemProp="articleBody">
+          <div className="prose prose-lg max-w-none mb-8" itemProp="articleBody" style={{ textAlign: 'inherit' }}>
             <div dangerouslySetInnerHTML={{ __html: news.content }} />
           </div>
 

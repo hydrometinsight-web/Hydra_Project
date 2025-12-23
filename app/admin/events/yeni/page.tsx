@@ -6,12 +6,14 @@ import Link from 'next/link'
 import RichTextEditor from '@/components/RichTextEditor'
 import ImageUpload from '@/components/ImageUpload'
 
-export default function NewTechInsightPage() {
+export default function NewEventPage() {
   const router = useRouter()
   const [title, setTitle] = useState('')
   const [slug, setSlug] = useState('')
-  const [content, setContent] = useState('')
-  const [excerpt, setExcerpt] = useState('')
+  const [description, setDescription] = useState('')
+  const [location, setLocation] = useState('')
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [published, setPublished] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -35,10 +37,10 @@ export default function NewTechInsightPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    // Check if content is empty (only HTML tags)
-    const contentText = content.replace(/<[^>]*>/g, '').trim()
-    if (!contentText) {
-      setError('Content is required')
+    // Check if description is empty (only HTML tags)
+    const descriptionText = description.replace(/<[^>]*>/g, '').trim()
+    if (!descriptionText) {
+      setError('Description is required')
       return
     }
 
@@ -52,7 +54,7 @@ export default function NewTechInsightPage() {
     }
 
     try {
-      const response = await fetch('/api/admin/techinsight', {
+      const response = await fetch('/api/admin/events', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -61,8 +63,10 @@ export default function NewTechInsightPage() {
         body: JSON.stringify({
           title,
           slug,
-          content,
-          excerpt: excerpt || null,
+          description,
+          location,
+          startDate,
+          endDate: endDate || null,
           imageUrl: imageUrl || null,
           published,
         }),
@@ -71,12 +75,12 @@ export default function NewTechInsightPage() {
       const data = await response.json()
 
       if (response.ok) {
-        router.push('/admin/techinsight')
+        router.push('/admin/events')
       } else {
-        setError(data.error || 'Failed to create tech insight')
+        setError(data.error || 'Failed to create event')
       }
     } catch (error) {
-      console.error('Error creating tech insight:', error)
+      console.error('Error creating event:', error)
       setError('An error occurred. Please try again.')
     } finally {
       setIsSubmitting(false)
@@ -88,12 +92,12 @@ export default function NewTechInsightPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-6">
           <Link
-            href="/admin/techinsight"
+            href="/admin/events"
             className="text-gray-600 hover:text-[#93D419] mb-4 inline-block text-sm transition-colors font-medium"
           >
-            ← Back to TechInsight
+            ← Back to Events
           </Link>
-          <h1 className="text-3xl font-bold text-gray-900">New TechInsight</h1>
+          <h1 className="text-3xl font-bold text-gray-900">New Event</h1>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-8">
@@ -121,7 +125,7 @@ export default function NewTechInsightPage() {
                 e.currentTarget.setCustomValidity('')
               }}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#93D419] focus:border-transparent"
-              placeholder="TechInsight title"
+              placeholder="Event title"
             />
           </div>
 
@@ -142,7 +146,7 @@ export default function NewTechInsightPage() {
                 e.currentTarget.setCustomValidity('')
               }}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#93D419] focus:border-transparent"
-              placeholder="techinsight-slug"
+              placeholder="event-slug"
             />
             <p className="mt-1 text-xs text-gray-500">
               URL-friendly version of the title (auto-generated from title)
@@ -150,17 +154,70 @@ export default function NewTechInsightPage() {
           </div>
 
           <div>
-            <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 mb-2">
-              Excerpt
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+              Description *
             </label>
-            <textarea
-              id="excerpt"
-              value={excerpt}
-              onChange={(e) => setExcerpt(e.target.value)}
-              rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#93D419] focus:border-transparent resize-none"
-              placeholder="Short description (optional)"
+            <RichTextEditor
+              value={description}
+              onChange={setDescription}
+              placeholder="Enter event description..."
             />
+          </div>
+
+          <div>
+            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
+              Location *
+            </label>
+            <input
+              id="location"
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              required
+              onInvalid={(e) => {
+                e.currentTarget.setCustomValidity('Please fill in this field.')
+              }}
+              onInput={(e) => {
+                e.currentTarget.setCustomValidity('')
+              }}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#93D419] focus:border-transparent"
+              placeholder="Event location"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 mb-2">
+                Start Date *
+              </label>
+              <input
+                id="startDate"
+                type="datetime-local"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                required
+                onInvalid={(e) => {
+                  e.currentTarget.setCustomValidity('Please fill in this field.')
+                }}
+                onInput={(e) => {
+                  e.currentTarget.setCustomValidity('')
+                }}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#93D419] focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="endDate" className="block text-sm font-medium text-gray-700 mb-2">
+                End Date
+              </label>
+              <input
+                id="endDate"
+                type="datetime-local"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#93D419] focus:border-transparent"
+              />
+            </div>
           </div>
 
           <div>
@@ -168,17 +225,6 @@ export default function NewTechInsightPage() {
               value={imageUrl}
               onChange={setImageUrl}
               label="Image"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
-              Content *
-            </label>
-            <RichTextEditor
-              value={content}
-              onChange={setContent}
-              placeholder="Enter the content..."
             />
           </div>
 
@@ -201,10 +247,10 @@ export default function NewTechInsightPage() {
               disabled={isSubmitting}
               className="bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-8 py-3 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
             >
-              {isSubmitting ? 'Creating...' : 'Create TechInsight'}
+              {isSubmitting ? 'Creating...' : 'Create Event'}
             </button>
             <Link
-              href="/admin/techinsight"
+              href="/admin/events"
               className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium px-6 py-3 rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md"
             >
               Cancel

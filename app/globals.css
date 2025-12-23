@@ -26,3 +26,70 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+/* Prose text alignment support for rich text editor content */
+/* Override prose default text-align for elements with inline styles */
+.prose [style*="text-align: left"] {
+  text-align: left !important;
+}
+
+.prose [style*="text-align: center"] {
+  text-align: center !important;
+}
+
+.prose [style*="text-align: right"] {
+  text-align: right !important;
+}
+
+.prose [style*="text-align: justify"] {
+  text-align: justify !important;
+}
+
+/* Support for Quill editor alignment classes */
+.prose .ql-align-left,
+.prose p.ql-align-left,
+.prose div.ql-align-left,
+.prose h1.ql-align-left,
+.prose h2.ql-align-left,
+.prose h3.ql-align-left,
+.prose h4.ql-align-left,
+.prose h5.ql-align-left,
+.prose h6.ql-align-left {
+  text-align: left !important;
+}
+
+.prose .ql-align-center,
+.prose p.ql-align-center,
+.prose div.ql-align-center,
+.prose h1.ql-align-center,
+.prose h2.ql-align-center,
+.prose h3.ql-align-center,
+.prose h4.ql-align-center,
+.prose h5.ql-align-center,
+.prose h6.ql-align-center {
+  text-align: center !important;
+}
+
+.prose .ql-align-right,
+.prose p.ql-align-right,
+.prose div.ql-align-right,
+.prose h1.ql-align-right,
+.prose h2.ql-align-right,
+.prose h3.ql-align-right,
+.prose h4.ql-align-right,
+.prose h5.ql-align-right,
+.prose h6.ql-align-right {
+  text-align: right !important;
+}
+
+.prose .ql-align-justify,
+.prose p.ql-align-justify,
+.prose div.ql-align-justify,
+.prose h1.ql-align-justify,
+.prose h2.ql-align-justify,
+.prose h3.ql-align-justify,
+.prose h4.ql-align-justify,
+.prose h5.ql-align-justify,
+.prose h6.ql-align-justify {
+  text-align: justify !important;
+}
+

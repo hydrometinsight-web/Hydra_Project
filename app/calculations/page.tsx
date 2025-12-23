@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import AdSense from '@/components/AdSense'
 
 // Periodic table data with atomic weights
@@ -200,7 +201,7 @@ const UNIT_CONVERSIONS: {
       'mg/L': 1000,
       'ppm': 1000,
       'ppb': 1000000,
-      'mol/L': 0.001, // Assuming molar mass of 1000 g/mol for conversion
+      'mol/L': 0.001,
       'M': 0.001,
       '%': 0.1,
     }
@@ -470,8 +471,8 @@ function UnitConverter() {
   )
 }
 
-export default function CalculationsPage() {
-  const [activeTab, setActiveTab] = useState<'molecular' | 'converter'>('molecular')
+// Molecular Weight Calculator Component
+function MolecularWeightCalculator() {
   const [formula, setFormula] = useState('')
   const [selectedCompound, setSelectedCompound] = useState('')
   const [selectedElement, setSelectedElement] = useState('')
@@ -515,268 +516,259 @@ export default function CalculationsPage() {
   }
 
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8 max-w-7xl mx-auto">
-      <h1 className="text-4xl font-bold text-gray-900 mb-8">Calculations</h1>
+    <div className="space-y-6">
+      <p className="text-gray-600 text-sm leading-relaxed">
+        Enter the chemical formula to calculate the molecular weight. You can also select from common compounds or elements.
+      </p>
 
-      {/* AdSense Ad */}
-      <div className="mb-8">
-        <AdSense adSlot="1234567890" className="w-full" />
+      {/* Selection Dropdowns */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="compound" className="block text-sm font-medium text-gray-700 mb-2">
+            Common Organic Compounds
+          </label>
+          <select
+            id="compound"
+            value={selectedCompound}
+            onChange={handleCompoundSelect}
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm bg-white"
+          >
+            <option value="">[Select Compound]</option>
+            {COMMON_COMPOUNDS.map((compound) => (
+              <option key={compound.name} value={compound.name}>
+                {compound.name} [{compound.formula}]
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="element" className="block text-sm font-medium text-gray-700 mb-2">
+            Elements of the Periodic Table
+          </label>
+          <select
+            id="element"
+            value={selectedElement}
+            onChange={handleElementSelect}
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm bg-white"
+          >
+            <option value="">[Select Element]</option>
+            {ALL_ELEMENTS.map((element) => (
+              <option key={element} value={element}>
+                {element}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
-      {/* Tabs */}
-      <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
-        {/* Tab Headers */}
-        <div className="flex border-b border-gray-200">
+      {/* Formula Input */}
+      <div>
+        <label htmlFor="formula" className="block text-sm font-medium text-gray-700 mb-2">
+          Chemical Formula
+        </label>
+        <div className="flex gap-3">
+          <input
+            id="formula"
+            type="text"
+            value={formula}
+            onChange={(e) => {
+              setFormula(e.target.value)
+              setSelectedCompound('')
+              setSelectedElement('')
+            }}
+            onKeyPress={(e) => e.key === 'Enter' && handleCalculate()}
+            placeholder="e.g., H2O, CuSO4, Fe2O3, C3H4OH(COOH)3"
+            className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm"
+          />
           <button
-            onClick={() => setActiveTab('molecular')}
-            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
-              activeTab === 'molecular'
-                ? 'bg-[#93D419] text-white border-b-2 border-[#93D419]'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-            }`}
+            onClick={handleCalculate}
+            className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
           >
-            Molecular Weight Calculator
+            <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain" />
+            Calculate
           </button>
           <button
-            onClick={() => setActiveTab('converter')}
-            className={`flex-1 px-6 py-4 text-sm font-medium transition-colors ${
-              activeTab === 'converter'
-                ? 'bg-[#93D419] text-white border-b-2 border-[#93D419]'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-            }`}
+            onClick={handleClear}
+            className="inline-flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
           >
-            Unit Converter
+            <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain brightness-0 opacity-80" />
+            Clear
           </button>
         </div>
+      </div>
 
-        {/* Tab Content */}
-        <div className="p-8">
-          {/* Molecular Weight Calculator Tab */}
-          {activeTab === 'molecular' && (
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Molecular Weight Calculator</h2>
-        <p className="text-gray-600 mb-6 text-sm">
-          Enter the chemical formula to calculate the molecular weight. You can also select from common compounds or elements.
-        </p>
-
-        <div className="space-y-6">
-          {/* Selection Dropdowns */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="compound" className="block text-sm font-medium text-gray-700 mb-2">
-                Common Organic Compounds
-              </label>
-              <select
-                id="compound"
-                value={selectedCompound}
-                onChange={handleCompoundSelect}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm bg-white"
-              >
-                <option value="">[Select Compound]</option>
-                {COMMON_COMPOUNDS.map((compound) => (
-                  <option key={compound.name} value={compound.name}>
-                    {compound.name} [{compound.formula}]
-                  </option>
-                ))}
-              </select>
+      {/* Results */}
+      {result && (
+        <div className="mt-6">
+          {result.error ? (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <p className="text-yellow-800 text-sm">{result.error}</p>
             </div>
-            <div>
-              <label htmlFor="element" className="block text-sm font-medium text-gray-700 mb-2">
-                Elements of the Periodic Table
-              </label>
-              <select
-                id="element"
-                value={selectedElement}
-                onChange={handleElementSelect}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm bg-white"
-              >
-                <option value="">[Select Element]</option>
-                {ALL_ELEMENTS.map((element) => (
-                  <option key={element} value={element}>
-                    {element}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Formula Input */}
-          <div>
-            <label htmlFor="formula" className="block text-sm font-medium text-gray-700 mb-2">
-              Chemical Formula
-            </label>
-            <div className="flex gap-3">
-              <input
-                id="formula"
-                type="text"
-                value={formula}
-                onChange={(e) => {
-                  setFormula(e.target.value)
-                  setSelectedCompound('')
-                  setSelectedElement('')
-                }}
-                onKeyPress={(e) => e.key === 'Enter' && handleCalculate()}
-                placeholder="e.g., H2O, CuSO4, Fe2O3, C3H4OH(COOH)3"
-                className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm"
-              />
-              <button
-                onClick={handleCalculate}
-                className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
-              >
-                <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain" />
-                Calculate
-              </button>
-              <button
-                onClick={handleClear}
-                className="inline-flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
-              >
-                <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain brightness-0 opacity-80" />
-                Clear
-              </button>
-            </div>
-          </div>
-
-          {/* Results */}
-          {result && (
-            <div className="mt-6">
-              {result.error ? (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                  <p className="text-yellow-800 text-sm">{result.error}</p>
+          ) : (
+            <div className="space-y-4">
+              {/* Total Molecular Weight */}
+              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-700">Total Molecular Weight:</span>
+                  <span className="text-2xl font-bold text-gray-900">{result.weight.toFixed(4)}</span>
+                  <span className="text-sm text-gray-600">g/mol</span>
                 </div>
-              ) : (
-                <div className="space-y-4">
-                  {/* Total Molecular Weight */}
-                  <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-gray-700">Total Molecular Weight:</span>
-                      <span className="text-2xl font-bold text-gray-900">{result.weight.toFixed(4)}</span>
-                      <span className="text-sm text-gray-600">g/mol</span>
-                    </div>
-                  </div>
+              </div>
 
-                  {/* Breakdown Table */}
-                  {result.breakdown.length > 0 && (
-                    <div className="overflow-x-auto">
-                      <table className="w-full border-collapse border border-gray-300 text-sm">
-                        <thead>
-                          <tr className="bg-gray-100">
-                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">#</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Atom</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Molar Mass (MM)</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Subtotal Mass</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">(%)</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Subtotal Mass (g/mol)</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {result.breakdown.map((item, index) => (
-                            <tr key={item.element} className="hover:bg-gray-50">
-                              <td className="border border-gray-300 px-4 py-2 text-gray-700">{index + 1}</td>
-                              <td className="border border-gray-300 px-4 py-2 font-medium text-gray-900">{item.element}</td>
-                              <td className="border border-gray-300 px-4 py-2 text-gray-700">{item.molarMass.toFixed(4)}</td>
-                              <td className="border border-gray-300 px-4 py-2 text-gray-700">{item.count}</td>
-                              <td className="border border-gray-300 px-4 py-2 text-gray-700">{item.percentage.toFixed(2)}%</td>
-                              <td className="border border-gray-300 px-4 py-2 font-medium text-gray-900">{item.subtotal.toFixed(4)}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
+              {/* Breakdown Table */}
+              {result.breakdown.length > 0 && (
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse border border-gray-300 text-sm">
+                    <thead>
+                      <tr className="bg-gray-100">
+                        <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">#</th>
+                        <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Atom</th>
+                        <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Molar Mass (MM)</th>
+                        <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Subtotal Mass</th>
+                        <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">(%)</th>
+                        <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Subtotal Mass (g/mol)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {result.breakdown.map((item, index) => (
+                        <tr key={item.element} className="hover:bg-gray-50">
+                          <td className="border border-gray-300 px-4 py-2 text-gray-700">{index + 1}</td>
+                          <td className="border border-gray-300 px-4 py-2 font-medium text-gray-900">{item.element}</td>
+                          <td className="border border-gray-300 px-4 py-2 text-gray-700">{item.molarMass.toFixed(4)}</td>
+                          <td className="border border-gray-300 px-4 py-2 text-gray-700">{item.count}</td>
+                          <td className="border border-gray-300 px-4 py-2 text-gray-700">{item.percentage.toFixed(2)}%</td>
+                          <td className="border border-gray-300 px-4 py-2 font-medium text-gray-900">{item.subtotal.toFixed(4)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               )}
             </div>
           )}
         </div>
+      )}
+    </div>
+  )
+}
 
-        {/* Disclaimer and Information */}
-        <div className="mt-8 pt-6 border-t border-gray-200">
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-            <p className="text-yellow-800 text-xs leading-relaxed">
-              <strong>Disclaimer:</strong> HydroMetInsight cannot be held responsible for errors in the calculation, 
-              the program itself or the explanation. For questions or remarks please contact us.
-            </p>
-          </div>
+export default function CalculationsPage() {
+  return (
+    <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-12 max-w-7xl mx-auto">
+      <div className="mb-12">
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3 tracking-tight">Engineering Calculators</h1>
+        <p className="text-lg text-gray-600 max-w-3xl">
+          Professional calculation tools for hydrometallurgy, battery recycling, and chemical engineering applications.
+        </p>
+      </div>
 
-          <div className="prose prose-sm max-w-none text-gray-600">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">About Molecular Weight</h3>
-            <p className="text-sm leading-relaxed mb-3">
-              Molecular mass or molar mass are used in <strong>stoichiometry</strong> calculations in chemistry.
-            </p>
-            <p className="text-sm leading-relaxed mb-3">
-              In related terms, another unit of mass often used is <strong>Dalton (Da)</strong> or unified 
-              <strong> atomic mass unit (u)</strong> when describing atomic masses and molecular masses. 
-              It is defined to be 1/12 of the mass of one atom of carbon-12 and in older works is also 
-              abbreviated as "amu".
-            </p>
-            <p className="text-sm leading-relaxed mb-3">
-              Also, important in this field is <strong>Avogadro's number (N<sub>A</sub>)</strong> or 
-              Avogadro's constant (6.0221 × 10<sup>23</sup>).
-            </p>
-            <p className="text-sm leading-relaxed mb-3">
-              The term "<strong>mole</strong>" is defined in that one mole of a substance with a molecular 
-              (or atomic) mass of one (1), will have a mass of 1 gram. Or 1 mole of a substance will contain 
-              Avogadro's number of that substance.
-            </p>
-            <p className="text-sm leading-relaxed">
-              Using the above calculator you could find that e.g. a pollution of 1 gram of benzene in a 
-              certain amount of water converts to N<sub>A</sub>/78.11 ≈ 7.7098 × 10<sup>21</sup> molecules 
-              polluting that water!
-            </p>
-          </div>
-        </div>
-            </div>
-          )}
+      {/* AdSense Ad */}
+      <div className="mb-10">
+        <AdSense adSlot="1234567890" className="w-full" />
+      </div>
 
-          {/* Unit Converter Tab */}
-          {activeTab === 'converter' && (
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Unit Converter</h2>
-              <p className="text-gray-600 mb-6 text-sm">
-                Convert between different units commonly used in hydrometallurgy and chemistry.
-              </p>
-              <UnitConverter />
-
-              {/* Disclaimer and Information */}
-              <div className="mt-8 pt-6 border-t border-gray-200">
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-                  <p className="text-yellow-800 text-xs leading-relaxed">
-                    <strong>Disclaimer:</strong> HydroMetInsight cannot be held responsible for errors in the conversion calculations, 
-                    the program itself or the explanation. For questions or remarks please contact us.
-                  </p>
-                </div>
-
-                <div className="prose prose-sm max-w-none text-gray-600">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">About Unit Conversion</h3>
-                  <p className="text-sm leading-relaxed mb-3">
-                    Unit conversion is essential in <strong>hydrometallurgy</strong> and <strong>chemical engineering</strong> for accurate 
-                    process calculations, material balances, and equipment sizing.
-                  </p>
-                  <p className="text-sm leading-relaxed mb-3">
-                    This converter supports conversions for:
-                  </p>
-                  <ul className="text-sm leading-relaxed mb-3 list-disc list-inside space-y-1">
-                    <li><strong>Concentration:</strong> Essential for solution preparation, leaching processes, and analytical chemistry (g/L, ppm, mol/L, %)</li>
-                    <li><strong>Temperature:</strong> Critical for process control, reaction kinetics, and thermodynamic calculations (°C, °F, K)</li>
-                    <li><strong>Pressure:</strong> Important for autoclave operations, filtration, and pressure vessel design (bar, atm, psi, Pa)</li>
-                    <li><strong>Volume:</strong> Used in material balances, reactor sizing, and flow rate calculations (L, mL, m³, gallons)</li>
-                    <li><strong>Weight/Mass:</strong> Fundamental for stoichiometric calculations and material handling (g, kg, lb, oz)</li>
-                    <li><strong>Length:</strong> Required for equipment dimensions, pipe sizing, and facility layout (m, cm, mm, in, ft)</li>
-                    <li><strong>Energy:</strong> Important for heat balance calculations, power consumption, and process economics (J, kJ, cal, kWh, BTU)</li>
-                  </ul>
-                  <p className="text-sm leading-relaxed mb-3">
-                    <strong>Note:</strong> For concentration conversions involving molarity (mol/L or M), the conversion assumes a reference 
-                    molar mass. For precise molarity conversions, use the Molecular Weight Calculator to determine the exact molar mass 
-                    of your compound.
-                  </p>
-                  <p className="text-sm leading-relaxed">
-                    Always verify critical conversions using multiple sources, especially for process design and safety-critical applications.
-                  </p>
-                </div>
+      {/* All Calculators and Converters - Module Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Battery Recycling Acid Calculator */}
+        <Link
+          href="/calculator/battery-recycling-acid"
+          className="bg-white rounded-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group flex flex-col h-full"
+          style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}
+        >
+          <div className="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800 px-8 py-7 min-h-[120px] flex items-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#93D419]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="flex items-start gap-4 relative z-10">
+              <div className="flex-shrink-0 mt-1">
+                <svg className="w-7 h-7 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                </svg>
               </div>
+              <h2 className="text-xl font-bold text-white leading-snug tracking-tight">Battery Recycling Acid Consumption Calculator</h2>
             </div>
-          )}
-        </div>
+          </div>
+          <div className="p-8 flex flex-col flex-1 bg-white">
+            <p className="text-gray-700 text-[15px] leading-relaxed mb-8 flex-1 font-normal">
+              Estimate acid consumption for hydrometallurgical battery recycling processes based on standard engineering parameters.
+            </p>
+            <div className="flex items-center justify-center gap-2.5 bg-gray-900 hover:bg-gray-800 text-white font-semibold text-sm px-5 py-3.5 rounded-lg transition-all duration-200 mt-auto group-hover:shadow-md">
+              <svg className="w-4 h-4 text-[#93D419]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+              </svg>
+              <span>Open Calculator</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </div>
+          </div>
+        </Link>
+
+        {/* Molecular Weight Calculator */}
+        <Link
+          href="/calculator/molecular-weight"
+          className="bg-white rounded-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group flex flex-col h-full"
+          style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}
+        >
+          <div className="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800 px-8 py-7 min-h-[120px] flex items-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#93D419]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="flex items-start gap-4 relative z-10">
+              <div className="flex-shrink-0 mt-1">
+                <svg className="w-7 h-7 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-white leading-snug tracking-tight">Molecular Weight Calculator</h2>
+            </div>
+          </div>
+          <div className="p-8 flex flex-col flex-1 bg-white">
+            <p className="text-gray-700 text-[15px] leading-relaxed mb-8 flex-1 font-normal">
+              Calculate the molecular weight of chemical compounds. Enter formulas or select from common compounds and elements.
+            </p>
+            <div className="flex items-center justify-center gap-2.5 bg-gray-900 hover:bg-gray-800 text-white font-semibold text-sm px-5 py-3.5 rounded-lg transition-all duration-200 mt-auto group-hover:shadow-md">
+              <svg className="w-4 h-4 text-[#93D419]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>Open Calculator</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </div>
+          </div>
+        </Link>
+
+        {/* Unit Converter */}
+        <Link
+          href="/calculator/unit-converter"
+          className="bg-white rounded-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group flex flex-col h-full"
+          style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}
+        >
+          <div className="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800 px-8 py-7 min-h-[120px] flex items-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#93D419]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="flex items-start gap-4 relative z-10">
+              <div className="flex-shrink-0 mt-1">
+                <svg className="w-7 h-7 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-white leading-snug tracking-tight">Unit Converter</h2>
+            </div>
+          </div>
+          <div className="p-8 flex flex-col flex-1 bg-white">
+            <p className="text-gray-700 text-[15px] leading-relaxed mb-8 flex-1 font-normal">
+              Convert between different units commonly used in hydrometallurgy and chemistry (concentration, temperature, pressure, volume, weight, length, energy).
+            </p>
+            <div className="flex items-center justify-center gap-2.5 bg-gray-900 hover:bg-gray-800 text-white font-semibold text-sm px-5 py-3.5 rounded-lg transition-all duration-200 mt-auto group-hover:shadow-md">
+              <svg className="w-4 h-4 text-[#93D419]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+              </svg>
+              <span>Open Converter</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </div>
+          </div>
+        </Link>
       </div>
     </div>
   )

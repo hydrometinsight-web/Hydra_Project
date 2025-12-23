@@ -12,6 +12,7 @@ interface HomePageClientProps {
   allNews: any[]
   techInsights: any[]
   events: any[]
+  sponsors: any[]
 }
 
 export default function HomePageClient({
@@ -19,6 +20,7 @@ export default function HomePageClient({
   allNews,
   techInsights,
   events,
+  sponsors,
 }: HomePageClientProps) {
   // Filter out latest news from all news
   const latestNewsIds = new Set(latestNews.map((news) => news.id))
@@ -297,40 +299,60 @@ export default function HomePageClient({
       </div>
 
       {/* Sponsors Section */}
-      <section className="mb-6">
-        <div className="flex items-center gap-4 mb-6">
-          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">Our Sponsors</h2>
-          <div className="flex-1 border-b border-gray-300"></div>
-          <Link href="/sponsor" className="text-gray-600 hover:text-[#93D419] font-medium text-sm transition-colors">
-            View All →
-          </Link>
-        </div>
-        <div className="bg-white rounded-xl shadow-md p-8">
-          <p className="text-gray-600 text-center mb-6">
-            Thank you to our sponsors for supporting HydroMetInsight. We are grateful for their partnership.
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 items-center justify-items-center mb-8">
-            {/* Placeholder sponsor logos - can be replaced with actual sponsor data */}
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div
-                key={i}
-                className="w-full h-24 bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-colors border border-gray-200"
-              >
-                <span className="text-gray-400 text-sm font-medium">Sponsor {i}</span>
-              </div>
-            ))}
-          </div>
-          <div className="text-center">
-            <Link
-              href="/sponsor/become"
-              className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-8 py-3 rounded-lg transition-colors duration-200 text-sm"
-            >
-              <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain" />
-              Become a Sponsor
+      {sponsors.length > 0 && (
+        <section className="mb-6">
+          <div className="flex items-center gap-4 mb-6">
+            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">Our Sponsors</h2>
+            <div className="flex-1 border-b border-gray-300"></div>
+            <Link href="/sponsor" className="text-gray-600 hover:text-[#93D419] font-medium text-sm transition-colors">
+              View All →
             </Link>
           </div>
-        </div>
-      </section>
+          <div className="bg-white rounded-xl shadow-md p-8">
+            <p className="text-gray-600 text-center mb-6">
+              Thank you to our sponsors for supporting HydroMetInsight. We are grateful for their partnership.
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-center justify-items-center mb-8">
+              {sponsors.map((sponsor) => (
+                <a
+                  key={sponsor.id}
+                  href={sponsor.website || '#'}
+                  target={sponsor.website ? '_blank' : undefined}
+                  rel={sponsor.website ? 'noopener noreferrer' : undefined}
+                  className="w-full h-32 bg-white rounded-lg flex items-center justify-center hover:shadow-lg transition-all duration-200 border border-gray-200 p-4 group"
+                >
+                  {sponsor.logoUrl ? (
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={sponsor.logoUrl}
+                        alt={sponsor.name}
+                        fill
+                        className="object-contain group-hover:scale-105 transition-transform duration-200"
+                        unoptimized={sponsor.logoUrl.startsWith('/uploads/')}
+                      />
+                    </div>
+                  ) : (
+                    <div className="text-center">
+                      <span className="text-gray-600 text-sm font-semibold group-hover:text-[#93D419] transition-colors">
+                        {sponsor.name}
+                      </span>
+                    </div>
+                  )}
+                </a>
+              ))}
+            </div>
+            <div className="text-center">
+              <Link
+                href="/sponsor/become"
+                className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-8 py-3 rounded-lg transition-colors duration-200 text-sm"
+              >
+                <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain" />
+                Become a Sponsor
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   )
 }

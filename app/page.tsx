@@ -57,11 +57,20 @@ async function getEvents() {
   return events
 }
 
+async function getSponsors() {
+  const sponsors = await prisma.sponsor.findMany({
+    where: { active: true },
+    orderBy: { createdAt: 'desc' },
+  })
+  return sponsors
+}
+
 export default async function Home() {
   const latestNews = await getLatestNews()
   const allNews = await getAllNews()
   const techInsights = await getTechInsights()
   const events = await getEvents()
+  const sponsors = await getSponsors()
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
@@ -102,6 +111,7 @@ export default async function Home() {
           allNews={allNews}
           techInsights={techInsights}
           events={events}
+          sponsors={sponsors}
         />
       </Suspense>
     </>

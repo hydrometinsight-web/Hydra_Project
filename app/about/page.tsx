@@ -81,7 +81,7 @@ export default function AboutPage() {
       {/* About Content */}
       <div className="bg-white rounded-xl shadow-md p-8 lg:p-12 mb-12">
         <h2 className="text-3xl font-bold text-gray-900 mb-6">Who We Are</h2>
-        <div className="prose prose-lg max-w-none">
+        <div className="prose prose-lg max-w-none" style={{ textAlign: 'inherit' }}>
           <p className="text-gray-600 leading-relaxed mb-6">
             HydroMetInsight is a dedicated platform for professionals, researchers, and enthusiasts 
             in the field of hydrometallurgy. We provide the latest news, technical insights, 

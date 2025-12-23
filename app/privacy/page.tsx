@@ -19,7 +19,7 @@ export default function PrivacyPage() {
         </p>
       </div>
 
-      <div className="bg-white rounded-lg shadow-md p-8 prose prose-sm max-w-none">
+      <div className="bg-white rounded-lg shadow-md p-8 prose prose-sm max-w-none" style={{ textAlign: 'inherit' }}>
         <section className="mb-8">
           <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Introduction</h2>
           <p className="text-gray-700 leading-relaxed mb-4">
