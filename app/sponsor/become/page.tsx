@@ -76,29 +76,37 @@ export default function BecomeSponsorPage() {
           Back to Home
         </Link>
 
-        {/* Hero Section */}
-        <section className="mb-20">
-          <div className="mb-4">
+        {/* Hero Section - Above the Fold */}
+        <section className="mb-24">
+          <div className="mb-6">
             <span className="inline-block text-xs font-semibold text-[#93D419] uppercase tracking-wider mb-4">
-              Partnership Opportunities
+              Technology Partnerships
             </span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight tracking-tight">
-            Technology Partnerships
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight tracking-tight max-w-5xl">
+            Reach Engineering Decision-Makers in Hydrometallurgy and Battery Recycling
           </h1>
           <div className="w-24 h-1 bg-gradient-to-r from-[#93D419] to-[#7fb315] mb-8"></div>
-          <p className="text-xl md:text-2xl text-gray-700 leading-relaxed max-w-4xl font-light">
-            HydroMetInsight partners with technology providers, engineering firms, and solution developers 
-            to advance technical knowledge in hydrometallurgy, critical metals processing, and battery recycling.
+          <p className="text-xl md:text-2xl text-gray-700 leading-relaxed max-w-4xl font-light mb-4">
+            HydroMetInsight serves process engineers, R&D specialists, and technical managers 
+            who evaluate and implement technologies in production environments.
+          </p>
+          <p className="text-lg text-gray-600 leading-relaxed max-w-4xl">
+            Partner with us to connect with engineering professionals actively solving problems 
+            in critical metals extraction, battery recycling, and hydrometallurgical processing.
           </p>
         </section>
 
         {/* Why Partner With Us */}
-        <section className="mb-20">
+        <section className="mb-24">
           <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-10 md:p-14">
-            <div className="mb-10">
+            <div className="mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Why Partner With Us</h2>
-              <div className="w-16 h-0.5 bg-[#93D419]"></div>
+              <div className="w-16 h-0.5 bg-[#93D419] mb-4"></div>
+              <p className="text-gray-700 text-lg max-w-3xl">
+                Our platform reaches technical professionals who make technology decisions based on 
+                engineering merit, not marketing claims.
+              </p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -109,11 +117,11 @@ export default function BecomeSponsorPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900">Technical Audience</h3>
+                  <h3 className="text-xl font-bold text-gray-900">Role-Based Technical Audience</h3>
                 </div>
                 <p className="text-gray-700 leading-relaxed pl-16">
-                  Our readership consists of process engineers, plant operators, R&D professionals, 
-                  and technical decision-makers actively engaged in hydrometallurgical applications.
+                  Process engineers, plant operators, R&D specialists, and engineering managers 
+                  who actively evaluate equipment, technologies, and solutions for production implementation.
                 </p>
               </div>
               
@@ -124,11 +132,11 @@ export default function BecomeSponsorPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900">Editorial Credibility</h3>
+                  <h3 className="text-xl font-bold text-gray-900">Technical Credibility</h3>
                 </div>
                 <p className="text-gray-700 leading-relaxed pl-16">
-                  HydroMetInsight maintains editorial independence. Our technical content and analysis 
-                  are developed without sponsor influence, ensuring credibility with engineering audiences.
+                  Engineering-focused content and analysis developed independently. Our readership 
+                  trusts our technical depth and editorial integrity.
                 </p>
               </div>
 
@@ -142,8 +150,8 @@ export default function BecomeSponsorPage() {
                   <h3 className="text-xl font-bold text-gray-900">Decision-Maker Access</h3>
                 </div>
                 <p className="text-gray-700 leading-relaxed pl-16">
-                  Connect with engineering managers, R&D directors, and technical specialists who 
-                  evaluate and implement new technologies in production environments.
+                  Connect with R&D directors, engineering managers, and technical specialists 
+                  who have authority to evaluate and approve technology investments.
                 </p>
               </div>
               
@@ -154,11 +162,11 @@ export default function BecomeSponsorPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900">Industry Focus</h3>
+                  <h3 className="text-xl font-bold text-gray-900">Industry Specialization</h3>
                 </div>
                 <p className="text-gray-700 leading-relaxed pl-16">
-                  Specialized coverage of hydrometallurgy, critical metals extraction, and battery 
-                  recycling technologies for professionals who require technical depth.
+                  Deep technical coverage of hydrometallurgy, critical metals extraction, and battery 
+                  recycling. Our audience requires specialized knowledge, not generic content.
                 </p>
               </div>
             </div>
@@ -166,200 +174,492 @@ export default function BecomeSponsorPage() {
         </section>
 
         {/* Partnership Models */}
-        <section className="mb-20">
-          <div className="mb-12">
+        <section className="mb-24">
+          <div className="mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Partnership Models</h2>
             <div className="w-16 h-0.5 bg-[#93D419] mb-4"></div>
             <p className="text-gray-700 text-lg max-w-3xl">
-              Structured partnership programs for technology providers and engineering companies 
-              operating in the hydrometallurgy ecosystem.
+              Structured partnership programs designed for technology providers, engineering firms, 
+              and solution developers in the hydrometallurgy ecosystem.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Calculator Sponsor */}
-            <div className="bg-white rounded-xl shadow-md border border-gray-100 p-8 hover:shadow-xl hover:border-[#93D419]/30 transition-all duration-300 group">
-              <div className="mb-6">
-                <span className="inline-block bg-gradient-to-r from-[#93D419] to-[#7fb315] text-white text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wider shadow-sm">
-                  Calculator Partnership
-                </span>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-[#93D419] transition-colors">Calculator Sponsor</h3>
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  Sponsor engineering calculators and tools used by professionals in hydrometallurgy, 
-                  critical metals processing, and battery recycling.
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Calculator Sponsor - FIRST */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-[#93D419]/40 transition-all duration-200 group">
+              <div className="mb-5">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center flex-shrink-0">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <span className="inline-block bg-gradient-to-r from-[#93D419] to-[#7fb315] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                      Calculator Partnership
+                    </span>
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">Calculator Sponsor</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Sponsor engineering calculators used by process engineers during active problem-solving and process evaluation.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Best for:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Equipment manufacturers, technology providers, and engineering firms whose solutions align with calculation workflows.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Description:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Engineers use calculators during active technical decision-making. Calculator sponsorship provides visibility at the moment of problem-solving, with full editorial independence maintained for all formulas and methodologies.
                 </p>
               </div>
               
-              <div className="space-y-4 pt-6 border-t border-gray-100">
-                <h4 className="font-bold text-gray-900 text-sm uppercase tracking-wide">Key Privileges</h4>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
-                    <span className="leading-relaxed">Logo placement in calculator sidebar</span>
+              <div className="pt-4 border-t border-gray-200">
+                <h4 className="font-bold text-gray-900 text-xs uppercase tracking-wide mb-3">Key Privileges</h4>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Logo placement in calculator sidebar with "Technical Partner" designation</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
-                    <span className="leading-relaxed">"Sponsored By" section with "Technical Partner" designation</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Visibility during active engineering problem-solving sessions</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
-                    <span className="leading-relaxed">Editorial independence statement included</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Editorial independence statement clearly displayed</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
-                    <span className="leading-relaxed">Optional "Learn More" link to your website</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
-                    <span className="leading-relaxed">Visibility to engineers actively using calculation tools</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Optional "Learn More" link to technical resources</span>
                   </li>
                 </ul>
               </div>
             </div>
 
-            {/* Technology Partner */}
-            <div className="bg-white rounded-xl shadow-md border border-gray-100 p-8 hover:shadow-xl hover:border-[#93D419]/30 transition-all duration-300 group">
-              <div className="mb-6">
-                <span className="inline-block bg-gradient-to-r from-[#93D419] to-[#7fb315] text-white text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wider shadow-sm">
-                  Technology Partner
-                </span>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-[#93D419] transition-colors">Technology Partner</h3>
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  Comprehensive partnership for equipment manufacturers, process technology providers, 
-                  and solution developers in hydrometallurgy and battery recycling.
+            {/* Technology Partner - SECOND */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-[#93D419]/40 transition-all duration-200 group">
+              <div className="mb-5">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center flex-shrink-0">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <span className="inline-block bg-gradient-to-r from-[#93D419] to-[#7fb315] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                      Technology Partner
+                    </span>
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">Technology Partner</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Comprehensive partnership program for established technology providers seeking multi-channel engagement with engineering audiences.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Best for:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Equipment manufacturers, process technology providers, and solution developers seeking comprehensive visibility with engineering decision-makers.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Description:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Multi-channel partnership program offering homepage visibility, technical content features, and newsletter engagement. Designed for established technology providers requiring sustained presence with engineering audiences.
                 </p>
               </div>
               
-              <div className="space-y-4 pt-6 border-t border-gray-100">
-                <h4 className="font-bold text-gray-900 text-sm uppercase tracking-wide">Key Privileges</h4>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
+              <div className="pt-4 border-t border-gray-200">
+                <h4 className="font-bold text-gray-900 text-xs uppercase tracking-wide mb-3">Key Privileges</h4>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
                     <span className="leading-relaxed">Featured logo placement on homepage and sponsor directory</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
                     <span className="leading-relaxed">Quarterly technical content feature or case study</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
-                    <span className="leading-relaxed">Newsletter sponsorship</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Newsletter sponsorship with technical audience</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
                     <span className="leading-relaxed">Audience engagement metrics and insights</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
                     <span className="leading-relaxed">Priority consideration for webinar co-hosting</span>
                   </li>
                 </ul>
               </div>
             </div>
 
-            {/* Technical Content Sponsor */}
-            <div className="bg-white rounded-xl shadow-md border border-gray-100 p-8 hover:shadow-xl hover:border-[#93D419]/30 transition-all duration-300 group">
-              <div className="mb-6">
-                <span className="inline-block bg-gradient-to-r from-[#93D419] to-[#7fb315] text-white text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wider shadow-sm">
-                  Content Partnership
-                </span>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-[#93D419] transition-colors">Technical Content Sponsor</h3>
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  Support specific technical articles, research summaries, or industry analysis 
-                  relevant to your technology domain or expertise.
+            {/* Technical Content Sponsor - THIRD */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-[#93D419]/40 transition-all duration-200 group">
+              <div className="mb-5">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center flex-shrink-0">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <span className="inline-block bg-gradient-to-r from-[#93D419] to-[#7fb315] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                      Content Partnership
+                    </span>
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">Technical Content Sponsor</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Support specific technical articles, research summaries, or industry analysis aligned with your expertise.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Best for:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Companies with specific technical expertise or research findings relevant to hydrometallurgy, critical metals, or battery recycling.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Description:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Sponsor individual technical articles or research content that aligns with your technology domain. Content maintains editorial independence while providing visibility to engineering audiences seeking specialized technical information.
                 </p>
               </div>
               
-              <div className="space-y-4 pt-6 border-t border-gray-100">
-                <h4 className="font-bold text-gray-900 text-sm uppercase tracking-wide">Key Privileges</h4>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
-                    <span className="leading-relaxed">Sponsored content placement with clear disclosure</span>
+              <div className="pt-4 border-t border-gray-200">
+                <h4 className="font-bold text-gray-900 text-xs uppercase tracking-wide mb-3">Key Privileges</h4>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Sponsored content placement with clear disclosure labeling</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
                     <span className="leading-relaxed">Logo placement on sponsored articles</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
-                    <span className="leading-relaxed">Newsletter mention with article link</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Newsletter mention with article link to engineering subscribers</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
                     <span className="leading-relaxed">Cross-channel promotion where applicable</span>
                   </li>
                 </ul>
               </div>
             </div>
 
-            {/* Case Study Partner */}
-            <div className="bg-white rounded-xl shadow-md border border-gray-100 p-8 hover:shadow-xl hover:border-[#93D419]/30 transition-all duration-300 group">
-              <div className="mb-6">
-                <span className="inline-block bg-gradient-to-r from-[#93D419] to-[#7fb315] text-white text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wider shadow-sm">
-                  Case Study Partnership
-                </span>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-[#93D419] transition-colors">Case Study Partner</h3>
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  Technical case study showcasing your technology or solution, including 
-                  real-world applications, process data, and performance metrics.
+            {/* Case Study Partner - FOURTH */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-[#93D419]/40 transition-all duration-200 group">
+              <div className="mb-5">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center flex-shrink-0">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <span className="inline-block bg-gradient-to-r from-[#93D419] to-[#7fb315] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                      Case Study Partnership
+                    </span>
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">Case Study Partner</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Technical case study showcasing real-world implementation, process data, and performance metrics.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Best for:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Technology providers with proven production applications, performance data, and real-world implementation results to showcase.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Description:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Dedicated technical case study article presenting your technology with real-world applications, process data, and performance metrics. Content focuses on engineering relevance and practical implementation details valued by process engineers and technical decision-makers.
                 </p>
               </div>
               
-              <div className="space-y-4 pt-6 border-t border-gray-100">
-                <h4 className="font-bold text-gray-900 text-sm uppercase tracking-wide">Key Privileges</h4>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
-                    <span className="leading-relaxed">Dedicated technical case study article</span>
+              <div className="pt-4 border-t border-gray-200">
+                <h4 className="font-bold text-gray-900 text-xs uppercase tracking-wide mb-3">Key Privileges</h4>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Dedicated technical case study article with engineering focus</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
                     <span className="leading-relaxed">Technical data and process details presentation</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
                     <span className="leading-relaxed">Featured placement in newsletter and homepage</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
-                    <span className="leading-relaxed">Extended visibility period</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Extended visibility period with archive access</span>
                   </li>
                 </ul>
               </div>
             </div>
 
-            {/* Webinar Sponsor */}
-            <div className="bg-white rounded-xl shadow-md border border-gray-100 p-8 hover:shadow-xl hover:border-[#93D419]/30 transition-all duration-300 group">
-              <div className="mb-6">
-                <span className="inline-block bg-gradient-to-r from-[#93D419] to-[#7fb315] text-white text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wider shadow-sm">
-                  Webinar Partnership
-                </span>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-[#93D419] transition-colors">Webinar Sponsor</h3>
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  Co-host or sponsor technical webinars on topics relevant to your expertise, 
-                  engaging with engineering professionals in real-time.
+            {/* Webinar Sponsor - FIFTH */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-[#93D419]/40 transition-all duration-200 group">
+              <div className="mb-5">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center flex-shrink-0">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <span className="inline-block bg-gradient-to-r from-[#93D419] to-[#7fb315] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                      Webinar Partnership
+                    </span>
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">Webinar Sponsor</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Co-host or sponsor technical webinars engaging engineering professionals in real-time technical discussions.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Best for:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Technology providers and engineering firms with technical expertise to share through educational webinars for engineering professionals.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Description:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Co-host or sponsor technical webinars on topics relevant to your expertise, engaging with engineering professionals in real-time technical discussions. Webinars focus on practical engineering applications and technical depth valued by process engineers and R&D specialists.
                 </p>
               </div>
               
-              <div className="space-y-4 pt-6 border-t border-gray-100">
-                <h4 className="font-bold text-gray-900 text-sm uppercase tracking-wide">Key Privileges</h4>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
+              <div className="pt-4 border-t border-gray-200">
+                <h4 className="font-bold text-gray-900 text-xs uppercase tracking-wide mb-3">Key Privileges</h4>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
                     <span className="leading-relaxed">Co-hosting or exclusive sponsorship of technical webinar</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
-                    <span className="leading-relaxed">Pre-event promotion across channels</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Pre-event promotion across channels to engineering audiences</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
-                    <span className="leading-relaxed">Access to attendee list (with consent)</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Access to attendee list with consent for follow-up</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">✓</span>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
                     <span className="leading-relaxed">Post-event content and recording promotion</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Research Partnership - SIXTH */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-[#93D419]/40 transition-all duration-200 group">
+              <div className="mb-5">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center flex-shrink-0">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <span className="inline-block bg-gradient-to-r from-[#93D419] to-[#7fb315] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                      Research Partnership
+                    </span>
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">Research Partnership</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Partner with research institutions and universities to share technical research findings and academic insights with engineering audiences.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Best for:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Universities, research institutions, R&D laboratories, and academic organizations conducting research in hydrometallurgy, critical metals, or battery recycling.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Description:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Share research findings, technical publications, and academic insights with engineering professionals. Research partnerships provide a platform for academic-industry collaboration, allowing research institutions to reach technical decision-makers and process engineers seeking cutting-edge knowledge.
+                </p>
+              </div>
+              
+              <div className="pt-4 border-t border-gray-200">
+                <h4 className="font-bold text-gray-900 text-xs uppercase tracking-wide mb-3">Key Privileges</h4>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Research paper sponsorship and technical publication support</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Featured placement of research findings and academic insights</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Logo placement on research content with institutional affiliation</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Newsletter promotion of research publications to engineering subscribers</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Cross-promotion opportunities for academic conferences and research events</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Technical Whitepaper Sponsor - SEVENTH */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-[#93D419]/40 transition-all duration-200 group">
+              <div className="mb-5">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center flex-shrink-0">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <span className="inline-block bg-gradient-to-r from-[#93D419] to-[#7fb315] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                      Whitepaper Partnership
+                    </span>
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">Technical Whitepaper Sponsor</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Sponsor in-depth technical whitepapers and detailed documentation for engineering audiences seeking comprehensive technical information.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Best for:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Technology providers, engineering firms, and solution developers with comprehensive technical documentation, process methodologies, or detailed technical specifications to share.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Description:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Host and promote technical whitepapers, detailed process documentation, and comprehensive technical resources. Whitepaper sponsorship provides engineering audiences with in-depth technical information while maintaining editorial independence for all technical content and methodologies.
+                </p>
+              </div>
+              
+              <div className="pt-4 border-t border-gray-200">
+                <h4 className="font-bold text-gray-900 text-xs uppercase tracking-wide mb-3">Key Privileges</h4>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Technical whitepaper hosting and promotion to engineering audiences</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Placement in technical resource library with clear sponsorship disclosure</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Logo placement on whitepaper pages and download pages</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Newsletter promotion with direct download link to engineering subscribers</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Extended visibility period with archive access for technical reference</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Software & Tool Partnership - EIGHTH */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-[#93D419]/40 transition-all duration-200 group">
+              <div className="mb-5">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center flex-shrink-0">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <span className="inline-block bg-gradient-to-r from-[#93D419] to-[#7fb315] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                      Software & Tool Partnership
+                    </span>
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">Software & Tool Partnership</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Showcase engineering software, simulation tools, and process modeling applications to technical professionals evaluating software solutions.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Best for:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Engineering software companies, simulation tool providers, process modeling software developers, and technical software solution providers.
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-1.5">Description:</p>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Promote engineering software, simulation tools, and process modeling applications to engineering professionals actively evaluating software solutions for process design, optimization, and analysis. Software partnerships connect technology providers with engineers seeking tools for technical problem-solving.
+                </p>
+              </div>
+              
+              <div className="pt-4 border-t border-gray-200">
+                <h4 className="font-bold text-gray-900 text-xs uppercase tracking-wide mb-3">Key Privileges</h4>
+                <ul className="space-y-2 text-sm text-gray-700">
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Software tool showcase with technical specifications and capabilities</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Logo placement on software showcase pages and resource sections</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Technical article or tutorial featuring software application in engineering workflows</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Newsletter promotion with software trial or demo links to engineering subscribers</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <span className="text-[#93D419] mt-0.5 font-bold text-base leading-none flex-shrink-0">✓</span>
+                    <span className="leading-relaxed">Integration opportunities with platform calculators and engineering tools</span>
                   </li>
                 </ul>
               </div>
@@ -368,22 +668,38 @@ export default function BecomeSponsorPage() {
         </section>
 
         {/* Editorial Independence & Transparency */}
-        <section className="mb-20">
-          <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl border border-gray-200 p-10 md:p-14 shadow-lg">
+        <section className="mb-24">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl border-2 border-gray-200 p-10 md:p-14 shadow-lg">
             <div className="mb-8">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Editorial Independence & Transparency</h2>
+              <div className="flex items-center gap-3 mb-4">
+                <svg className="w-8 h-8 text-[#93D419]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Editorial Independence & Transparency</h2>
+              </div>
               <div className="w-16 h-0.5 bg-[#93D419]"></div>
             </div>
-            <div className="space-y-5 text-gray-700 leading-relaxed">
-              <p className="text-lg">
-                <strong className="text-gray-900 font-semibold">HydroMetInsight maintains strict editorial independence.</strong> 
-                Technical content, research analysis, and industry reporting are developed independently 
-                of sponsor relationships.
+            <div className="space-y-6 text-gray-700 leading-relaxed">
+              <p className="text-lg font-semibold text-gray-900">
+                HydroMetInsight maintains strict editorial independence. All technical content, 
+                research analysis, and industry reporting are developed independently of sponsor relationships.
               </p>
+              <div className="bg-white rounded-lg p-6 border border-gray-200">
+                <h3 className="font-bold text-gray-900 mb-3">Calculation Independence</h3>
+                <p className="mb-3">
+                  <strong>Calculator formulas, assumptions, and methodologies are not influenced by sponsorship.</strong> 
+                  All engineering calculations remain fully independent, ensuring accuracy and credibility 
+                  with technical audiences.
+                </p>
+                <p>
+                  Sponsored calculators display clear editorial independence statements, and all calculation 
+                  logic is developed based on standard engineering principles, not sponsor preferences.
+                </p>
+              </div>
               <p>
-                Sponsored content and partnerships are clearly disclosed. We partner with companies 
-                whose technologies align with our mission of advancing hydrometallurgy knowledge, 
-                while editorial decisions remain independent.
+                Sponsored content and partnerships are clearly disclosed with transparent labeling. 
+                We partner with companies whose technologies align with our mission of advancing 
+                hydrometallurgy knowledge, while editorial decisions remain independent.
               </p>
               <p>
                 We seek partnerships with organizations committed to technical excellence, innovation, 
@@ -394,14 +710,24 @@ export default function BecomeSponsorPage() {
         </section>
 
         {/* Call to Action - Contact Form */}
-        <section className="mb-20">
+        <section className="mb-24">
           <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-10 md:p-14">
             <div className="mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Partnership Inquiry</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Request Partnership Discussion</h2>
               <div className="w-16 h-0.5 bg-[#93D419] mb-6"></div>
-              <p className="text-gray-700 text-lg max-w-3xl leading-relaxed">
+              <p className="text-gray-700 text-lg max-w-3xl leading-relaxed mb-4">
                 To discuss partnership opportunities, please provide details about your company 
-                and partnership objectives. We will respond within 2-3 business days.
+                and partnership objectives.
+              </p>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <p className="text-sm text-blue-800">
+                  <strong>All partnership inquiries are reviewed manually.</strong> We do not engage in 
+                  mass marketing or irrelevant placements. Each partnership is evaluated for alignment 
+                  with our technical audience and editorial standards.
+                </p>
+              </div>
+              <p className="text-gray-600 text-sm">
+                We will respond within 2-3 business days.
               </p>
             </div>
 
@@ -561,6 +887,9 @@ export default function BecomeSponsorPage() {
                   <option value="technical-content">Technical Content Sponsor</option>
                   <option value="case-study">Case Study Partner</option>
                   <option value="webinar">Webinar Sponsor</option>
+                  <option value="research-partnership">Research Partnership</option>
+                  <option value="whitepaper-sponsor">Technical Whitepaper Sponsor</option>
+                  <option value="software-tool">Software & Tool Partnership</option>
                   <option value="custom">Custom Partnership</option>
                 </select>
               </div>
@@ -600,7 +929,7 @@ export default function BecomeSponsorPage() {
                     </>
                   ) : (
                     <>
-                      Submit Partnership Inquiry
+                      Request Partnership Discussion
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                       </svg>
