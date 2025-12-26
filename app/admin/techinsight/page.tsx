@@ -76,12 +76,20 @@ export default function TechInsightPage() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold text-gray-900">TechInsight</h1>
-        <Link
-          href="/admin/techinsight/yeni"
-          className="bg-[#93D419] text-gray-900 px-4 py-2 rounded-lg hover:bg-[#7fb315] transition-colors font-semibold"
-        >
-          + New TechInsight
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/admin/kategoriler"
+            className="bg-gray-200 text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
+          >
+            Categories
+          </Link>
+          <Link
+            href="/admin/techinsight/yeni"
+            className="bg-[#93D419] text-gray-900 px-4 py-2 rounded-lg hover:bg-[#7fb315] transition-colors font-semibold"
+          >
+            + New TechInsight
+          </Link>
+        </div>
       </div>
 
       {insights.length === 0 ? (

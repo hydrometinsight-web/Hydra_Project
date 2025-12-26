@@ -12,6 +12,7 @@ interface News {
   slug: string
   excerpt: string | null
   published: boolean
+  featuredType: string | null
   createdAt: string
   category: {
     name: string
@@ -22,6 +23,55 @@ export default function NewsPage() {
   const router = useRouter()
   const [news, setNews] = useState<News[]>([])
   const [loading, setLoading] = useState(true)
+  const [updating, setUpdating] = useState<string | null>(null)
+
+  const handleFeaturedChange = async (newsId: string, value: string) => {
+    const featuredType = value === '' ? null : value
+    setUpdating(newsId)
+    const token = localStorage.getItem('adminToken')
+    if (!token) {
+      router.push('/admin')
+      return
+    }
+
+    try {
+      const response = await fetch(`/api/admin/news/${newsId}/featured`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ featuredType }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        console.error('API Error:', {
+          status: response.status,
+          statusText: response.statusText,
+          error: data.error,
+          details: data.details
+        })
+        alert(data.error || `Failed to update featured status (${response.status})`)
+        return
+      }
+
+      // Update local state immediately
+      setNews(news.map(item => 
+        item.id === newsId 
+          ? { ...item, featuredType }
+          : featuredType && item.featuredType === featuredType
+          ? { ...item, featuredType: null } // Remove from other position if same type selected
+          : item
+      ))
+    } catch (error: any) {
+      console.error('Network Error:', error)
+      alert(`Network error: ${error.message || 'Please check your connection and try again.'}`)
+    } finally {
+      setUpdating(null)
+    }
+  }
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken')
@@ -83,12 +133,20 @@ export default function NewsPage() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold text-gray-900">News</h1>
-        <Link
-          href="/admin/haberler/yeni"
-          className="bg-[#93D419] text-gray-900 px-4 py-2 rounded-lg hover:bg-[#7fb315] transition-colors font-semibold"
-        >
-          + New News
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/admin/kategoriler"
+            className="bg-gray-200 text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
+          >
+            Categories
+          </Link>
+          <Link
+            href="/admin/haberler/yeni"
+            className="bg-[#93D419] text-gray-900 px-4 py-2 rounded-lg hover:bg-[#7fb315] transition-colors font-semibold"
+          >
+            + New News
+          </Link>
+        </div>
       </div>
 
       {news.length === 0 ? (
@@ -111,6 +169,9 @@ export default function NewsPage() {
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Featured
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
@@ -139,6 +200,23 @@ export default function NewsPage() {
                     >
                       {item.published ? 'Published' : 'Draft'}
                     </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <select
+                      value={item.featuredType || ''}
+                      onChange={(e) => handleFeaturedChange(item.id, e.target.value)}
+                      disabled={updating === item.id || !item.published}
+                      className="text-xs border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <option value="">Not Featured</option>
+                      <option value="main">Main Featured</option>
+                      <option value="secondary1">Secondary 1</option>
+                      <option value="secondary2">Secondary 2</option>
+                      <option value="secondary3">Secondary 3</option>
+                    </select>
+                    {!item.published && (
+                      <p className="text-xs text-gray-400 mt-1">Publish first</p>
+                    )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <Link

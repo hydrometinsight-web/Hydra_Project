@@ -189,24 +189,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link
             href="/admin/haberler"
             className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-              pathname?.startsWith('/admin/haberler')
+              pathname?.startsWith('/admin/haberler') || pathname?.startsWith('/admin/kategoriler')
                 ? 'bg-[#93D419] text-white'
                 : 'text-gray-300 hover:bg-gray-800 hover:text-[#93D419]'
             }`}
           >
             <HiNewspaper className="w-5 h-5" />
             News
-          </Link>
-          <Link
-            href="/admin/kategoriler"
-            className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-              pathname?.startsWith('/admin/kategoriler')
-                ? 'bg-[#93D419] text-white'
-                : 'text-gray-300 hover:bg-gray-800 hover:text-[#93D419]'
-            }`}
-          >
-            <HiFolder className="w-5 h-5" />
-            Categories
           </Link>
           <Link
             href="/admin/techinsight"

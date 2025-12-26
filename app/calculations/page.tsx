@@ -669,39 +669,6 @@ export default function CalculationsPage() {
 
       {/* All Calculators and Converters - Module Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {/* Battery Recycling Acid Calculator */}
-        <Link
-          href="/calculator/battery-recycling-acid"
-          className="bg-white rounded-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group flex flex-col h-full"
-          style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}
-        >
-          <div className="bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800 px-8 py-7 min-h-[120px] flex items-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#93D419]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="flex items-start gap-4 relative z-10">
-              <div className="flex-shrink-0 mt-1">
-                <svg className="w-7 h-7 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                </svg>
-              </div>
-              <h2 className="text-xl font-bold text-white leading-snug tracking-tight">Battery Recycling Acid Consumption Calculator</h2>
-            </div>
-          </div>
-          <div className="p-8 flex flex-col flex-1 bg-white">
-            <p className="text-gray-700 text-[15px] leading-relaxed mb-8 flex-1 font-normal">
-              Estimate acid consumption for hydrometallurgical battery recycling processes based on standard engineering parameters.
-            </p>
-            <div className="flex items-center justify-center gap-2.5 bg-gray-900 hover:bg-gray-800 text-white font-semibold text-sm px-5 py-3.5 rounded-lg transition-all duration-200 mt-auto group-hover:shadow-md">
-              <svg className="w-4 h-4 text-[#93D419]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-              </svg>
-              <span>Open Calculator</span>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </div>
-          </div>
-        </Link>
-
         {/* Molecular Weight Calculator */}
         <Link
           href="/calculator/molecular-weight"

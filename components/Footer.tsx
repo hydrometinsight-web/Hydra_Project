@@ -171,6 +171,12 @@ export default function Footer() {
               >
                 Terms of Service
               </Link>
+              <Link 
+                href="/contact" 
+                className="text-gray-400 hover:text-[#93D419] transition-colors text-sm"
+              >
+                Contact Us
+              </Link>
             </nav>
           </div>
 

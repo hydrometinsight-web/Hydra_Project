@@ -44,6 +44,7 @@ model News {
   authorId    String
   author      User     @relation(fields: [authorId], references: [id])
   comments    Comment[]
+  featuredType String?  // 'main' for main featured, 'secondary1', 'secondary2', 'secondary3' for smaller featured
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
