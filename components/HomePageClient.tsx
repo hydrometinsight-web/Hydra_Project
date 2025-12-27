@@ -22,8 +22,27 @@ export default function HomePageClient({
   events,
   sponsors,
 }: HomePageClientProps) {
+  // Separate main featured and secondary featured
+  const mainFeatured = latestNews.find((news: any) => news.featuredType === 'main') || latestNews[0]
+  const secondaryFeatured = latestNews.filter((news: any) => 
+    news.featuredType && ['secondary1', 'secondary2', 'secondary3'].includes(news.featuredType)
+  ).slice(0, 3)
+  
+  // If we don't have enough secondary featured, fill with other latest news
+  const remainingSlots = 3 - secondaryFeatured.length
+  const otherNews = latestNews.filter((news: any) => 
+    news.id !== mainFeatured?.id && 
+    !secondaryFeatured.some((s: any) => s.id === news.id)
+  ).slice(0, remainingSlots)
+  
+  const displayNews = [
+    mainFeatured,
+    ...secondaryFeatured,
+    ...otherNews,
+  ].filter(Boolean).slice(0, 4)
+
   // Filter out latest news from all news
-  const latestNewsIds = new Set(latestNews.map((news) => news.id))
+  const latestNewsIds = new Set(displayNews.map((news: any) => news?.id).filter(Boolean))
   const filteredAllNews = allNews.filter((news) => !latestNewsIds.has(news.id))
 
   return (
@@ -36,14 +55,14 @@ export default function HomePageClient({
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:items-stretch">
           {/* Featured News - Large */}
-          {latestNews.length > 0 && (
-            <Link href={`/haber/${latestNews[0].slug}`} className="lg:col-span-2 flex">
+          {displayNews.length > 0 && displayNews[0] && (
+            <Link href={`/haber/${displayNews[0].slug}`} className="lg:col-span-2 flex">
               <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer w-full relative border border-gray-200 flex flex-col">
-                {latestNews[0].imageUrl ? (
+                {displayNews[0].imageUrl ? (
                   <div className="relative w-full flex-1 min-h-[400px] lg:min-h-0 overflow-hidden">
                     <Image
-                      src={latestNews[0].imageUrl}
-                      alt={latestNews[0].title}
+                      src={displayNews[0].imageUrl}
+                      alt={displayNews[0].title}
                       fill
                       className="object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 800px"
@@ -54,11 +73,11 @@ export default function HomePageClient({
                     <div className="absolute inset-0 flex flex-col justify-end p-6 lg:p-8">
                       <div className="w-full pr-4">
                         <h3 className="text-2xl lg:text-4xl font-bold text-white mb-4 line-clamp-3 leading-tight" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.8), 0 4px 16px rgba(0,0,0,0.6)' }}>
-                          {latestNews[0].title}
+                          {displayNews[0].title}
                         </h3>
-                        {latestNews[0].excerpt && (
+                        {displayNews[0].excerpt && (
                           <p className="text-white text-base lg:text-lg mb-4 line-clamp-2 leading-relaxed" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
-                            {latestNews[0].excerpt}
+                            {displayNews[0].excerpt}
                           </p>
                         )}
                         <button className="self-start inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-900 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200 text-sm">
@@ -73,11 +92,11 @@ export default function HomePageClient({
                     <ImagePlaceholder />
                     <div className="absolute inset-0 flex flex-col justify-end p-6 lg:p-8">
                       <h3 className="text-2xl lg:text-4xl font-bold text-gray-900 mb-4 line-clamp-3 leading-tight">
-                        {latestNews[0].title}
+                        {displayNews[0].title}
                       </h3>
-                      {latestNews[0].excerpt && (
+                      {displayNews[0].excerpt && (
                         <p className="text-gray-700 text-lg lg:text-xl mb-4 line-clamp-3 leading-relaxed">
-                          {latestNews[0].excerpt}
+                          {displayNews[0].excerpt}
                         </p>
                       )}
                       <button className="self-start inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-900 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl text-base lg:text-lg">
@@ -93,7 +112,7 @@ export default function HomePageClient({
 
           {/* Side News - Small */}
           <div className="flex flex-col gap-4 h-full">
-            {latestNews.slice(1, 4).map((news) => (
+            {displayNews.slice(1, 4).map((news: any) => (
               <Link key={news.id} href={`/haber/${news.slug}`} className="flex-1 flex">
                 <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer relative border border-gray-200 w-full flex flex-col">
                   {news.imageUrl ? (

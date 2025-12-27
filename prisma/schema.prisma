@@ -139,6 +139,21 @@ model Sponsor {
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  calculatorSponsors CalculatorSponsor[]
+}
+
+model CalculatorSponsor {
+  id          String   @id @default(cuid())
+  calculatorSlug String   @unique // 'molecular-weight', 'unit-converter', etc.
+  sponsorId   String
+  sponsor     Sponsor  @relation(fields: [sponsorId], references: [id], onDelete: Cascade)
+  title       String?  // Custom title (e.g., "Technical Partner")
+  description String?  // Custom description
+  ctaText     String?  // Call-to-action text (e.g., "Learn More")
+  ctaLink     String?  // Call-to-action link
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model PasswordReset {

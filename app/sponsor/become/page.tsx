@@ -83,17 +83,29 @@ export default function BecomeSponsorPage() {
               Technology Partnerships
             </span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight tracking-tight max-w-5xl">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight tracking-tight max-w-5xl">
             Reach Engineering Decision-Makers in Hydrometallurgy and Battery Recycling
           </h1>
-          <div className="w-24 h-1 bg-gradient-to-r from-[#93D419] to-[#7fb315] mb-8"></div>
-          <p className="text-xl md:text-2xl text-gray-700 leading-relaxed max-w-4xl font-light mb-4">
+          <div className="w-24 h-0.5 bg-gradient-to-r from-[#93D419] to-[#7fb315] mb-5"></div>
+          <p className="text-sm md:text-base text-gray-700 leading-relaxed max-w-4xl mb-3">
             HydroMetInsight serves process engineers, R&D specialists, and technical managers 
             who evaluate and implement technologies in production environments.
           </p>
-          <p className="text-lg text-gray-600 leading-relaxed max-w-4xl">
+          <p className="text-xs md:text-sm text-gray-600 leading-relaxed max-w-4xl mb-3">
             Partner with us to connect with engineering professionals actively solving problems 
             in critical metals extraction, battery recycling, and hydrometallurgical processing.
+          </p>
+          <p className="text-xs md:text-sm text-gray-600 leading-relaxed max-w-4xl mb-3">
+            Our platform provides direct access to decision-makers who evaluate technologies based on 
+            engineering merit, performance data, and technical credibility. We focus exclusively on 
+            the hydrometallurgy ecosystem, ensuring your message reaches the right technical audience 
+            at the right moment in their evaluation process.
+          </p>
+          <p className="text-xs md:text-sm text-gray-600 leading-relaxed max-w-4xl">
+            With a dedicated readership of process engineers, plant operators, and R&D directors, 
+            HydroMetInsight offers targeted visibility for technology providers, equipment manufacturers, 
+            and solution developers. Our editorial independence and technical depth ensure that partnerships 
+            align with engineering standards and audience expectations.
           </p>
         </section>
 

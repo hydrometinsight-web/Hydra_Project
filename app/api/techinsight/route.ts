@@ -7,7 +7,6 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
     const page = parseInt(searchParams.get('page') || '1', 10)
-    const categoryId = searchParams.get('categoryId')
     const search = searchParams.get('search') || ''
     const sortBy = searchParams.get('sortBy') || 'date-desc' // 'date-desc', 'date-asc', 'title-asc', 'title-desc'
     const dateFrom = searchParams.get('dateFrom')
@@ -17,15 +16,9 @@ export async function GET(request: NextRequest) {
 
     const where: any = { published: true }
     
-    // Category filter
-    if (categoryId && categoryId !== 'all') {
-      where.categoryId = categoryId
-    }
-
     // Search filter (title, excerpt, content)
     // Note: SQLite doesn't support case-insensitive mode, so we'll use contains
     if (search) {
-      const searchLower = search.toLowerCase()
       where.OR = [
         { title: { contains: search } },
         { excerpt: { contains: search } },
@@ -65,23 +58,20 @@ export async function GET(request: NextRequest) {
         orderBy = { createdAt: 'desc' }
     }
 
-    const [news, total] = await Promise.all([
-      prisma.news.findMany({
+    const [insights, total] = await Promise.all([
+      prisma.techInsight.findMany({
         where,
-        include: {
-          category: true,
-        },
         orderBy,
         skip,
         take: ITEMS_PER_PAGE,
       }),
-      prisma.news.count({ where }),
+      prisma.techInsight.count({ where }),
     ])
 
     const totalPages = Math.ceil(total / ITEMS_PER_PAGE)
 
     return NextResponse.json({
-      news,
+      insights,
       pagination: {
         page,
         totalPages,
@@ -92,8 +82,8 @@ export async function GET(request: NextRequest) {
       },
     })
   } catch (error) {
-    console.error('Error fetching news:', error)
-    return NextResponse.json({ error: 'Failed to fetch news' }, { status: 500 })
+    console.error('Error fetching tech insights:', error)
+    return NextResponse.json({ error: 'Failed to fetch tech insights' }, { status: 500 })
   }
 }
 

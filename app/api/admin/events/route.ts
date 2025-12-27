@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import jwt from 'jsonwebtoken'
+import { sanitizeString, sanitizeSlug, sanitizeHtml, validateUrl } from '@/lib/validation'
+import { addSecurityHeaders } from '@/lib/security'
 
 const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'your-secret-key'
 
@@ -29,10 +31,12 @@ export async function GET(request: NextRequest) {
     const events = await prisma.event.findMany({
       orderBy: { startDate: 'asc' },
     })
-    return NextResponse.json(events)
+    const response = NextResponse.json(events)
+    return addSecurityHeaders(response)
   } catch (error) {
     console.error('Error fetching events:', error)
-    return NextResponse.json({ error: 'Failed to fetch events' }, { status: 500 })
+    const response = NextResponse.json({ error: 'Failed to fetch events' }, { status: 500 })
+    return addSecurityHeaders(response)
   }
 }
 
@@ -43,32 +47,93 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { title, slug, description, location, startDate, endDate, imageUrl, published } = await request.json()
+    const body = await request.json()
+    const { title, slug, description, location, startDate, endDate, imageUrl, published } = body
 
+    // Validate required fields
     if (!title || !slug || !description || !location || !startDate) {
-      return NextResponse.json({ error: 'Title, slug, description, location, and startDate are required' }, { status: 400 })
+      const response = NextResponse.json(
+        { error: 'Title, slug, description, location, and startDate are required' },
+        { status: 400 }
+      )
+      return addSecurityHeaders(response)
+    }
+
+    // Sanitize and validate inputs
+    const sanitizedTitle = sanitizeString(title, 500)
+    const sanitizedSlug = sanitizeSlug(slug)
+    const sanitizedDescription = sanitizeHtml(description)
+    const sanitizedLocation = sanitizeString(location, 200)
+    const sanitizedImageUrl = imageUrl ? (validateUrl(imageUrl) ? imageUrl : null) : null
+
+    // Validate lengths
+    if (sanitizedTitle.length === 0 || sanitizedTitle.length > 500) {
+      const response = NextResponse.json(
+        { error: 'Title must be between 1 and 500 characters' },
+        { status: 400 }
+      )
+      return addSecurityHeaders(response)
+    }
+
+    if (sanitizedSlug.length === 0 || sanitizedSlug.length > 100) {
+      const response = NextResponse.json({ error: 'Invalid slug format' }, { status: 400 })
+      return addSecurityHeaders(response)
+    }
+
+    if (sanitizedDescription.length === 0 || sanitizedDescription.length > 10000) {
+      const response = NextResponse.json(
+        { error: 'Description must be between 1 and 10000 characters' },
+        { status: 400 }
+      )
+      return addSecurityHeaders(response)
+    }
+
+    // Validate dates
+    const start = new Date(startDate)
+    if (isNaN(start.getTime())) {
+      const response = NextResponse.json({ error: 'Invalid start date' }, { status: 400 })
+      return addSecurityHeaders(response)
+    }
+
+    const end = endDate ? new Date(endDate) : null
+    if (end && isNaN(end.getTime())) {
+      const response = NextResponse.json({ error: 'Invalid end date' }, { status: 400 })
+      return addSecurityHeaders(response)
+    }
+
+    if (end && end < start) {
+      const response = NextResponse.json({ error: 'End date must be after start date' }, { status: 400 })
+      return addSecurityHeaders(response)
     }
 
     const event = await prisma.event.create({
       data: {
-        title,
-        slug,
-        description,
-        location,
-        startDate: new Date(startDate),
-        endDate: endDate ? new Date(endDate) : null,
-        imageUrl: imageUrl || null,
-        published: published || false,
+        title: sanitizedTitle,
+        slug: sanitizedSlug,
+        description: sanitizedDescription,
+        location: sanitizedLocation,
+        startDate: start,
+        endDate: end,
+        imageUrl: sanitizedImageUrl,
+        published: published === true,
       },
     })
 
-    return NextResponse.json(event, { status: 201 })
+    const response = NextResponse.json(event, { status: 201 })
+    return addSecurityHeaders(response)
   } catch (error: any) {
     console.error('Error creating event:', error)
-    if (error.code === 'P2002') {
-      return NextResponse.json({ error: 'Event with this slug already exists' }, { status: 400 })
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Full error:', error)
     }
-    return NextResponse.json({ error: 'Failed to create event' }, { status: 500 })
+    
+    if (error.code === 'P2002') {
+      const response = NextResponse.json({ error: 'Event with this slug already exists' }, { status: 400 })
+      return addSecurityHeaders(response)
+    }
+    
+    const response = NextResponse.json({ error: 'Failed to create event' }, { status: 500 })
+    return addSecurityHeaders(response)
   }
 }
 

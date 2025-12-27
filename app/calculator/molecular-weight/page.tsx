@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -243,134 +243,134 @@ export default function MolecularWeightCalculatorPage() {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-8">
               <div className="space-y-6">
-            {/* Selection Dropdowns */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="compound" className="block text-sm font-medium text-gray-700 mb-2">
-                  Common Organic Compounds
-                </label>
-                <select
-                  id="compound"
-                  value={selectedCompound}
-                  onChange={handleCompoundSelect}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm bg-white"
-                >
-                  <option value="">[Select Compound]</option>
-                  {COMMON_COMPOUNDS.map((compound) => (
-                    <option key={compound.name} value={compound.name}>
-                      {compound.name} [{compound.formula}]
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="element" className="block text-sm font-medium text-gray-700 mb-2">
-                  Elements of the Periodic Table
-                </label>
-                <select
-                  id="element"
-                  value={selectedElement}
-                  onChange={handleElementSelect}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm bg-white"
-                >
-                  <option value="">[Select Element]</option>
-                  {ALL_ELEMENTS.map((element) => (
-                    <option key={element} value={element}>
-                      {element}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* Formula Input */}
-            <div>
-              <label htmlFor="formula" className="block text-sm font-medium text-gray-700 mb-2">
-                Chemical Formula
-              </label>
-              <div className="flex gap-3">
-                <input
-                  id="formula"
-                  type="text"
-                  value={formula}
-                  onChange={(e) => {
-                    setFormula(e.target.value)
-                    setSelectedCompound('')
-                    setSelectedElement('')
-                  }}
-                  onKeyPress={(e) => e.key === 'Enter' && handleCalculate()}
-                  placeholder="e.g., H2O, CuSO4, Fe2O3, C3H4OH(COOH)3"
-                  className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm"
-                />
-                <button
-                  onClick={handleCalculate}
-                  className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
-                >
-                  <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain" />
-                  Calculate
-                </button>
-                <button
-                  onClick={handleClear}
-                  className="inline-flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
-                >
-                  <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain brightness-0 opacity-80" />
-                  Clear
-                </button>
-              </div>
-            </div>
-
-            {/* Results */}
-            {result && (
-              <div className="mt-6">
-                {result.error ? (
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                    <p className="text-yellow-800 text-sm">{result.error}</p>
+                {/* Selection Dropdowns */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="compound" className="block text-sm font-medium text-gray-700 mb-2">
+                      Common Organic Compounds
+                    </label>
+                    <select
+                      id="compound"
+                      value={selectedCompound}
+                      onChange={handleCompoundSelect}
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm bg-white"
+                    >
+                      <option value="">[Select Compound]</option>
+                      {COMMON_COMPOUNDS.map((compound) => (
+                        <option key={compound.name} value={compound.name}>
+                          {compound.name} [{compound.formula}]
+                        </option>
+                      ))}
+                    </select>
                   </div>
-                ) : (
-                  <div className="space-y-4">
-                    {/* Total Molecular Weight */}
-                    <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-700">Total Molecular Weight:</span>
-                        <span className="text-2xl font-bold text-gray-900">{result.weight.toFixed(4)}</span>
-                        <span className="text-sm text-gray-600">g/mol</span>
-                      </div>
+                  <div>
+                    <label htmlFor="element" className="block text-sm font-medium text-gray-700 mb-2">
+                      Elements of the Periodic Table
+                    </label>
+                    <select
+                      id="element"
+                      value={selectedElement}
+                      onChange={handleElementSelect}
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm bg-white"
+                    >
+                      <option value="">[Select Element]</option>
+                      {ALL_ELEMENTS.map((element) => (
+                        <option key={element} value={element}>
+                          {element}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+              {/* Formula Input */}
+              <div>
+                <label htmlFor="formula" className="block text-sm font-medium text-gray-700 mb-2">
+                  Chemical Formula
+                </label>
+                <div className="flex gap-3">
+                  <input
+                    id="formula"
+                    type="text"
+                    value={formula}
+                    onChange={(e) => {
+                      setFormula(e.target.value)
+                      setSelectedCompound('')
+                      setSelectedElement('')
+                    }}
+                    onKeyPress={(e) => e.key === 'Enter' && handleCalculate()}
+                    placeholder="e.g., H2O, CuSO4, Fe2O3, C3H4OH(COOH)3"
+                    className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#93D419] focus:border-[#93D419] text-sm"
+                  />
+                  <button
+                    onClick={handleCalculate}
+                    className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
+                  >
+                    <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain" />
+                    Calculate
+                  </button>
+                  <button
+                    onClick={handleClear}
+                    className="inline-flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
+                  >
+                    <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain brightness-0 opacity-80" />
+                    Clear
+                  </button>
+                </div>
+              </div>
+
+              {/* Results */}
+              {result && (
+                <div className="mt-6">
+                  {result.error ? (
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                      <p className="text-yellow-800 text-sm">{result.error}</p>
                     </div>
-
-                    {/* Breakdown Table */}
-                    {result.breakdown.length > 0 && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full border-collapse border border-gray-300 text-sm">
-                          <thead>
-                            <tr className="bg-gray-100">
-                              <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">#</th>
-                              <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Atom</th>
-                              <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Molar Mass (MM)</th>
-                              <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Subtotal Mass</th>
-                              <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">(%)</th>
-                              <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Subtotal Mass (g/mol)</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {result.breakdown.map((item, index) => (
-                              <tr key={item.element} className="hover:bg-gray-50">
-                                <td className="border border-gray-300 px-4 py-2 text-gray-700">{index + 1}</td>
-                                <td className="border border-gray-300 px-4 py-2 font-medium text-gray-900">{item.element}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-gray-700">{item.molarMass.toFixed(4)}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-gray-700">{item.count}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-gray-700">{item.percentage.toFixed(2)}%</td>
-                                <td className="border border-gray-300 px-4 py-2 font-medium text-gray-900">{item.subtotal.toFixed(4)}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                  ) : (
+                    <div className="space-y-4">
+                      {/* Total Molecular Weight */}
+                      <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-gray-700">Total Molecular Weight:</span>
+                          <span className="text-2xl font-bold text-gray-900">{result.weight.toFixed(4)}</span>
+                          <span className="text-sm text-gray-600">g/mol</span>
+                        </div>
                       </div>
-                    )}
-                  </div>
-                )}
+
+                      {/* Breakdown Table */}
+                      {result.breakdown.length > 0 && (
+                        <div className="overflow-x-auto">
+                          <table className="w-full border-collapse border border-gray-300 text-sm">
+                            <thead>
+                              <tr className="bg-gray-100">
+                                <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">#</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Atom</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Molar Mass (MM)</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Subtotal Mass</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">(%)</th>
+                                <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">Subtotal Mass (g/mol)</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {result.breakdown.map((item, index) => (
+                                <tr key={item.element} className="hover:bg-gray-50">
+                                  <td className="border border-gray-300 px-4 py-2 text-gray-700">{index + 1}</td>
+                                  <td className="border border-gray-300 px-4 py-2 font-medium text-gray-900">{item.element}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-gray-700">{item.molarMass.toFixed(4)}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-gray-700">{item.count}</td>
+                                  <td className="border border-gray-300 px-4 py-2 text-gray-700">{item.percentage.toFixed(2)}%</td>
+                                  <td className="border border-gray-300 px-4 py-2 font-medium text-gray-900">{item.subtotal.toFixed(4)}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
               </div>
-            )}
-          </div>
 
               {/* Disclaimer */}
               <div className="mt-8 pt-6 border-t border-gray-200">
@@ -385,46 +385,118 @@ export default function MolecularWeightCalculatorPage() {
           </div>
 
           {/* Sidebar - Sponsor Section */}
-          <div className="space-y-6">
-            {/* Sponsored By Section */}
-            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-              <div className="text-center mb-6">
-                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Sponsored By</h3>
-                <div className="w-full h-24 bg-gray-100 rounded-lg flex items-center justify-center mb-4 border border-gray-200">
-                  <span className="text-gray-400 text-xs">Logo Placeholder</span>
+          <CalculatorSponsorSection />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function CalculatorSponsorSection() {
+  const [sponsor, setSponsor] = useState<{
+    name: string
+    website: string | null
+    logoUrl: string | null
+    title: string | null
+    description: string | null
+    ctaText: string | null
+    ctaLink: string | null
+  } | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/calculator-sponsor/molecular-weight')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.sponsor) {
+          setSponsor(data.sponsor)
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching calculator sponsor:', error)
+      })
+      .finally(() => setLoading(false))
+  }, [])
+
+  return (
+    <div className="space-y-6">
+      {/* Sponsored By Section */}
+      <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+        <div className="text-center mb-6">
+          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Sponsored By</h3>
+          {loading ? (
+            <div className="w-full h-24 bg-gray-100 rounded-lg flex items-center justify-center mb-4 border border-gray-200">
+              <span className="text-gray-400 text-xs">Loading...</span>
+            </div>
+          ) : sponsor ? (
+            <>
+              {sponsor.logoUrl ? (
+                <div className="w-full h-24 bg-white rounded-lg flex items-center justify-center mb-4 border border-gray-200">
+                  <Image
+                    src={sponsor.logoUrl}
+                    alt={sponsor.name}
+                    width={120}
+                    height={48}
+                    className="max-w-full max-h-full object-contain"
+                    unoptimized={sponsor.logoUrl.startsWith('/uploads/')}
+                  />
                 </div>
-                <p className="text-sm font-semibold text-gray-700 mb-2">Technical Partner</p>
+              ) : (
+                <div className="w-full h-24 bg-gray-100 rounded-lg flex items-center justify-center mb-4 border border-gray-200">
+                  <span className="text-gray-400 text-xs">{sponsor.name}</span>
+                </div>
+              )}
+              <p className="text-sm font-semibold text-gray-700 mb-2">{sponsor.title || 'Technical Partner'}</p>
+              {sponsor.description && (
+                <p className="text-xs text-gray-600 mb-3">{sponsor.description}</p>
+              )}
+              {sponsor.ctaLink && (
                 <a 
-                  href="#" 
+                  href={sponsor.ctaLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-xs text-[#93D419] hover:text-[#7fb315] transition-colors font-medium"
                 >
-                  Learn More →
+                  {sponsor.ctaText || 'Learn More'} →
                 </a>
+              )}
+            </>
+          ) : (
+            <>
+              <div className="w-full h-24 bg-gray-100 rounded-lg flex items-center justify-center mb-4 border border-gray-200">
+                <span className="text-gray-400 text-xs">Logo Placeholder</span>
               </div>
-            </div>
-
-            {/* Editorial Independence */}
-            <div className="bg-gray-50 rounded-xl border border-gray-200 p-6">
-              <h3 className="text-sm font-bold text-gray-900 mb-3">Editorial Independence</h3>
-              <p className="text-xs text-gray-700 leading-relaxed">
-                This calculator is developed independently of sponsor relationships. Calculation methodology 
-                and results are not influenced by sponsorship. Sponsored content is clearly disclosed.
-              </p>
-            </div>
-
-            {/* Additional Info */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h3 className="text-sm font-bold text-gray-900 mb-3">About This Calculator</h3>
-              <p className="text-xs text-gray-700 leading-relaxed mb-3">
-                The Molecular Weight Calculator calculates the molecular weight of chemical compounds based on 
-                their chemical formula and atomic weights from the periodic table.
-              </p>
-              <p className="text-xs text-gray-700 leading-relaxed">
-                Molecular mass or molar mass are used in stoichiometry calculations in chemistry.
-              </p>
-            </div>
-          </div>
+              <p className="text-sm font-semibold text-gray-700 mb-2">Technical Partner</p>
+              <a 
+                href="#" 
+                className="text-xs text-[#93D419] hover:text-[#7fb315] transition-colors font-medium"
+              >
+                Learn More →
+              </a>
+            </>
+          )}
         </div>
+      </div>
+
+      {/* Editorial Independence */}
+      <div className="bg-gray-50 rounded-xl border border-gray-200 p-6">
+        <h3 className="text-sm font-bold text-gray-900 mb-3">Editorial Independence</h3>
+        <p className="text-xs text-gray-700 leading-relaxed">
+          This calculator is developed independently of sponsor relationships. Calculation methodology 
+          and results are not influenced by sponsorship. Sponsored content is clearly disclosed.
+        </p>
+      </div>
+
+      {/* Additional Info */}
+      <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <h3 className="text-sm font-bold text-gray-900 mb-3">About This Calculator</h3>
+        <p className="text-xs text-gray-700 leading-relaxed mb-3">
+          The Molecular Weight Calculator calculates the molecular weight of chemical compounds based on 
+          their chemical formula and atomic weights from the periodic table.
+        </p>
+        <p className="text-xs text-gray-700 leading-relaxed">
+          Molecular mass or molar mass are used in stoichiometry calculations in chemistry.
+        </p>
       </div>
     </div>
   )

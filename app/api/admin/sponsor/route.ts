@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import jwt from 'jsonwebtoken'
 import { sanitizeString, validateUrl } from '@/lib/validation'
+import { addSecurityHeaders } from '@/lib/security'
 
 const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'your-secret-key'
 
@@ -30,10 +31,12 @@ export async function GET(request: NextRequest) {
     const sponsors = await prisma.sponsor.findMany({
       orderBy: { createdAt: 'desc' },
     })
-    return NextResponse.json(sponsors)
+    const response = NextResponse.json(sponsors)
+    return addSecurityHeaders(response)
   } catch (error) {
     console.error('Error fetching sponsors:', error)
-    return NextResponse.json({ error: 'Failed to fetch sponsors' }, { status: 500 })
+    const response = NextResponse.json({ error: 'Failed to fetch sponsors' }, { status: 500 })
+    return addSecurityHeaders(response)
   }
 }
 
@@ -57,6 +60,15 @@ export async function POST(request: NextRequest) {
     const sanitizedDescription = description ? sanitizeString(description, 1000) : null
     const sanitizedTier = tier ? sanitizeString(tier, 50) : null
 
+    // Validate name length
+    if (sanitizedName.length === 0 || sanitizedName.length > 200) {
+      const response = NextResponse.json(
+        { error: 'Name must be between 1 and 200 characters' },
+        { status: 400 }
+      )
+      return addSecurityHeaders(response)
+    }
+
     const sponsor = await prisma.sponsor.create({
       data: {
         name: sanitizedName,
@@ -68,10 +80,16 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    return NextResponse.json(sponsor, { status: 201 })
+    const response = NextResponse.json(sponsor, { status: 201 })
+    return addSecurityHeaders(response)
   } catch (error: any) {
     console.error('Error creating sponsor:', error)
-    return NextResponse.json({ error: 'Failed to create sponsor' }, { status: 500 })
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Full error:', error)
+    }
+    
+    const response = NextResponse.json({ error: 'Failed to create sponsor' }, { status: 500 })
+    return addSecurityHeaders(response)
   }
 }
 

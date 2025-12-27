@@ -1,12 +1,50 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
+
+const COOKIE_PREFERENCES_KEY = 'cookie-preferences'
 
 export default function AnalyticsTracker() {
   const pathname = usePathname()
+  const [analyticsEnabled, setAnalyticsEnabled] = useState(false)
 
   useEffect(() => {
+    // Check if analytics cookies are accepted
+    const checkAnalyticsConsent = () => {
+      const saved = localStorage.getItem(COOKIE_PREFERENCES_KEY)
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved)
+          setAnalyticsEnabled(parsed.analytics === true)
+        } catch {
+          setAnalyticsEnabled(false)
+        }
+      } else {
+        setAnalyticsEnabled(false)
+      }
+    }
+
+    checkAnalyticsConsent()
+
+    // Listen for cookie consent updates
+    const handleConsentUpdate = (event: CustomEvent) => {
+      setAnalyticsEnabled(event.detail.analytics === true)
+    }
+
+    window.addEventListener('cookieConsentUpdated', handleConsentUpdate as EventListener)
+
+    return () => {
+      window.removeEventListener('cookieConsentUpdated', handleConsentUpdate as EventListener)
+    }
+  }, [])
+
+  useEffect(() => {
+    // Don't track if analytics is not enabled
+    if (!analyticsEnabled) {
+      return
+    }
+
     // Don't track admin pages
     if (pathname?.startsWith('/admin')) {
       return
@@ -64,7 +102,7 @@ export default function AnalyticsTracker() {
         console.error('Error tracking page view:', error)
       })
     })
-  }, [pathname])
+  }, [pathname, analyticsEnabled])
 
   return null
 }

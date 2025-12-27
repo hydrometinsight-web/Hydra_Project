@@ -4,13 +4,23 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const response = NextResponse.next()
 
-  // Security headers are already set in next.config.js
-  // This middleware can be used for additional security checks
+  // Additional security headers (next.config.js already sets most headers)
+  // These can override or supplement the config headers
+  response.headers.set('X-Content-Type-Options', 'nosniff')
+  response.headers.set('X-Frame-Options', 'DENY') // Override SAMEORIGIN for better security
+  response.headers.set('X-XSS-Protection', '1; mode=block')
 
-  // Block access to sensitive files
-  if (request.nextUrl.pathname.startsWith('/.env') ||
-      request.nextUrl.pathname.startsWith('/.git') ||
-      request.nextUrl.pathname.includes('node_modules')) {
+  // Block access to sensitive files and directories
+  const pathname = request.nextUrl.pathname
+  if (
+    pathname.startsWith('/.env') ||
+    pathname.startsWith('/.git') ||
+    pathname.includes('node_modules') ||
+    pathname.startsWith('/.next') ||
+    pathname.startsWith('/prisma') ||
+    pathname.includes('package.json') ||
+    pathname.includes('package-lock.json')
+  ) {
     return new NextResponse('Not Found', { status: 404 })
   }
 

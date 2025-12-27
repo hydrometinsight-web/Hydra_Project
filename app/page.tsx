@@ -14,7 +14,70 @@ export const metadata: Metadata = {
   },
 }
 
-async function getLatestNews() {
+async function getFeaturedNews() {
+  // Get main featured news
+  const mainFeatured = await prisma.news.findFirst({
+    where: { 
+      published: true,
+      featuredType: 'main',
+    },
+    include: {
+      category: true,
+      author: true,
+    },
+  })
+
+  // Get secondary featured news (3 items)
+  const secondaryFeatured = await prisma.news.findMany({
+    where: { 
+      published: true,
+      featuredType: {
+        in: ['secondary1', 'secondary2', 'secondary3'],
+      },
+    },
+    include: {
+      category: true,
+      author: true,
+    },
+    orderBy: { 
+      featuredType: 'asc', // secondary1, secondary2, secondary3 order
+    },
+    take: 3,
+  })
+
+  // If we have featured news, return them
+  if (mainFeatured || secondaryFeatured.length > 0) {
+    const featuredNews = []
+    if (mainFeatured) {
+      featuredNews.push(mainFeatured)
+    }
+    featuredNews.push(...secondaryFeatured)
+    
+    // Fill remaining slots with latest news if needed
+    if (featuredNews.length < 4) {
+      const featuredIds = featuredNews.map(n => n.id)
+      const latestNews = await prisma.news.findMany({
+        where: { 
+          published: true,
+          ...(featuredIds.length > 0 && {
+            id: {
+              notIn: featuredIds,
+            },
+          }),
+        },
+        include: {
+          category: true,
+          author: true,
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 4 - featuredNews.length,
+      })
+      featuredNews.push(...latestNews)
+    }
+    return featuredNews.slice(0, 4)
+  }
+
+  // Fallback to latest news if no featured news
   const news = await prisma.news.findMany({
     where: { published: true },
     include: {
@@ -66,7 +129,7 @@ async function getSponsors() {
 }
 
 export default async function Home() {
-  const latestNews = await getLatestNews()
+  const latestNews = await getFeaturedNews()
   const allNews = await getAllNews()
   const techInsights = await getTechInsights()
   const events = await getEvents()
