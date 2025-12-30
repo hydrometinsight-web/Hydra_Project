@@ -57,7 +57,15 @@ export default async function EventPage() {
                   {event.title}
                 </h3>
                 <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
-                  {event.description}
+                  {event.description
+                    .replace(/<[^>]*>/g, '')
+                    .replace(/&nbsp;/g, ' ')
+                    .replace(/&amp;/g, '&')
+                    .replace(/&lt;/g, '<')
+                    .replace(/&gt;/g, '>')
+                    .replace(/&quot;/g, '"')
+                    .replace(/&#39;/g, "'")
+                    .trim()}
                 </p>
                 <div className="space-y-2 text-sm text-gray-500 mt-auto">
                   <div className="flex items-center gap-2">

@@ -14,6 +14,7 @@ import {
   HiLogout,
   HiTag,
   HiChatAlt,
+  HiCollection,
 } from 'react-icons/hi'
 import { getSessionInfo, saveSessionInfo, updateActivity, isSessionValid, clearSession, trackActivity } from '@/lib/adminSecurity'
 
@@ -188,49 +189,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <HiHome className="w-5 h-5" />
             Dashboard
           </Link>
+          
           <Link
-            href="/admin/haberler"
+            href="/admin/content"
             className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-              pathname?.startsWith('/admin/haberler')
+              pathname?.startsWith('/admin/content')
                 ? 'bg-[#93D419] text-white'
                 : 'text-gray-300 hover:bg-gray-800 hover:text-[#93D419]'
             }`}
           >
-            <HiNewspaper className="w-5 h-5" />
-            News
-          </Link>
-          <Link
-            href="/admin/etiketler"
-            className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-              pathname?.startsWith('/admin/etiketler')
-                ? 'bg-[#93D419] text-white'
-                : 'text-gray-300 hover:bg-gray-800 hover:text-[#93D419]'
-            }`}
-          >
-            <HiTag className="w-5 h-5" />
-            Tags
-          </Link>
-          <Link
-            href="/admin/techinsight"
-            className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-              pathname?.startsWith('/admin/techinsight')
-                ? 'bg-[#93D419] text-white'
-                : 'text-gray-300 hover:bg-gray-800 hover:text-[#93D419]'
-            }`}
-          >
-            <HiLightBulb className="w-5 h-5" />
-            TechInsight
-          </Link>
-          <Link
-            href="/admin/events"
-            className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-              pathname?.startsWith('/admin/events')
-                ? 'bg-[#93D419] text-white'
-                : 'text-gray-300 hover:bg-gray-800 hover:text-[#93D419]'
-            }`}
-          >
-            <HiCalendar className="w-5 h-5" />
-            Events
+            <HiCollection className="w-5 h-5" />
+            Content
           </Link>
           <Link
             href="/admin/sponsor"

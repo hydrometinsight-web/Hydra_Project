@@ -15,6 +15,7 @@ interface Event {
   startDate: string
   endDate: string | null
   imageUrl: string | null
+  website: string | null
   published: boolean
 }
 
@@ -31,6 +32,7 @@ export default function EditEventPage() {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const [imageUrl, setImageUrl] = useState('')
+  const [website, setWebsite] = useState('')
   const [published, setPublished] = useState(false)
   const [loading, setLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -77,6 +79,7 @@ export default function EditEventPage() {
           setStartDate(start.toISOString().slice(0, 16))
           setEndDate(end ? end.toISOString().slice(0, 16) : '')
           setImageUrl(data.imageUrl || '')
+          setWebsite(data.website || '')
           setPublished(data.published)
         }
       })
@@ -136,6 +139,7 @@ export default function EditEventPage() {
           startDate,
           endDate: endDate || null,
           imageUrl: imageUrl || null,
+          website: website || null,
           published,
         }),
       })
@@ -352,6 +356,23 @@ export default function EditEventPage() {
               onChange={setImageUrl}
               label="Image"
             />
+          </div>
+
+          <div>
+            <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-2">
+              Website URL
+            </label>
+            <input
+              id="website"
+              type="url"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#93D419] focus:border-transparent"
+              placeholder="https://example.com"
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              Event website URL (optional)
+            </p>
           </div>
 
           <div className="flex items-center">

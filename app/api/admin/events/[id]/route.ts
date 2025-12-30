@@ -54,7 +54,7 @@ export async function PUT(
   }
 
   try {
-    const { title, slug, description, location, startDate, endDate, imageUrl, published } = await request.json()
+    const { title, slug, description, location, startDate, endDate, imageUrl, website, published } = await request.json()
 
     if (!title || !slug || !description || !location || !startDate) {
       return NextResponse.json({ error: 'Title, slug, description, location, and startDate are required' }, { status: 400 })
@@ -70,6 +70,7 @@ export async function PUT(
         startDate: new Date(startDate),
         endDate: endDate ? new Date(endDate) : null,
         imageUrl: imageUrl || null,
+        website: website || null,
         published: published || false,
       },
     })

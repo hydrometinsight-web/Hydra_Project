@@ -118,14 +118,31 @@ export function validateUrl(url: string): boolean {
     return false
   }
 
+  const trimmedUrl = url.trim()
+  
+  // Allow local upload paths (e.g., /uploads/filename.jpg)
+  if (trimmedUrl.startsWith('/uploads/')) {
+    // Validate that it's a safe path (no path traversal)
+    if (trimmedUrl.includes('..') || trimmedUrl.includes('//')) {
+      return false
+    }
+    // Check for valid image extensions
+    const validExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp']
+    const hasValidExtension = validExtensions.some(ext => 
+      trimmedUrl.toLowerCase().endsWith(ext)
+    )
+    return hasValidExtension
+  }
+
+  // For external URLs, validate with URL constructor
   try {
-    const parsed = new URL(url)
+    const parsed = new URL(trimmedUrl)
     // Only allow http and https protocols
     if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
       return false
     }
     // Prevent javascript: and data: URLs
-    if (url.toLowerCase().startsWith('javascript:') || url.toLowerCase().startsWith('data:')) {
+    if (trimmedUrl.toLowerCase().startsWith('javascript:') || trimmedUrl.toLowerCase().startsWith('data:')) {
       return false
     }
     // Prevent localhost and private IPs in production (optional)

@@ -9,6 +9,24 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.altamet.com.au',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'en.gemindonesia.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'en.gemindonesia.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   async headers() {

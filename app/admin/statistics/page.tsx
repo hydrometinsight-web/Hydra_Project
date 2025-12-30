@@ -322,290 +322,289 @@ export default function StatisticsPage() {
           </div>
         ) : (
           <>
+            {/* Tool Sponsorship Stats */}
+            {sponsorshipStats.toolSponsorship && (
+              <div className="border border-gray-200 rounded-lg p-6 mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900">Tool Sponsorship</h3>
+                  <span className="text-sm text-gray-500">
+                    Period: {selectedPeriod === 'march-2026' ? 'March 2026' : selectedPeriod === 'february-2026' ? 'February 2026' : 'January 2026'}
+                  </span>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Tool Sessions</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.toolSponsorship.toolSessions.toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Unique Engineers</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.toolSponsorship.uniqueEngineers.toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Avg. Session Duration</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.toolSponsorship.avgSessionDuration}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Learn More Clicks</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.toolSponsorship.learnMoreClicks.toLocaleString()}</p>
+                  </div>
+                </div>
 
-        {/* Tool Sponsorship Stats */}
-        {sponsorshipStats.toolSponsorship && (
-          <div className="border border-gray-200 rounded-lg p-6 mb-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Tool Sponsorship</h3>
-              <span className="text-sm text-gray-500">
-                Period: {selectedPeriod === 'march-2026' ? 'March 2026' : selectedPeriod === 'february-2026' ? 'February 2026' : 'January 2026'}
-              </span>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Tool Sessions</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.toolSponsorship.toolSessions.toLocaleString()}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Unique Engineers</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.toolSponsorship.uniqueEngineers.toLocaleString()}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Avg. Session Duration</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.toolSponsorship.avgSessionDuration}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Learn More Clicks</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.toolSponsorship.learnMoreClicks.toLocaleString()}</p>
-              </div>
-            </div>
-
-            {/* Countries Distribution */}
-            {sponsorshipStats.toolSponsorship.countries.length > 0 && (
-              <div className="mb-6">
-                <h4 className="text-sm font-semibold text-gray-900 mb-3">Countries</h4>
-                <div className="space-y-2">
-                  {sponsorshipStats.toolSponsorship.countries.slice(0, 3).map((item, index) => {
-                    const colors = ['bg-[#93D419]', 'bg-blue-500', 'bg-purple-500']
-                    return (
-                      <div key={item.country} className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className={`w-3 h-3 rounded-full ${colors[index] || 'bg-gray-500'}`}></div>
-                          <span className="text-sm text-gray-700">{item.country}</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
-                            <div className={`h-full ${colors[index] || 'bg-gray-500'} rounded-full`} style={{ width: `${item.percentage}%` }}></div>
+                {/* Countries Distribution */}
+                {sponsorshipStats.toolSponsorship.countries.length > 0 && (
+                  <div className="mb-6">
+                    <h4 className="text-sm font-semibold text-gray-900 mb-3">Countries</h4>
+                    <div className="space-y-2">
+                      {sponsorshipStats.toolSponsorship.countries.slice(0, 3).map((item, index) => {
+                        const colors = ['bg-[#93D419]', 'bg-blue-500', 'bg-purple-500']
+                        return (
+                          <div key={item.country} className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className={`w-3 h-3 rounded-full ${colors[index] || 'bg-gray-500'}`}></div>
+                              <span className="text-sm text-gray-700">{item.country}</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div className={`h-full ${colors[index] || 'bg-gray-500'} rounded-full`} style={{ width: `${item.percentage}%` }}></div>
+                              </div>
+                              <span className="text-sm font-semibold text-gray-900 w-12 text-right">{item.percentage}%</span>
+                            </div>
                           </div>
-                          <span className="text-sm font-semibold text-gray-900 w-12 text-right">{item.percentage}%</span>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Industries */}
+                {sponsorshipStats.toolSponsorship.industries.length > 0 && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-900 mb-3">Industries</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {sponsorshipStats.toolSponsorship.industries.map((industry) => (
+                        <span key={industry} className="px-3 py-1.5 bg-[#93D419]/10 text-[#93D419] rounded-full text-sm font-medium">
+                          {industry}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
-            {/* Industries */}
-            {sponsorshipStats.toolSponsorship.industries.length > 0 && (
-              <div>
-                <h4 className="text-sm font-semibold text-gray-900 mb-3">Industries</h4>
-                <div className="flex flex-wrap gap-2">
-                  {sponsorshipStats.toolSponsorship.industries.map((industry) => (
-                    <span key={industry} className="px-3 py-1.5 bg-[#93D419]/10 text-[#93D419] rounded-full text-sm font-medium">
-                      {industry}
-                    </span>
-                  ))}
+            {/* Technology Partner Stats */}
+            {sponsorshipStats.technologyPartner && (
+              <div className="border border-gray-200 rounded-lg p-6 mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900">Technology Partner</h3>
+                  <span className="text-sm text-gray-500">
+                    Period: {selectedPeriod === 'march-2026' ? 'March 2026' : selectedPeriod === 'february-2026' ? 'February 2026' : 'January 2026'}
+                  </span>
                 </div>
-              </div>
-            )}
-          </div>
-        )}
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Page Views</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technologyPartner.pageViews.toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Unique Visitors</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technologyPartner.uniqueVisitors.toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Newsletter Opens</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technologyPartner.newsletterOpens.toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Click-Through Rate</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technologyPartner.clickThroughRate}</p>
+                  </div>
+                </div>
 
-        {/* Technology Partner Stats */}
-        {sponsorshipStats.technologyPartner && (
-          <div className="border border-gray-200 rounded-lg p-6 mb-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Technology Partner</h3>
-              <span className="text-sm text-gray-500">
-                Period: {selectedPeriod === 'march-2026' ? 'March 2026' : selectedPeriod === 'february-2026' ? 'February 2026' : 'January 2026'}
-              </span>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Page Views</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technologyPartner.pageViews.toLocaleString()}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Unique Visitors</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technologyPartner.uniqueVisitors.toLocaleString()}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Newsletter Opens</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technologyPartner.newsletterOpens.toLocaleString()}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Click-Through Rate</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technologyPartner.clickThroughRate}</p>
-              </div>
-            </div>
-
-            {/* Countries Distribution */}
-            {sponsorshipStats.technologyPartner.countries.length > 0 && (
-              <div className="mb-6">
-                <h4 className="text-sm font-semibold text-gray-900 mb-3">Countries</h4>
-                <div className="space-y-2">
-                  {sponsorshipStats.technologyPartner.countries.slice(0, 3).map((item, index) => {
-                    const colors = ['bg-[#93D419]', 'bg-blue-500', 'bg-purple-500']
-                    return (
-                      <div key={item.country} className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className={`w-3 h-3 rounded-full ${colors[index] || 'bg-gray-500'}`}></div>
-                          <span className="text-sm text-gray-700">{item.country}</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
-                            <div className={`h-full ${colors[index] || 'bg-gray-500'} rounded-full`} style={{ width: `${item.percentage}%` }}></div>
+                {/* Countries Distribution */}
+                {sponsorshipStats.technologyPartner.countries.length > 0 && (
+                  <div className="mb-6">
+                    <h4 className="text-sm font-semibold text-gray-900 mb-3">Countries</h4>
+                    <div className="space-y-2">
+                      {sponsorshipStats.technologyPartner.countries.slice(0, 3).map((item, index) => {
+                        const colors = ['bg-[#93D419]', 'bg-blue-500', 'bg-purple-500']
+                        return (
+                          <div key={item.country} className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className={`w-3 h-3 rounded-full ${colors[index] || 'bg-gray-500'}`}></div>
+                              <span className="text-sm text-gray-700">{item.country}</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div className={`h-full ${colors[index] || 'bg-gray-500'} rounded-full`} style={{ width: `${item.percentage}%` }}></div>
+                              </div>
+                              <span className="text-sm font-semibold text-gray-900 w-12 text-right">{item.percentage}%</span>
+                            </div>
                           </div>
-                          <span className="text-sm font-semibold text-gray-900 w-12 text-right">{item.percentage}%</span>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Industries */}
+                {sponsorshipStats.technologyPartner.industries.length > 0 && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-900 mb-3">Industries</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {sponsorshipStats.technologyPartner.industries.map((industry) => (
+                        <span key={industry} className="px-3 py-1.5 bg-[#93D419]/10 text-[#93D419] rounded-full text-sm font-medium">
+                          {industry}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
-            {/* Industries */}
-            {sponsorshipStats.technologyPartner.industries.length > 0 && (
-              <div>
-                <h4 className="text-sm font-semibold text-gray-900 mb-3">Industries</h4>
-                <div className="flex flex-wrap gap-2">
-                  {sponsorshipStats.technologyPartner.industries.map((industry) => (
-                    <span key={industry} className="px-3 py-1.5 bg-[#93D419]/10 text-[#93D419] rounded-full text-sm font-medium">
-                      {industry}
-                    </span>
-                  ))}
+            {/* Technical Content Partnership Stats */}
+            {sponsorshipStats.technicalContentPartnership && (
+              <div className="border border-gray-200 rounded-lg p-6 mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900">Technical Content Partnership</h3>
+                  <span className="text-sm text-gray-500">
+                    Period: {selectedPeriod === 'march-2026' ? 'March 2026' : selectedPeriod === 'february-2026' ? 'February 2026' : 'January 2026'}
+                  </span>
                 </div>
-              </div>
-            )}
-          </div>
-        )}
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Article Views</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technicalContentPartnership.articleViews.toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Unique Readers</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technicalContentPartnership.uniqueReaders.toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Avg. Read Time</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technicalContentPartnership.avgReadTime}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Newsletter Clicks</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technicalContentPartnership.newsletterClicks.toLocaleString()}</p>
+                  </div>
+                </div>
 
-        {/* Technical Content Partnership Stats */}
-        {sponsorshipStats.technicalContentPartnership && (
-          <div className="border border-gray-200 rounded-lg p-6 mb-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Technical Content Partnership</h3>
-              <span className="text-sm text-gray-500">
-                Period: {selectedPeriod === 'march-2026' ? 'March 2026' : selectedPeriod === 'february-2026' ? 'February 2026' : 'January 2026'}
-              </span>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Article Views</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technicalContentPartnership.articleViews.toLocaleString()}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Unique Readers</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technicalContentPartnership.uniqueReaders.toLocaleString()}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Avg. Read Time</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technicalContentPartnership.avgReadTime}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Newsletter Clicks</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.technicalContentPartnership.newsletterClicks.toLocaleString()}</p>
-              </div>
-            </div>
-
-            {/* Countries Distribution */}
-            {sponsorshipStats.technicalContentPartnership.countries.length > 0 && (
-              <div className="mb-6">
-                <h4 className="text-sm font-semibold text-gray-900 mb-3">Countries</h4>
-                <div className="space-y-2">
-                  {sponsorshipStats.technicalContentPartnership.countries.slice(0, 3).map((item, index) => {
-                    const colors = ['bg-[#93D419]', 'bg-blue-500', 'bg-purple-500']
-                    return (
-                      <div key={item.country} className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className={`w-3 h-3 rounded-full ${colors[index] || 'bg-gray-500'}`}></div>
-                          <span className="text-sm text-gray-700">{item.country}</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
-                            <div className={`h-full ${colors[index] || 'bg-gray-500'} rounded-full`} style={{ width: `${item.percentage}%` }}></div>
+                {/* Countries Distribution */}
+                {sponsorshipStats.technicalContentPartnership.countries.length > 0 && (
+                  <div className="mb-6">
+                    <h4 className="text-sm font-semibold text-gray-900 mb-3">Countries</h4>
+                    <div className="space-y-2">
+                      {sponsorshipStats.technicalContentPartnership.countries.slice(0, 3).map((item, index) => {
+                        const colors = ['bg-[#93D419]', 'bg-blue-500', 'bg-purple-500']
+                        return (
+                          <div key={item.country} className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className={`w-3 h-3 rounded-full ${colors[index] || 'bg-gray-500'}`}></div>
+                              <span className="text-sm text-gray-700">{item.country}</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div className={`h-full ${colors[index] || 'bg-gray-500'} rounded-full`} style={{ width: `${item.percentage}%` }}></div>
+                              </div>
+                              <span className="text-sm font-semibold text-gray-900 w-12 text-right">{item.percentage}%</span>
+                            </div>
                           </div>
-                          <span className="text-sm font-semibold text-gray-900 w-12 text-right">{item.percentage}%</span>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Industries */}
+                {sponsorshipStats.technicalContentPartnership.industries.length > 0 && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-900 mb-3">Industries</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {sponsorshipStats.technicalContentPartnership.industries.map((industry) => (
+                        <span key={industry} className="px-3 py-1.5 bg-[#93D419]/10 text-[#93D419] rounded-full text-sm font-medium">
+                          {industry}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
-            {/* Industries */}
-            {sponsorshipStats.technicalContentPartnership.industries.length > 0 && (
-              <div>
-                <h4 className="text-sm font-semibold text-gray-900 mb-3">Industries</h4>
-                <div className="flex flex-wrap gap-2">
-                  {sponsorshipStats.technicalContentPartnership.industries.map((industry) => (
-                    <span key={industry} className="px-3 py-1.5 bg-[#93D419]/10 text-[#93D419] rounded-full text-sm font-medium">
-                      {industry}
-                    </span>
-                  ))}
+            {/* Webinar & Events Stats */}
+            {sponsorshipStats.webinarEvents && (
+              <div className="border border-gray-200 rounded-lg p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900">Webinar & Events</h3>
+                  <span className="text-sm text-gray-500">
+                    Period: {selectedPeriod === 'march-2026' ? 'March 2026' : selectedPeriod === 'february-2026' ? 'February 2026' : 'January 2026'}
+                  </span>
                 </div>
-              </div>
-            )}
-          </div>
-        )}
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Total Registrations</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.webinarEvents.totalRegistrations.toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Attendees</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.webinarEvents.attendees.toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Avg. Attendance Rate</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.webinarEvents.avgAttendanceRate}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Recording Views</p>
+                    <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.webinarEvents.recordingViews.toLocaleString()}</p>
+                  </div>
+                </div>
 
-        {/* Webinar & Events Stats */}
-        {sponsorshipStats.webinarEvents && (
-          <div className="border border-gray-200 rounded-lg p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Webinar & Events</h3>
-              <span className="text-sm text-gray-500">
-                Period: {selectedPeriod === 'march-2026' ? 'March 2026' : selectedPeriod === 'february-2026' ? 'February 2026' : 'January 2026'}
-              </span>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Total Registrations</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.webinarEvents.totalRegistrations.toLocaleString()}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Attendees</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.webinarEvents.attendees.toLocaleString()}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Avg. Attendance Rate</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.webinarEvents.avgAttendanceRate}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Recording Views</p>
-                <p className="text-2xl font-bold text-gray-900">{sponsorshipStats.webinarEvents.recordingViews.toLocaleString()}</p>
-              </div>
-            </div>
-
-            {/* Countries Distribution */}
-            {sponsorshipStats.webinarEvents.countries.length > 0 && (
-              <div className="mb-6">
-                <h4 className="text-sm font-semibold text-gray-900 mb-3">Countries</h4>
-                <div className="space-y-2">
-                  {sponsorshipStats.webinarEvents.countries.slice(0, 3).map((item, index) => {
-                    const colors = ['bg-[#93D419]', 'bg-blue-500', 'bg-purple-500']
-                    return (
-                      <div key={item.country} className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className={`w-3 h-3 rounded-full ${colors[index] || 'bg-gray-500'}`}></div>
-                          <span className="text-sm text-gray-700">{item.country}</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
-                            <div className={`h-full ${colors[index] || 'bg-gray-500'} rounded-full`} style={{ width: `${item.percentage}%` }}></div>
+                {/* Countries Distribution */}
+                {sponsorshipStats.webinarEvents.countries.length > 0 && (
+                  <div className="mb-6">
+                    <h4 className="text-sm font-semibold text-gray-900 mb-3">Countries</h4>
+                    <div className="space-y-2">
+                      {sponsorshipStats.webinarEvents.countries.slice(0, 3).map((item, index) => {
+                        const colors = ['bg-[#93D419]', 'bg-blue-500', 'bg-purple-500']
+                        return (
+                          <div key={item.country} className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className={`w-3 h-3 rounded-full ${colors[index] || 'bg-gray-500'}`}></div>
+                              <span className="text-sm text-gray-700">{item.country}</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div className={`h-full ${colors[index] || 'bg-gray-500'} rounded-full`} style={{ width: `${item.percentage}%` }}></div>
+                              </div>
+                              <span className="text-sm font-semibold text-gray-900 w-12 text-right">{item.percentage}%</span>
+                            </div>
                           </div>
-                          <span className="text-sm font-semibold text-gray-900 w-12 text-right">{item.percentage}%</span>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
 
-            {/* Industries */}
-            {sponsorshipStats.webinarEvents.industries.length > 0 && (
-              <div>
-                <h4 className="text-sm font-semibold text-gray-900 mb-3">Industries</h4>
-                <div className="flex flex-wrap gap-2">
-                  {sponsorshipStats.webinarEvents.industries.map((industry) => (
-                    <span key={industry} className="px-3 py-1.5 bg-[#93D419]/10 text-[#93D419] rounded-full text-sm font-medium">
-                      {industry}
-                    </span>
-                  ))}
-                </div>
+                {/* Industries */}
+                {sponsorshipStats.webinarEvents.industries.length > 0 && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-900 mb-3">Industries</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {sponsorshipStats.webinarEvents.industries.map((industry) => (
+                        <span key={industry} className="px-3 py-1.5 bg-[#93D419]/10 text-[#93D419] rounded-full text-sm font-medium">
+                          {industry}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
-          </div>
-        )}
           </>
         )}
       </div>

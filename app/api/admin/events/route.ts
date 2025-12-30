@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
-    const { title, slug, description, location, startDate, endDate, imageUrl, published } = body
+    const { title, slug, description, location, startDate, endDate, imageUrl, website, published } = body
 
     // Validate required fields
     if (!title || !slug || !description || !location || !startDate) {
@@ -65,6 +65,7 @@ export async function POST(request: NextRequest) {
     const sanitizedDescription = sanitizeHtml(description)
     const sanitizedLocation = sanitizeString(location, 200)
     const sanitizedImageUrl = imageUrl ? (validateUrl(imageUrl) ? imageUrl : null) : null
+    const sanitizedWebsite = website ? (validateUrl(website) ? website : null) : null
 
     // Validate lengths
     if (sanitizedTitle.length === 0 || sanitizedTitle.length > 500) {
@@ -115,6 +116,7 @@ export async function POST(request: NextRequest) {
         startDate: start,
         endDate: end,
         imageUrl: sanitizedImageUrl,
+        website: sanitizedWebsite,
         published: published === true,
       },
     })

@@ -34,6 +34,7 @@ export async function GET(request: NextRequest) {
       totalNews,
       publishedNews,
       totalCategories,
+      totalTags,
       totalQuestions,
       answeredQuestions,
       totalEvents,
@@ -62,6 +63,7 @@ export async function GET(request: NextRequest) {
       prisma.news.count(),
       prisma.news.count({ where: { published: true } }),
       prisma.category.count(),
+      prisma.tag.count(),
       prisma.question.count(),
       prisma.question.count({ where: { answered: true } }),
       prisma.event.count(),
@@ -124,6 +126,9 @@ export async function GET(request: NextRequest) {
       },
       categories: {
         total: totalCategories,
+      },
+      tags: {
+        total: totalTags,
       },
       questions: {
         total: totalQuestions,

@@ -270,7 +270,7 @@ export default function HomePageClient({
         <div className="flex items-center gap-4 mb-4">
           <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">Events</h2>
           <div className="flex-1 border-b border-gray-300"></div>
-          <Link href="/event" className="text-gray-600 hover:text-[#93D419] font-medium text-sm transition-colors">
+          <Link href="/events" className="text-gray-600 hover:text-[#93D419] font-medium text-sm transition-colors">
             View All →
           </Link>
         </div>
@@ -299,7 +299,15 @@ export default function HomePageClient({
                   </h3>
                   {event.description && (
                     <p className="text-gray-600 text-sm mb-2 line-clamp-2 flex-grow">
-                      {event.description}
+                      {event.description
+                        .replace(/<[^>]*>/g, '')
+                        .replace(/&nbsp;/g, ' ')
+                        .replace(/&amp;/g, '&')
+                        .replace(/&lt;/g, '<')
+                        .replace(/&gt;/g, '>')
+                        .replace(/&quot;/g, '"')
+                        .replace(/&#39;/g, "'")
+                        .trim()}
                     </p>
                   )}
                   <div className="text-xs text-gray-500 mt-auto">

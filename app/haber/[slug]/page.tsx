@@ -7,6 +7,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import AdSense from '@/components/AdSense'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
+import SafeImage from '@/components/SafeImage'
 import CommentForm from '@/components/CommentForm'
 import CommentItem from '@/components/CommentItem'
 import StructuredData from '@/components/StructuredData'
@@ -103,6 +104,11 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
     notFound()
   }
 
+  // Debug: Log image URL in development
+  if (process.env.NODE_ENV === 'development') {
+    console.log('News imageUrl:', news.imageUrl)
+  }
+
       const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
       const url = `${baseUrl}/haber/${news.slug}`
       const imageUrl = news.imageUrl || `${baseUrl}/logo1.png`
@@ -145,20 +151,14 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
         </Link>
 
         <article className="bg-white rounded-xl shadow-md overflow-hidden" itemScope itemType="https://schema.org/NewsArticle">
-        {news.imageUrl ? (
-          <div className="relative w-full h-96">
-            <Image
-              src={news.imageUrl}
-              alt={news.title}
-              fill
-              className="object-cover"
-            />
-          </div>
-        ) : (
-          <div className="relative w-full h-96">
-            <ImagePlaceholder />
-          </div>
-        )}
+        <div className="relative w-full h-96">
+          <SafeImage
+            src={news.imageUrl}
+            alt={news.title}
+            fill
+            className="object-cover"
+          />
+        </div>
 
         <div className="p-6 md:p-8">
           <div className="flex items-center gap-4 mb-4 flex-wrap">

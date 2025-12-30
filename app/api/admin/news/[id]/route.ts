@@ -82,7 +82,19 @@ export async function PUT(
     const sanitizedSlug = sanitizeSlug(slug)
     const sanitizedContent = sanitizeHtml(content)
     const sanitizedExcerpt = excerpt ? sanitizeString(excerpt, 1000) : null
-    const sanitizedImageUrl = imageUrl ? (validateUrl(imageUrl) ? imageUrl : null) : null
+    // Handle imageUrl: trim whitespace, validate if not empty
+    const trimmedImageUrl = imageUrl && typeof imageUrl === 'string' ? imageUrl.trim() : ''
+    const sanitizedImageUrl = trimmedImageUrl ? (validateUrl(trimmedImageUrl) ? trimmedImageUrl : null) : null
+    
+    // Debug log in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Image URL validation:', {
+        original: imageUrl,
+        trimmed: trimmedImageUrl,
+        isValid: trimmedImageUrl ? validateUrl(trimmedImageUrl) : false,
+        sanitized: sanitizedImageUrl
+      })
+    }
 
     // Validate lengths
     if (sanitizedTitle.length === 0 || sanitizedTitle.length > 500) {
