@@ -31,6 +31,11 @@ export async function GET(request: NextRequest) {
       include: {
         category: true,
         author: true,
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
       },
       orderBy: { createdAt: 'desc' },
     })
@@ -49,7 +54,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
-    const { title, slug, content, excerpt, imageUrl, published, categoryId } = body
+    const { title, slug, content, excerpt, imageUrl, published, categoryId, tagIds } = body
 
     // Validate required fields
     if (!title || !slug || !content) {
@@ -86,6 +91,16 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Validate tagIds if provided
+    if (tagIds && Array.isArray(tagIds) && tagIds.length > 0) {
+      const tags = await prisma.tag.findMany({
+        where: { id: { in: tagIds } },
+      })
+      if (tags.length !== tagIds.length) {
+        return NextResponse.json({ error: 'One or more tags are invalid' }, { status: 400 })
+      }
+    }
+
     const news = await prisma.news.create({
       data: {
         title: sanitizedTitle,
@@ -96,10 +111,20 @@ export async function POST(request: NextRequest) {
         published: published === true,
         categoryId: categoryId || null,
         authorId: user.userId,
+        tags: tagIds && Array.isArray(tagIds) && tagIds.length > 0 ? {
+          create: tagIds.map((tagId: string) => ({
+            tagId,
+          })),
+        } : undefined,
       },
       include: {
         category: true,
         author: true,
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
       },
     })
 

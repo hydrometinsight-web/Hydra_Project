@@ -1,11 +1,11 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { useMemo, useEffect, useRef } from 'react'
+import { useMemo, useEffect, useRef, useState } from 'react'
+import 'react-quill/dist/quill.snow.css'
 
 // Dynamically import ReactQuill to avoid SSR issues
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
-import 'react-quill/dist/quill.snow.css'
 
 interface RichTextEditorProps {
   value: string
@@ -21,61 +21,127 @@ export default function RichTextEditor({
   className = '',
 }: RichTextEditorProps) {
   const quillRef = useRef<any>(null)
+  const [quill, setQuill] = useState<any>(null)
 
+  // Initialize Quill with custom image handler
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Wait for Quill to be available
-      const initImageResize = () => {
-        const editor = document.querySelector('.ql-editor')
-        if (!editor) {
-          setTimeout(initImageResize, 100)
-          return
-        }
-
-        // Add click handler for image resize
-        const handleImageClick = (e: MouseEvent) => {
-          const target = e.target as HTMLImageElement
-          if (target.tagName === 'IMG') {
-            e.preventDefault()
-            e.stopPropagation()
-            
-            const currentWidth = target.style.width || target.width + 'px' || 'auto'
-            const width = prompt('Resim genişliği (px veya %). Örnek: 500px, 80%, auto):', currentWidth)
-            
-            if (width !== null) {
-              if (width === 'auto' || width === '') {
-                target.style.width = ''
-                target.style.height = ''
-                target.removeAttribute('width')
-                target.removeAttribute('height')
-              } else {
-                const widthValue = width.includes('%') || width.includes('px') ? width : width + 'px'
-                target.style.width = widthValue
-                target.style.height = 'auto'
-                target.setAttribute('width', widthValue)
+    if (quillRef.current && !quill) {
+      const attachQuillRefs = () => {
+        if (quillRef.current) {
+          const editor = quillRef.current.getEditor()
+          
+          if (editor && editor.getModule) {
+            try {
+              // Custom image handler for upload
+              const toolbar = editor.getModule('toolbar')
+              if (toolbar) {
+                toolbar.addHandler('image', function() {
+                  const input = document.createElement('input')
+                  input.setAttribute('type', 'file')
+                  input.setAttribute('accept', 'image/*')
+                  input.click()
+                  
+                  input.onchange = async () => {
+                    const file = input.files?.[0]
+                    if (file) {
+                      // Upload to server
+                      const formData = new FormData()
+                      formData.append('file', file)
+                      
+                      try {
+                        const response = await fetch('/api/admin/upload', {
+                          method: 'POST',
+                          body: formData,
+                        })
+                        const data = await response.json()
+                        
+                        if (data.url) {
+                          const range = editor.getSelection(true)
+                          editor.insertEmbed(range.index, 'image', data.url)
+                        }
+                      } catch (error) {
+                        console.error('Image upload failed:', error)
+                        // Fallback to base64
+                        const reader = new FileReader()
+                        reader.onload = () => {
+                          const range = editor.getSelection(true)
+                          editor.insertEmbed(range.index, 'image', reader.result as string)
+                        }
+                        reader.readAsDataURL(file)
+                      }
+                    }
+                  }
+                })
               }
-              
-              // Trigger onChange to save the change
-              if (quillRef.current) {
-                const quill = quillRef.current.getEditor()
-                const content = quill.root.innerHTML
-                onChange(content)
-              }
+            } catch (error) {
+              console.error('Error setting up image handler:', error)
             }
           }
-        }
-
-        editor.addEventListener('click', handleImageClick)
-        
-        return () => {
-          editor.removeEventListener('click', handleImageClick)
+          
+          setQuill(editor)
         }
       }
-
-      const cleanup = initImageResize()
-      return cleanup
+      
+      // Wait for ReactQuill to be ready
+      const timer = setTimeout(attachQuillRefs, 100)
+      return () => clearTimeout(timer)
     }
-  }, [onChange])
+  }, [quill])
+
+  // Drag & drop image upload
+  useEffect(() => {
+    if (!quill) return
+
+    const editor = quill.root
+    
+    const handleDrop = (e: DragEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      
+      const files = e.dataTransfer?.files
+      if (files && files.length > 0) {
+        const file = files[0]
+        if (file.type.startsWith('image/')) {
+          const formData = new FormData()
+          formData.append('file', file)
+          
+          fetch('/api/admin/upload', {
+            method: 'POST',
+            body: formData,
+          })
+            .then(res => res.json())
+            .then(data => {
+              if (data.url) {
+                const range = quill.getSelection(true) || { index: quill.getLength() }
+                quill.insertEmbed(range.index, 'image', data.url)
+              }
+            })
+            .catch(() => {
+              // Fallback to base64
+              const reader = new FileReader()
+              reader.onload = () => {
+                const range = quill.getSelection(true) || { index: quill.getLength() }
+                quill.insertEmbed(range.index, 'image', reader.result as string)
+              }
+              reader.readAsDataURL(file)
+            })
+        }
+      }
+    }
+
+    const handleDragOver = (e: DragEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+
+    editor.addEventListener('drop', handleDrop)
+    editor.addEventListener('dragover', handleDragOver)
+
+    return () => {
+      editor.removeEventListener('drop', handleDrop)
+      editor.removeEventListener('dragover', handleDragOver)
+    }
+  }, [quill])
 
   const modules = useMemo(() => ({
     toolbar: [
@@ -118,32 +184,41 @@ export default function RichTextEditor({
           background: white;
         }
         .ql-container {
-          min-height: 300px;
+          min-height: 400px;
           font-size: 16px;
         }
         .ql-editor {
-          min-height: 300px;
+          min-height: 400px;
         }
         .ql-editor.ql-blank::before {
           color: #9ca3af;
           font-style: normal;
         }
         .ql-editor img {
-          cursor: pointer;
+          cursor: move;
           max-width: 100%;
           height: auto;
-          transition: opacity 0.2s;
+          display: block;
+          margin: 10px auto;
         }
         .ql-editor img:hover {
-          opacity: 0.8;
           outline: 2px solid #93D419;
           outline-offset: 2px;
+        }
+        /* Image resize handles */
+        .ql-editor img.ql-image-selected {
+          outline: 2px solid #93D419;
+        }
+        /* Drag & drop indicator */
+        .ql-editor.ql-drag-over {
+          background-color: #f0f9ff;
+          border: 2px dashed #93D419;
         }
       `}</style>
       <ReactQuill
         ref={quillRef}
         theme="snow"
-        value={value}
+        value={value || ''}
         onChange={onChange}
         modules={modules}
         formats={formats}
@@ -152,4 +227,3 @@ export default function RichTextEditor({
     </div>
   )
 }
-

@@ -1,10 +1,16 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import RichTextEditor from '@/components/RichTextEditor'
 import ImageUpload from '@/components/ImageUpload'
+
+interface Tag {
+  id: string
+  name: string
+  slug: string
+}
 
 export default function NewTechInsightPage() {
   const router = useRouter()
@@ -14,8 +20,11 @@ export default function NewTechInsightPage() {
   const [excerpt, setExcerpt] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [published, setPublished] = useState(false)
+  const [tags, setTags] = useState<Tag[]>([])
+  const [selectedTagIds, setSelectedTagIds] = useState<string[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(true)
 
   const generateSlug = (text: string) => {
     return text
@@ -23,6 +32,41 @@ export default function NewTechInsightPage() {
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '')
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem('adminToken')
+    if (!token) {
+      router.push('/admin')
+      return
+    }
+
+    // Fetch tags
+    fetch('/api/admin/tags', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (res.status === 401 || res.status === 403) {
+          localStorage.removeItem('adminToken')
+          router.push('/admin')
+          return null
+        }
+        return res.json()
+      })
+      .then((data) => {
+        if (!data) return
+        if (data.error) {
+          console.error('Error fetching tags:', data.error)
+        } else {
+          setTags(data)
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching tags:', error)
+      })
+      .finally(() => setLoading(false))
+  }, [router])
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -65,6 +109,7 @@ export default function NewTechInsightPage() {
           excerpt: excerpt || null,
           imageUrl: imageUrl || null,
           published,
+          tagIds: selectedTagIds,
         }),
       })
 
@@ -161,6 +206,42 @@ export default function NewTechInsightPage() {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#93D419] focus:border-transparent resize-none"
               placeholder="Short description (optional)"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Tags
+            </label>
+            <div className="border border-gray-300 rounded-lg p-4 max-h-48 overflow-y-auto">
+              {tags.length === 0 ? (
+                <p className="text-sm text-gray-500">No tags available. <Link href="/admin/etiketler/yeni" className="text-[#93D419] hover:underline">Create one</Link></p>
+              ) : (
+                <div className="space-y-2">
+                  {tags.map((tag) => (
+                    <label key={tag.id} className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                      <input
+                        type="checkbox"
+                        checked={selectedTagIds.includes(tag.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedTagIds([...selectedTagIds, tag.id])
+                          } else {
+                            setSelectedTagIds(selectedTagIds.filter(id => id !== tag.id))
+                          }
+                        }}
+                        className="h-4 w-4 text-[#93D419] focus:ring-[#93D419] border-gray-300 rounded"
+                      />
+                      <span className="text-sm text-gray-700">{tag.name}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+            {selectedTagIds.length > 0 && (
+              <p className="mt-2 text-xs text-gray-500">
+                {selectedTagIds.length} tag{selectedTagIds.length > 1 ? 's' : ''} selected
+              </p>
+            )}
           </div>
 
           <div>

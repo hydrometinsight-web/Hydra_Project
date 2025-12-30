@@ -3,7 +3,10 @@ import { prisma } from '@/lib/prisma'
 import { rateLimit, getClientIdentifier } from '@/lib/rateLimit'
 import { sanitizeString, sanitizeEmail, sanitizeHtml } from '@/lib/validation'
 
-export async function POST(request: NextRequest) {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     // Rate limiting
     const clientId = getClientIdentifier(request)
@@ -24,14 +27,28 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const { id: parentId } = params
     const body = await request.json()
-    let { newsId, name, email, content, parentId } = body
+    let { name, email, content } = body
 
     // Validation
-    if (!newsId || !name || !email || !content) {
+    if (!name || !email || !content) {
       return NextResponse.json(
         { error: 'All fields are required' },
         { status: 400 }
+      )
+    }
+
+    // Check if parent comment exists
+    const parentComment = await prisma.comment.findUnique({
+      where: { id: parentId },
+      include: { news: true },
+    })
+
+    if (!parentComment) {
+      return NextResponse.json(
+        { error: 'Parent comment not found' },
+        { status: 404 }
       )
     }
 
@@ -39,73 +56,39 @@ export async function POST(request: NextRequest) {
     name = sanitizeString(name, 100)
     email = sanitizeEmail(email)
     content = sanitizeHtml(sanitizeString(content, 2000))
-    newsId = sanitizeString(newsId, 50)
 
-    if (!name || !email || !content || !newsId) {
+    if (!name || !email || !content) {
       return NextResponse.json(
         { error: 'Invalid input data' },
         { status: 400 }
       )
     }
 
-    // Check if news exists
-    const news = await prisma.news.findUnique({
-      where: { id: newsId },
-    })
-
-    if (!news) {
-      return NextResponse.json(
-        { error: 'News article not found' },
-        { status: 404 }
-      )
-    }
-
-    // Validate parentId if provided
-    if (parentId) {
-      const parent = await prisma.comment.findUnique({
-        where: { id: parentId },
-      })
-      if (!parent) {
-        return NextResponse.json(
-          { error: 'Parent comment not found' },
-          { status: 404 }
-        )
-      }
-      // Ensure parent comment belongs to same news
-      if (parent.newsId !== newsId) {
-        return NextResponse.json(
-          { error: 'Parent comment must belong to the same news article' },
-          { status: 400 }
-        )
-      }
-    }
-
-    // Create comment (approved: false by default, needs admin approval)
-    const comment = await prisma.comment.create({
+    // Create reply comment
+    const reply = await prisma.comment.create({
       data: {
-        newsId,
-        parentId: parentId || null,
+        newsId: parentComment.newsId,
+        parentId: parentId,
         name,
         email,
         content,
-        approved: false,
+        approved: false, // Replies also need approval
       },
     })
 
     return NextResponse.json(
       {
-        message: 'Comment submitted successfully. It will be visible after approval.',
-        comment,
+        message: 'Reply submitted successfully. It will be visible after approval.',
+        comment: reply,
       },
       { status: 201 }
     )
   } catch (error) {
-    console.error('Error creating comment:', error)
+    console.error('Error creating reply:', error)
     return NextResponse.json(
-      { error: 'Failed to create comment' },
+      { error: 'Failed to create reply' },
       { status: 500 }
     )
   }
 }
-
 

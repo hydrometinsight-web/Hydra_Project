@@ -70,6 +70,11 @@ export async function GET(request: NextRequest) {
         where,
         include: {
           category: true,
+          tags: {
+            include: {
+              tag: true,
+            },
+          },
         },
         orderBy,
         skip,

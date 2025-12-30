@@ -45,6 +45,7 @@ model News {
   author      User     @relation(fields: [authorId], references: [id])
   comments    Comment[]
   featuredType String?  // 'main' for main featured, 'secondary1', 'secondary2', 'secondary3' for smaller featured
+  tags        NewsTag[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -83,6 +84,7 @@ model TechInsight {
   excerpt     String?
   imageUrl    String?
   published   Boolean  @default(false)
+  tags        TechInsightTag[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -95,8 +97,23 @@ model Comment {
   approved  Boolean  @default(false)
   newsId    String
   news      News     @relation(fields: [newsId], references: [id], onDelete: Cascade)
+  parentId  String?  // For nested comments (replies)
+  parent    Comment? @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[] @relation("CommentReplies")
+  likes     CommentLike[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model CommentLike {
+  id        String   @id @default(cuid())
+  commentId String
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  ipAddress String   // To prevent duplicate likes from same IP
+  userAgent String?  // Optional: for better tracking
+  createdAt DateTime @default(now())
+
+  @@unique([commentId, ipAddress])
 }
 
 model PageView {
@@ -163,5 +180,38 @@ model PasswordReset {
   expiresAt DateTime
   used      Boolean  @default(false)
   createdAt DateTime @default(now())
+}
+
+model Tag {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  news        NewsTag[]
+  techInsights TechInsightTag[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model NewsTag {
+  id        String   @id @default(cuid())
+  newsId    String
+  tagId     String
+  news      News     @relation(fields: [newsId], references: [id], onDelete: Cascade)
+  tag       Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([newsId, tagId])
+}
+
+model TechInsightTag {
+  id            String       @id @default(cuid())
+  techInsightId String
+  tagId         String
+  techInsight   TechInsight  @relation(fields: [techInsightId], references: [id], onDelete: Cascade)
+  tag           Tag          @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  createdAt     DateTime     @default(now())
+
+  @@unique([techInsightId, tagId])
 }
 

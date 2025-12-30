@@ -35,6 +35,11 @@ export async function GET(
       include: {
         category: true,
         author: true,
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
       },
     })
 
@@ -60,7 +65,7 @@ export async function PUT(
 
   try {
     const body = await request.json()
-    const { title, slug, content, excerpt, imageUrl, published, categoryId } = body
+    const { title, slug, content, excerpt, imageUrl, published, categoryId, tagIds } = body
 
     // Validate required fields
     if (!title || !slug || !content) {
@@ -102,6 +107,34 @@ export async function PUT(
       }
     }
 
+    // Validate tagIds if provided
+    if (tagIds && Array.isArray(tagIds) && tagIds.length > 0) {
+      const tags = await prisma.tag.findMany({
+        where: { id: { in: tagIds } },
+      })
+      if (tags.length !== tagIds.length) {
+        return NextResponse.json({ error: 'One or more tags are invalid' }, { status: 400 })
+      }
+    }
+
+    // Update tags relationship
+    if (tagIds !== undefined) {
+      // Delete existing tags
+      await prisma.newsTag.deleteMany({
+        where: { newsId: params.id },
+      })
+      
+      // Create new tags if provided
+      if (Array.isArray(tagIds) && tagIds.length > 0) {
+        await prisma.newsTag.createMany({
+          data: tagIds.map((tagId: string) => ({
+            newsId: params.id,
+            tagId,
+          })),
+        })
+      }
+    }
+
     const news = await prisma.news.update({
       where: { id: params.id },
       data: {
@@ -116,6 +149,11 @@ export async function PUT(
       include: {
         category: true,
         author: true,
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
       },
     })
 

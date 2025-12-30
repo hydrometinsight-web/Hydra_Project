@@ -19,9 +19,22 @@ interface News {
     id: string
     name: string
   } | null
+  tags?: {
+    tag: {
+      id: string
+      name: string
+      slug: string
+    }
+  }[]
 }
 
 interface Category {
+  id: string
+  name: string
+  slug: string
+}
+
+interface Tag {
   id: string
   name: string
   slug: string
@@ -41,6 +54,8 @@ export default function EditNewsPage() {
   const [published, setPublished] = useState(false)
   const [categoryId, setCategoryId] = useState('')
   const [categories, setCategories] = useState<Category[]>([])
+  const [tags, setTags] = useState<Tag[]>([])
+  const [selectedTagIds, setSelectedTagIds] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
@@ -84,6 +99,10 @@ export default function EditNewsPage() {
           setImageUrl(data.imageUrl || '')
           setPublished(data.published)
           setCategoryId(data.categoryId || '')
+          // Set selected tags
+          if (data.tags && Array.isArray(data.tags)) {
+            setSelectedTagIds(data.tags.map((nt: any) => nt.tag.id))
+          }
         }
       })
       .catch((error) => {
@@ -91,26 +110,36 @@ export default function EditNewsPage() {
         setError('Failed to load news')
       })
 
-    // Fetch categories
-    fetch('/api/admin/categories', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        if (res.status === 401 || res.status === 403) {
-          return null
+    // Fetch categories and tags
+    Promise.all([
+      fetch('/api/admin/categories', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      fetch('/api/admin/tags', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    ])
+      .then(async ([categoriesRes, tagsRes]) => {
+        if (categoriesRes.status === 401 || categoriesRes.status === 403 || tagsRes.status === 401 || tagsRes.status === 403) {
+          return [null, null]
         }
-        return res.json()
+        return [await categoriesRes.json(), await tagsRes.json()]
       })
-      .then((data) => {
-        if (!data) return
-        if (!data.error) {
-          setCategories(data)
+      .then(([categoriesData, tagsData]) => {
+        if (!categoriesData || !tagsData) return
+        if (!categoriesData.error) {
+          setCategories(categoriesData)
+        }
+        if (!tagsData.error) {
+          setTags(tagsData)
         }
       })
       .catch((error) => {
-        console.error('Error fetching categories:', error)
+        console.error('Error fetching data:', error)
       })
       .finally(() => setLoading(false))
   }, [id, router])
@@ -180,6 +209,7 @@ export default function EditNewsPage() {
           imageUrl: imageUrl || null,
           published,
           categoryId: categoryId || null,
+          tagIds: selectedTagIds,
         }),
       })
 
@@ -339,6 +369,42 @@ export default function EditNewsPage() {
                 </option>
               ))}
             </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Tags
+            </label>
+            <div className="border border-gray-300 rounded-lg p-4 max-h-48 overflow-y-auto">
+              {tags.length === 0 ? (
+                <p className="text-sm text-gray-500">No tags available. <Link href="/admin/etiketler/yeni" className="text-[#93D419] hover:underline">Create one</Link></p>
+              ) : (
+                <div className="space-y-2">
+                  {tags.map((tag) => (
+                    <label key={tag.id} className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                      <input
+                        type="checkbox"
+                        checked={selectedTagIds.includes(tag.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedTagIds([...selectedTagIds, tag.id])
+                          } else {
+                            setSelectedTagIds(selectedTagIds.filter(id => id !== tag.id))
+                          }
+                        }}
+                        className="h-4 w-4 text-[#93D419] focus:ring-[#93D419] border-gray-300 rounded"
+                      />
+                      <span className="text-sm text-gray-700">{tag.name}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+            {selectedTagIds.length > 0 && (
+              <p className="mt-2 text-xs text-gray-500">
+                {selectedTagIds.length} tag{selectedTagIds.length > 1 ? 's' : ''} selected
+              </p>
+            )}
           </div>
 
           <div>

@@ -272,6 +272,35 @@ export default function NewsletterPage() {
                               Send
                             </button>
                           )}
+                          <button
+                            onClick={async () => {
+                              try {
+                                const res = await fetch('/api/admin/newsletter/export-pdf', {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({ campaignId: campaign.id }),
+                                })
+                                const data = await res.json()
+                                if (data.success && data.pdf) {
+                                  // Create download link
+                                  const link = document.createElement('a')
+                                  link.href = data.pdf
+                                  link.download = data.filename
+                                  document.body.appendChild(link)
+                                  link.click()
+                                  document.body.removeChild(link)
+                                } else {
+                                  alert(data.error || 'Failed to generate PDF')
+                                }
+                              } catch (error) {
+                                console.error('Error exporting PDF:', error)
+                                alert('Failed to export PDF')
+                              }
+                            }}
+                            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors font-semibold text-sm"
+                          >
+                            Export PDF
+                          </button>
                           <Link
                             href={`/admin/newsletter/${campaign.id}`}
                             className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors font-semibold text-sm"

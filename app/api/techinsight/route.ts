@@ -61,6 +61,13 @@ export async function GET(request: NextRequest) {
     const [insights, total] = await Promise.all([
       prisma.techInsight.findMany({
         where,
+        include: {
+          tags: {
+            include: {
+              tag: true,
+            },
+          },
+        },
         orderBy,
         skip,
         take: ITEMS_PER_PAGE,

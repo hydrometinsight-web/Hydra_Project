@@ -15,6 +15,16 @@ interface Category {
   slug: string
 }
 
+interface Tag {
+  id: string
+  name: string
+  slug: string
+}
+
+interface NewsTag {
+  tag: Tag
+}
+
 interface NewsItem {
   id: string
   title: string
@@ -23,6 +33,7 @@ interface NewsItem {
   imageUrl: string | null
   createdAt: string
   category: Category | null
+  tags?: NewsTag[]
 }
 
 interface Pagination {
@@ -202,7 +213,7 @@ export default function NewsPage() {
         <AdSense adSlot="1234567890" className="w-full" />
       </div>
 
-      {/* Advanced Filters */}
+      {/* Advanced Filters with Categories */}
       <div className="mb-6 bg-white rounded-lg shadow-md border border-gray-200 p-4">
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-4">
           {/* Search Bar */}
@@ -250,9 +261,9 @@ export default function NewsPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
               </svg>
               Filters
-              {(sortBy !== 'date-desc' || dateFrom || dateTo) && (
+              {(sortBy !== 'date-desc' || dateFrom || dateTo || selectedCategory !== 'all') && (
                 <span className="bg-[#93D419] text-white text-xs px-2 py-0.5 rounded-full">
-                  {(sortBy !== 'date-desc' ? 1 : 0) + (dateFrom ? 1 : 0) + (dateTo ? 1 : 0)}
+                  {(sortBy !== 'date-desc' ? 1 : 0) + (dateFrom ? 1 : 0) + (dateTo ? 1 : 0) + (selectedCategory !== 'all' ? 1 : 0)}
                 </span>
               )}
             </button>
@@ -292,7 +303,26 @@ export default function NewsPage() {
         {/* Advanced Filter Panel */}
         {showFilters && (
           <div className="border-t border-gray-200 pt-4 mt-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* Category Filter - Dropdown */}
+              {categories.length > 0 && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => handleCategoryChange(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#93D419] focus:border-[#93D419] text-sm bg-white"
+                  >
+                    <option value="all">All Categories</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
               {/* Sort By */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
@@ -333,7 +363,7 @@ export default function NewsPage() {
             </div>
 
             {/* Clear Filters Button */}
-            {(sortBy !== 'date-desc' || dateFrom || dateTo || searchQuery) && (
+            {(sortBy !== 'date-desc' || dateFrom || dateTo || searchQuery || selectedCategory !== 'all') && (
               <div className="mt-4 flex justify-end">
                 <button
                   onClick={clearFilters}
@@ -346,37 +376,6 @@ export default function NewsPage() {
           </div>
         )}
       </div>
-
-      {/* Category Filter Tabs */}
-      {categories.length > 0 && (
-        <div className="mb-8 bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
-          <div className="flex flex-wrap border-b border-gray-200">
-            <button
-              onClick={() => handleCategoryChange('all')}
-              className={`px-6 py-4 text-sm font-medium transition-colors ${
-                selectedCategory === 'all'
-                  ? 'bg-[#93D419] text-white border-b-2 border-[#93D419]'
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-              }`}
-            >
-              All
-            </button>
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => handleCategoryChange(category.id)}
-                className={`px-6 py-4 text-sm font-medium transition-colors ${
-                  selectedCategory === category.id
-                    ? 'bg-[#93D419] text-white border-b-2 border-[#93D419]'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                }`}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
 
       {loading ? (
         <div className="flex items-center justify-center py-12">
@@ -406,10 +405,10 @@ export default function NewsPage() {
           {viewMode === 'grid' ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {news.map((item) => (
-                <Link key={item.id} href={`/haber/${item.slug}`}>
-                  <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200">
+                <Link key={item.id} href={`/haber/${item.slug}`} className="h-full">
+                  <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200 h-full flex flex-col">
                     {item.imageUrl ? (
-                      <div className="relative w-full h-48">
+                      <div className="relative w-full h-48 flex-shrink-0">
                         <Image
                           src={item.imageUrl}
                           alt={item.title}
@@ -418,20 +417,39 @@ export default function NewsPage() {
                         />
                       </div>
                     ) : (
-                      <div className="relative w-full h-48">
+                      <div className="relative w-full h-48 flex-shrink-0">
                         <ImagePlaceholder />
                       </div>
                     )}
-                    <div className="p-6">
+                    <div className="p-6 flex flex-col flex-grow">
                       <h3 className="text-xl font-semibold text-gray-900 mb-2 line-clamp-2">
                         {item.title}
                       </h3>
                       {item.excerpt && (
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                        <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
                           {item.excerpt}
                         </p>
                       )}
-                      <div className="flex items-center justify-between text-xs text-gray-500">
+                      {item.tags && item.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mb-3">
+                          {item.tags.slice(0, 3).map((newsTag) => (
+                            <Link
+                              key={newsTag.tag.id}
+                              href={`/tag/${newsTag.tag.slug}`}
+                              onClick={(e) => e.stopPropagation()}
+                              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-full text-xs font-medium transition-colors inline-block min-w-[80px] text-center"
+                            >
+                              #{newsTag.tag.name}
+                            </Link>
+                          ))}
+                          {item.tags.length > 3 && (
+                            <span className="text-gray-500 text-xs px-2 py-1">
+                              +{item.tags.length - 3}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      <div className="flex items-center justify-between text-xs text-gray-500 mt-auto">
                         <span>
                           {format(new Date(item.createdAt), 'MMMM d, yyyy', { locale: enUS })}
                         </span>
@@ -451,11 +469,11 @@ export default function NewsPage() {
             <div className="space-y-4">
               {news.map((item) => (
                 <Link key={item.id} href={`/haber/${item.slug}`}>
-                  <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200">
-                    <div className="flex flex-col md:flex-row">
+                  <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200 min-h-[200px]">
+                    <div className="flex flex-col md:flex-row h-full">
                       <div className="md:w-64 flex-shrink-0">
                         {item.imageUrl ? (
-                          <div className="relative w-full h-48 md:h-full">
+                          <div className="relative w-full h-48 md:h-full min-h-[200px]">
                             <Image
                               src={item.imageUrl}
                               alt={item.title}
@@ -464,21 +482,40 @@ export default function NewsPage() {
                             />
                           </div>
                         ) : (
-                          <div className="relative w-full h-48 md:h-full">
+                          <div className="relative w-full h-48 md:h-full min-h-[200px]">
                             <ImagePlaceholder />
                           </div>
                         )}
                       </div>
-                      <div className="flex-1 p-6">
+                      <div className="flex-1 p-6 flex flex-col">
                         <h3 className="text-xl font-semibold text-gray-900 mb-2">
                           {item.title}
                         </h3>
                         {item.excerpt && (
-                          <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                          <p className="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">
                             {item.excerpt}
                           </p>
                         )}
-                        <div className="flex items-center justify-between text-xs text-gray-500">
+                        {item.tags && item.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mb-3">
+                            {item.tags.slice(0, 3).map((newsTag) => (
+                              <Link
+                                key={newsTag.tag.id}
+                                href={`/tag/${newsTag.tag.slug}`}
+                                onClick={(e) => e.stopPropagation()}
+                                className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-full text-xs font-medium transition-colors inline-block min-w-[80px] text-center"
+                              >
+                                #{newsTag.tag.name}
+                              </Link>
+                            ))}
+                            {item.tags.length > 3 && (
+                              <span className="text-gray-500 text-xs px-2 py-1">
+                                +{item.tags.length - 3}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                        <div className="flex items-center justify-between text-xs text-gray-500 mt-auto">
                           <span>
                             {format(new Date(item.createdAt), 'MMMM d, yyyy', { locale: enUS })}
                           </span>

@@ -175,7 +175,12 @@ export default function AdminDashboard() {
 
         {/* Comments Stats */}
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Comments</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Comments</h2>
+            <Link href="/admin/yorumlar" className="text-[#93D419] hover:text-[#7fb315] text-sm">
+              Manage →
+            </Link>
+          </div>
           <div>
             <p className="text-sm font-medium text-gray-600">Total Comments</p>
             <p className="text-3xl font-bold text-gray-900">{stats?.comments?.total || 0}</p>

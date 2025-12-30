@@ -9,6 +9,16 @@ import Link from 'next/link'
 import AdSense from '@/components/AdSense'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
 
+interface Tag {
+  id: string
+  name: string
+  slug: string
+}
+
+interface TechInsightTag {
+  tag: Tag
+}
+
 interface TechInsightItem {
   id: string
   title: string
@@ -16,6 +26,7 @@ interface TechInsightItem {
   excerpt: string | null
   imageUrl: string | null
   createdAt: string
+  tags?: TechInsightTag[]
 }
 
 interface Pagination {
@@ -362,6 +373,25 @@ export default function TechInsightPage() {
                           {insight.excerpt}
                         </p>
                       )}
+                      {insight.tags && insight.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mb-3">
+                          {insight.tags.slice(0, 3).map((techInsightTag) => (
+                            <Link
+                              key={techInsightTag.tag.id}
+                              href={`/tag/${techInsightTag.tag.slug}`}
+                              onClick={(e) => e.stopPropagation()}
+                              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-full text-xs font-medium transition-colors inline-block min-w-[80px] text-center"
+                            >
+                              #{techInsightTag.tag.name}
+                            </Link>
+                          ))}
+                          {insight.tags.length > 3 && (
+                            <span className="text-gray-500 text-xs px-2 py-1">
+                              +{insight.tags.length - 3}
+                            </span>
+                          )}
+                        </div>
+                      )}
                       <div className="flex items-center justify-between text-xs text-gray-500">
                         <span>
                           {format(new Date(insight.createdAt), 'MMMM d, yyyy', { locale: enUS })}
@@ -406,6 +436,25 @@ export default function TechInsightPage() {
                           <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                             {insight.excerpt}
                           </p>
+                        )}
+                        {insight.tags && insight.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mb-3">
+                            {insight.tags.slice(0, 3).map((techInsightTag) => (
+                              <Link
+                                key={techInsightTag.tag.id}
+                                href={`/tag/${techInsightTag.tag.slug}`}
+                                onClick={(e) => e.stopPropagation()}
+                                className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-full text-xs font-medium transition-colors inline-block min-w-[80px] text-center"
+                              >
+                                #{techInsightTag.tag.name}
+                              </Link>
+                            ))}
+                            {insight.tags.length > 3 && (
+                              <span className="text-gray-500 text-xs px-2 py-1">
+                                +{insight.tags.length - 3}
+                              </span>
+                            )}
+                          </div>
                         )}
                         <div className="flex items-center justify-between text-xs text-gray-500">
                           <span>

@@ -31,6 +31,13 @@ export async function GET(
   try {
     const insight = await prisma.techInsight.findUnique({
       where: { id: params.id },
+      include: {
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
     })
 
     if (!insight) {
@@ -54,10 +61,38 @@ export async function PUT(
   }
 
   try {
-    const { title, slug, content, excerpt, imageUrl, published } = await request.json()
+    const { title, slug, content, excerpt, imageUrl, published, tagIds } = await request.json()
 
     if (!title || !slug || !content) {
       return NextResponse.json({ error: 'Title, slug, and content are required' }, { status: 400 })
+    }
+
+    // Validate tagIds if provided
+    if (tagIds && Array.isArray(tagIds) && tagIds.length > 0) {
+      const tags = await prisma.tag.findMany({
+        where: { id: { in: tagIds } },
+      })
+      if (tags.length !== tagIds.length) {
+        return NextResponse.json({ error: 'One or more tags are invalid' }, { status: 400 })
+      }
+    }
+
+    // Update tags relationship
+    if (tagIds !== undefined) {
+      // Delete existing tags
+      await prisma.techInsightTag.deleteMany({
+        where: { techInsightId: params.id },
+      })
+      
+      // Create new tags if provided
+      if (Array.isArray(tagIds) && tagIds.length > 0) {
+        await prisma.techInsightTag.createMany({
+          data: tagIds.map((tagId: string) => ({
+            techInsightId: params.id,
+            tagId,
+          })),
+        })
+      }
     }
 
     const insight = await prisma.techInsight.update({
@@ -69,6 +104,13 @@ export async function PUT(
         excerpt: excerpt || null,
         imageUrl: imageUrl || null,
         published: published || false,
+      },
+      include: {
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
       },
     })
 

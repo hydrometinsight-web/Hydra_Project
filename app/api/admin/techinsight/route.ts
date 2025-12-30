@@ -27,6 +27,13 @@ export async function GET(request: NextRequest) {
 
   try {
     const insights = await prisma.techInsight.findMany({
+      include: {
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
       orderBy: { createdAt: 'desc' },
     })
     return NextResponse.json(insights)
@@ -43,10 +50,20 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { title, slug, content, excerpt, imageUrl, published } = await request.json()
+    const { title, slug, content, excerpt, imageUrl, published, tagIds } = await request.json()
 
     if (!title || !slug || !content) {
       return NextResponse.json({ error: 'Title, slug, and content are required' }, { status: 400 })
+    }
+
+    // Validate tagIds if provided
+    if (tagIds && Array.isArray(tagIds) && tagIds.length > 0) {
+      const tags = await prisma.tag.findMany({
+        where: { id: { in: tagIds } },
+      })
+      if (tags.length !== tagIds.length) {
+        return NextResponse.json({ error: 'One or more tags are invalid' }, { status: 400 })
+      }
     }
 
     const insight = await prisma.techInsight.create({
@@ -57,6 +74,18 @@ export async function POST(request: NextRequest) {
         excerpt: excerpt || null,
         imageUrl: imageUrl || null,
         published: published || false,
+        tags: tagIds && Array.isArray(tagIds) && tagIds.length > 0 ? {
+          create: tagIds.map((tagId: string) => ({
+            tagId,
+          })),
+        } : undefined,
+      },
+      include: {
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
       },
     })
 

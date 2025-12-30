@@ -93,3 +93,86 @@ body {
   text-align: justify !important;
 }
 
+/* Print-friendly styles */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  /* Hide navigation, ads, and non-essential elements */
+  nav,
+  header,
+  footer,
+  .no-print,
+  [class*="AdSense"],
+  button:not(.print-button),
+  .social-share,
+  .comment-section,
+  .related-content {
+    display: none !important;
+  }
+
+  /* Print content styling */
+  .print-content {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .print-content h1,
+  .print-content h2,
+  .print-content h3,
+  .print-content h4,
+  .print-content h5,
+  .print-content h6 {
+    page-break-after: avoid;
+    color: black;
+  }
+
+  .print-content p,
+  .print-content li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .print-content img {
+    max-width: 100%;
+    height: auto;
+    page-break-inside: avoid;
+  }
+
+  .print-content table {
+    page-break-inside: avoid;
+  }
+
+  /* Page breaks */
+  .print-content h1,
+  .print-content h2 {
+    page-break-before: always;
+  }
+
+  .print-content h1:first-child,
+  .print-content h2:first-child {
+    page-break-before: auto;
+  }
+
+  /* Links */
+  .print-content a {
+    color: black;
+    text-decoration: underline;
+  }
+
+  .print-content a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  /* Page margins */
+  @page {
+    margin: 2cm;
+  }
+}
+

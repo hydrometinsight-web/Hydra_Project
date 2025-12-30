@@ -8,7 +8,11 @@ import type { Metadata } from 'next'
 import AdSense from '@/components/AdSense'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
 import CommentForm from '@/components/CommentForm'
+import CommentItem from '@/components/CommentItem'
 import StructuredData from '@/components/StructuredData'
+import SocialShare from '@/components/SocialShare'
+import RelatedContent from '@/components/RelatedContent'
+import PDFExportButton from '@/components/PDFExportButton'
 
 async function getNews(slug: string) {
   const news = await prisma.news.findUnique({
@@ -17,8 +21,26 @@ async function getNews(slug: string) {
       category: true,
       author: true,
       comments: {
-        where: { approved: true },
+        where: { 
+          approved: true,
+          parentId: null, // Only top-level comments
+        },
+        include: {
+          replies: {
+            where: { approved: true },
+            include: {
+              likes: true,
+            },
+            orderBy: { createdAt: 'asc' },
+          },
+          likes: true,
+        },
         orderBy: { createdAt: 'desc' },
+      },
+      tags: {
+        include: {
+          tag: true,
+        },
       },
     },
   })
@@ -81,38 +103,38 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
     notFound()
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-  const url = `${baseUrl}/haber/${news.slug}`
-  const imageUrl = news.imageUrl || `${baseUrl}/logo1.png`
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+      const url = `${baseUrl}/haber/${news.slug}`
+      const imageUrl = news.imageUrl || `${baseUrl}/logo1.png`
 
-  // Structured Data for Article
-  const articleStructuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'NewsArticle',
-    headline: news.title,
-    description: news.excerpt || '',
-    image: imageUrl,
-    datePublished: news.createdAt.toISOString(),
-    dateModified: news.updatedAt.toISOString(),
-    author: {
-      '@type': 'Person',
-      name: news.author.name,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'HydroMetInsight',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${baseUrl}/logo1.png`,
-      },
-    },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': url,
-    },
-    articleSection: news.category?.name,
-    keywords: news.category ? news.category.name : 'hydrometallurgy',
-  }
+      // Structured Data for Article
+      const articleStructuredData = {
+        '@context': 'https://schema.org',
+        '@type': 'NewsArticle',
+        headline: news.title,
+        description: news.excerpt || '',
+        image: imageUrl,
+        datePublished: news.createdAt.toISOString(),
+        dateModified: news.updatedAt.toISOString(),
+        author: {
+          '@type': 'Person',
+          name: news.author.name,
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: 'HydroMetInsight',
+          logo: {
+            '@type': 'ImageObject',
+            url: `${baseUrl}/logo1.png`,
+          },
+        },
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': url,
+        },
+        articleSection: news.category?.name,
+        keywords: news.category ? news.category.name : 'hydrometallurgy',
+      }
 
   return (
     <>
@@ -139,11 +161,24 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
         )}
 
         <div className="p-6 md:p-8">
-          <div className="flex items-center gap-4 mb-4">
+          <div className="flex items-center gap-4 mb-4 flex-wrap">
             {news.category && (
               <span className="bg-[#93D419] text-white px-3 py-1 rounded-full text-sm font-medium">
                 {news.category.name}
               </span>
+            )}
+            {news.tags && news.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {news.tags.map((newsTag) => (
+                  <Link
+                    key={newsTag.tag.id}
+                    href={`/tag/${newsTag.tag.slug}`}
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-full text-sm font-medium transition-colors inline-block min-w-[100px] text-center"
+                  >
+                    #{newsTag.tag.name}
+                  </Link>
+                ))}
+              </div>
             )}
             <span className="text-gray-500 text-sm">
               {format(new Date(news.createdAt), 'MMMM d, yyyy', { locale: enUS })}
@@ -160,8 +195,26 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
             </p>
           )}
 
-          <div className="prose prose-lg max-w-none mb-8" itemProp="articleBody" style={{ textAlign: 'inherit' }}>
-            <div dangerouslySetInnerHTML={{ __html: news.content }} />
+          {/* Social Share Buttons and PDF Export */}
+          <div className="mb-6 pb-6 border-b border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <SocialShare 
+              url={url}
+              title={news.title}
+              description={news.excerpt || ''}
+            />
+            <PDFExportButton
+              elementId="news-content"
+              title={news.title}
+              author={news.author.name}
+              date={format(new Date(news.createdAt), 'MMMM d, yyyy', { locale: enUS })}
+              filename={`${news.slug}.pdf`}
+            />
+          </div>
+
+          <div id="news-content" className="print-content">
+            <div className="prose prose-lg max-w-none mb-8" itemProp="articleBody" style={{ textAlign: 'inherit' }}>
+              <div dangerouslySetInnerHTML={{ __html: news.content }} />
+            </div>
           </div>
 
           <div className="border-t border-gray-200 pt-4 mt-8">
@@ -180,6 +233,11 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
         <AdSense adSlot="1234567890" className="w-full" />
       </div>
 
+      {/* Related Content */}
+      {news.tags && news.tags.length > 0 && (
+        <RelatedContent currentNewsId={news.id} tagIds={news.tags.map(t => t.tag.id)} />
+      )}
+
       {/* Comments Section */}
       <div className="mt-8">
         <CommentForm newsId={news.id} />
@@ -192,18 +250,7 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
             <div className="space-y-6">
               {news.comments.map((comment) => (
                 <div key={comment.id} className="border-b border-gray-200 pb-6 last:border-0 last:pb-0">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 bg-[#93D419] rounded-full flex items-center justify-center text-white font-semibold">
-                      {comment.name.charAt(0).toUpperCase()}
-                    </div>
-                    <div>
-                      <span className="font-semibold text-gray-900 block">{comment.name}</span>
-                      <span className="text-gray-500 text-sm">
-                        {format(new Date(comment.createdAt), 'MMM d, yyyy', { locale: enUS })}
-                      </span>
-                    </div>
-                  </div>
-                  <p className="text-gray-700 leading-relaxed">{comment.content}</p>
+                  <CommentItem comment={comment as any} newsId={news.id} />
                 </div>
               ))}
             </div>
