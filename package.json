@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && prisma db push && next build",
+    "postinstall": "prisma generate",
     "start": "next start",
     "lint": "next lint",
     "translate-categories": "npx tsx scripts/translate-categories.ts",
@@ -13,6 +14,7 @@
   "dependencies": {
     "@prisma/client": "^5.7.1",
     "@types/formidable": "^3.4.6",
+    "@vercel/blob": "^2.3.0",
     "bcryptjs": "^2.4.3",
     "date-fns": "^3.0.6",
     "formidable": "^3.5.4",

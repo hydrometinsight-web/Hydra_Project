@@ -77,106 +77,148 @@ export default function BecomeSponsorPage() {
         </Link>
 
         {/* Hero Section - Above the Fold */}
-        <section className="mb-24">
-          <div className="mb-6">
-            <span className="inline-block text-xs font-semibold text-[#93D419] uppercase tracking-wider mb-4">
-              Technology Partnerships
-            </span>
+        <section className="mb-20 relative">
+          <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl overflow-hidden shadow-2xl">
+            {/* Background Pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0" style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              }}></div>
+            </div>
+            
+            <div className="relative px-8 md:px-12 lg:px-16 py-16 md:py-20 lg:py-24">
+              <div className="max-w-5xl">
+                <div className="mb-6">
+                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#93D419]/20 backdrop-blur-sm rounded-full text-sm font-bold text-[#93D419] uppercase tracking-wider border border-[#93D419]/30">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    Technology Partnerships
+                  </span>
+                </div>
+                
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-6 leading-tight tracking-tight">
+                  Reach Engineering Decision-Makers in{' '}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#93D419] to-[#7fb315]">
+                    Hydrometallurgy and Battery Recycling
+                  </span>
+                </h1>
+                
+                <div className="w-32 h-1 bg-gradient-to-r from-[#93D419] to-[#7fb315] mb-8 rounded-full"></div>
+                
+                <div className="space-y-5 text-gray-200 leading-relaxed">
+                  <p className="text-base md:text-lg font-medium">
+                    HydroMetInsight serves <span className="text-white font-bold">process engineers</span>, <span className="text-white font-bold">R&D specialists</span>, and <span className="text-white font-bold">technical managers</span> who evaluate and implement technologies in production environments.
+                  </p>
+                  <p className="text-sm md:text-base">
+                    Partner with us to connect with engineering professionals actively solving problems in critical metals extraction, battery recycling, and hydrometallurgical processing.
+                  </p>
+                  <p className="text-sm md:text-base">
+                    Our platform provides direct access to decision-makers who evaluate technologies based on engineering merit, performance data, and technical credibility. We focus exclusively on the hydrometallurgy ecosystem, ensuring your message reaches the right technical audience at the right moment in their evaluation process.
+                  </p>
+                  <p className="text-sm md:text-base">
+                    With a dedicated readership of process engineers, plant operators, and R&D directors, HydroMetInsight offers targeted visibility for technology providers, equipment manufacturers, and solution developers. Our editorial independence and technical depth ensure that partnerships align with engineering standards and audience expectations.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight tracking-tight max-w-5xl">
-            Reach Engineering Decision-Makers in Hydrometallurgy and Battery Recycling
-          </h1>
-          <div className="w-24 h-0.5 bg-gradient-to-r from-[#93D419] to-[#7fb315] mb-5"></div>
-          <p className="text-sm md:text-base text-gray-700 leading-relaxed max-w-4xl mb-3">
-            HydroMetInsight serves process engineers, R&D specialists, and technical managers 
-            who evaluate and implement technologies in production environments.
-          </p>
-          <p className="text-xs md:text-sm text-gray-600 leading-relaxed max-w-4xl mb-3">
-            Partner with us to connect with engineering professionals actively solving problems 
-            in critical metals extraction, battery recycling, and hydrometallurgical processing.
-          </p>
-          <p className="text-xs md:text-sm text-gray-600 leading-relaxed max-w-4xl mb-3">
-            Our platform provides direct access to decision-makers who evaluate technologies based on 
-            engineering merit, performance data, and technical credibility. We focus exclusively on 
-            the hydrometallurgy ecosystem, ensuring your message reaches the right technical audience 
-            at the right moment in their evaluation process.
-          </p>
-          <p className="text-xs md:text-sm text-gray-600 leading-relaxed max-w-4xl">
-            With a dedicated readership of process engineers, plant operators, and R&D directors, 
-            HydroMetInsight offers targeted visibility for technology providers, equipment manufacturers, 
-            and solution developers. Our editorial independence and technical depth ensure that partnerships 
-            align with engineering standards and audience expectations.
-          </p>
         </section>
 
         {/* Why Partner With Us */}
         <section className="mb-24">
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-10 md:p-14">
-            <div className="mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Why Partner With Us</h2>
-              <div className="w-16 h-0.5 bg-[#93D419] mb-4"></div>
-              <p className="text-gray-700 text-lg max-w-3xl">
+          <div className="bg-white rounded-3xl shadow-xl border border-gray-200 p-10 md:p-14 relative overflow-hidden">
+            {/* Decorative background element */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#93D419]/5 to-transparent rounded-full blur-3xl -mr-32 -mt-32"></div>
+            
+            <div className="relative mb-12">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-1 h-12 bg-gradient-to-b from-[#93D419] to-[#7fb315] rounded-full"></div>
+                <div>
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-3">
+                    Why Partner With Us
+                  </h2>
+                  <div className="w-20 h-1 bg-gradient-to-r from-[#93D419] to-[#7fb315] rounded-full"></div>
+                </div>
+              </div>
+              <p className="text-gray-700 text-lg md:text-xl max-w-3xl leading-relaxed font-medium">
                 Our platform reaches technical professionals who make technology decisions based on 
                 engineering merit, not marketing claims.
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-              <div className="group">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="relative grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="group relative bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 border border-gray-200 hover:border-[#93D419]/30 hover:shadow-xl transition-all duration-300">
+                <div className="flex items-start gap-4 mb-5">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 flex-shrink-0">
+                    <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900">Role-Based Technical Audience</h3>
+                  <div className="flex-1">
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">
+                      Role-Based Technical Audience
+                    </h3>
+                  </div>
                 </div>
-                <p className="text-gray-700 leading-relaxed pl-16">
+                <p className="text-gray-700 leading-relaxed text-base">
                   Process engineers, plant operators, R&D specialists, and engineering managers 
                   who actively evaluate equipment, technologies, and solutions for production implementation.
                 </p>
               </div>
               
-              <div className="group">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="group relative bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 border border-gray-200 hover:border-[#93D419]/30 hover:shadow-xl transition-all duration-300">
+                <div className="flex items-start gap-4 mb-5">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 flex-shrink-0">
+                    <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900">Technical Credibility</h3>
+                  <div className="flex-1">
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">
+                      Technical Credibility
+                    </h3>
+                  </div>
                 </div>
-                <p className="text-gray-700 leading-relaxed pl-16">
+                <p className="text-gray-700 leading-relaxed text-base">
                   Engineering-focused content and analysis developed independently. Our readership 
                   trusts our technical depth and editorial integrity.
                 </p>
               </div>
 
-              <div className="group">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="group relative bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 border border-gray-200 hover:border-[#93D419]/30 hover:shadow-xl transition-all duration-300">
+                <div className="flex items-start gap-4 mb-5">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 flex-shrink-0">
+                    <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900">Decision-Maker Access</h3>
+                  <div className="flex-1">
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">
+                      Decision-Maker Access
+                    </h3>
+                  </div>
                 </div>
-                <p className="text-gray-700 leading-relaxed pl-16">
+                <p className="text-gray-700 leading-relaxed text-base">
                   Connect with R&D directors, engineering managers, and technical specialists 
                   who have authority to evaluate and approve technology investments.
                 </p>
               </div>
               
-              <div className="group">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="group relative bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 border border-gray-200 hover:border-[#93D419]/30 hover:shadow-xl transition-all duration-300">
+                <div className="flex items-start gap-4 mb-5">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#93D419] to-[#7fb315] flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 flex-shrink-0">
+                    <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900">Industry Specialization</h3>
+                  <div className="flex-1">
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">
+                      Industry Specialization
+                    </h3>
+                  </div>
                 </div>
-                <p className="text-gray-700 leading-relaxed pl-16">
+                <p className="text-gray-700 leading-relaxed text-base">
                   Deep technical coverage of hydrometallurgy, critical metals extraction, and battery 
                   recycling. Our audience requires specialized knowledge, not generic content.
                 </p>
@@ -188,8 +230,16 @@ export default function BecomeSponsorPage() {
         {/* Partnership Models */}
         <section className="mb-24">
           <div className="mb-12 lg:mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-5 tracking-tight">Partnership Models</h2>
-            <p className="text-gray-600 text-base md:text-lg max-w-3xl leading-relaxed">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-1 h-16 bg-gradient-to-b from-[#93D419] to-[#7fb315] rounded-full"></div>
+              <div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
+                  Partnership Models
+                </h2>
+                <div className="w-24 h-1 bg-gradient-to-r from-[#93D419] to-[#7fb315] rounded-full mb-5"></div>
+              </div>
+            </div>
+            <p className="text-gray-600 text-base md:text-lg max-w-3xl leading-relaxed font-medium">
               Structured partnership programs designed for technology providers, engineering firms, 
               and solution developers in the hydrometallurgy ecosystem.
             </p>
