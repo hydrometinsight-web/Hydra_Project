@@ -25,8 +25,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  let campaignId: string | null = null
+
   try {
-    const { campaignId } = await request.json()
+    const body = (await request.json()) as { campaignId?: string }
+    campaignId = body.campaignId ?? null
 
     if (!campaignId) {
       return NextResponse.json({ error: 'Campaign ID is required' }, { status: 400 })
@@ -96,13 +99,15 @@ export async function POST(request: NextRequest) {
     console.error('Error sending newsletter:', error)
     
     // Update campaign status to failed
-    try {
-      await prisma.newsletterCampaign.update({
-        where: { id: campaignId },
-        data: { status: 'failed' },
-      })
-    } catch {
-      // Ignore update errors
+    if (campaignId) {
+      try {
+        await prisma.newsletterCampaign.update({
+          where: { id: campaignId },
+          data: { status: 'failed' },
+        })
+      } catch {
+        // Ignore update errors
+      }
     }
 
     return NextResponse.json({ error: 'Failed to send newsletter' }, { status: 500 })
