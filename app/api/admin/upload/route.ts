@@ -26,6 +26,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return NextResponse.json(
+      { error: 'Blob storage is not configured (missing BLOB_READ_WRITE_TOKEN)' },
+      { status: 500 }
+    )
+  }
+
   try {
     const formData = await request.formData()
     const file = formData.get('file') as File
@@ -88,7 +95,7 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error('Error uploading file:', error)
     return NextResponse.json(
-      { error: 'Failed to upload file' },
+      { error: error?.message ? `Failed to upload file: ${error.message}` : 'Failed to upload file' },
       { status: 500 }
     )
   }

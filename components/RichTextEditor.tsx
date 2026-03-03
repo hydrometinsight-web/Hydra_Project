@@ -50,8 +50,10 @@ export default function RichTextEditor({
                       formData.append('file', file)
                       
                       try {
+                        const token = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : null
                         const response = await fetch('/api/admin/upload', {
                           method: 'POST',
+                          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
                           body: formData,
                         })
                         const data = await response.json()
@@ -108,6 +110,10 @@ export default function RichTextEditor({
           
           fetch('/api/admin/upload', {
             method: 'POST',
+            headers: (() => {
+              const token = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : null
+              return token ? { Authorization: `Bearer ${token}` } : undefined
+            })(),
             body: formData,
           })
             .then(res => res.json())

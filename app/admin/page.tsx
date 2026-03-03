@@ -49,7 +49,7 @@ function AdminLoginInner() {
         // Get IP (if available)
         let ip = 'unknown'
         try {
-          const ipResponse = await fetch('https://api.ipify.org?format=json')
+          const ipResponse = await fetch('https://ipapi.co/json/')
           const ipData = await ipResponse.json()
           ip = ipData.ip || 'unknown'
         } catch {
