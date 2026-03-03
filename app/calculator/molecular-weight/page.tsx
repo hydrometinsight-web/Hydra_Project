@@ -142,7 +142,7 @@ function calculateMolecularWeight(formula: string): {
     let totalWeight = 0
     const breakdown: ElementBreakdown[] = []
 
-    for (const [element, count] of elementMap.entries()) {
+    elementMap.forEach((count, element) => {
       const molarMass = ELEMENTS[element]
       const subtotal = molarMass * count
       totalWeight += subtotal
@@ -153,7 +153,7 @@ function calculateMolecularWeight(formula: string): {
         subtotal,
         percentage: 0
       })
-    }
+    })
 
     breakdown.forEach(item => {
       item.percentage = (item.subtotal / totalWeight) * 100
