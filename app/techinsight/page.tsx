@@ -145,22 +145,22 @@ export default function TechInsightPage() {
     
     const search = updates.search !== undefined ? updates.search : searchQuery
     if (search) {
-      params.set('search', search)
+      params.set('search', String(search))
     }
     
     const sort = updates.sortBy !== undefined ? updates.sortBy : sortBy
     if (sort && sort !== 'date-desc') {
-      params.set('sortBy', sort)
+      params.set('sortBy', String(sort))
     }
     
     const from = updates.dateFrom !== undefined ? updates.dateFrom : dateFrom
     if (from) {
-      params.set('dateFrom', from)
+      params.set('dateFrom', String(from))
     }
     
     const to = updates.dateTo !== undefined ? updates.dateTo : dateTo
     if (to) {
-      params.set('dateTo', to)
+      params.set('dateTo', String(to))
     }
     
     router.push(`/techinsight?${params.toString()}`)
