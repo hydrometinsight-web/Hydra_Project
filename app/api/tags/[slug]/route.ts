@@ -10,15 +10,22 @@ export async function GET(
       where: { slug: params.slug },
       include: {
         news: {
-          where: { published: true },
+          where: { news: { published: true } },
           include: {
-            category: true,
-            author: true,
+            news: {
+              include: {
+                category: true,
+                author: true,
+              },
+            },
           },
           orderBy: { createdAt: 'desc' },
         },
         techInsights: {
-          where: { published: true },
+          where: { techInsight: { published: true } },
+          include: {
+            techInsight: true,
+          },
           orderBy: { createdAt: 'desc' },
         },
       },
