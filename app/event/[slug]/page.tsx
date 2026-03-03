@@ -193,15 +193,22 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
                 title={event.title}
                 description={stripHtml(event.description).substring(0, 200)}
               />
-              <PDFExportButton />
+              <PDFExportButton
+                elementId="event-content"
+                title={event.title}
+                date={format(new Date(event.startDate), 'MMMM d, yyyy', { locale: enUS })}
+                filename={`${event.slug}.pdf`}
+              />
             </div>
 
             {/* Event Description */}
-            <div
-              className="prose prose-lg max-w-none"
-              itemProp="description"
-              dangerouslySetInnerHTML={{ __html: event.description }}
-            />
+            <div id="event-content" className="print-content">
+              <div
+                className="prose prose-lg max-w-none"
+                itemProp="description"
+                dangerouslySetInnerHTML={{ __html: event.description }}
+              />
+            </div>
           </div>
         </article>
 
