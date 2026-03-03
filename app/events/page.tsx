@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 import { enUS } from 'date-fns/locale'
@@ -29,7 +29,7 @@ interface Pagination {
   hasPrevPage: boolean
 }
 
-export default function EventsPage() {
+function EventsPageInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [events, setEvents] = useState<EventItem[]>([])
@@ -551,6 +551,14 @@ export default function EventsPage() {
         </>
       )}
     </div>
+  )
+}
+
+export default function EventsPage() {
+  return (
+    <Suspense fallback={null}>
+      <EventsPageInner />
+    </Suspense>
   )
 }
 

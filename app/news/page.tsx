@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 import { enUS } from 'date-fns/locale'
@@ -45,7 +45,7 @@ interface Pagination {
   hasPrevPage: boolean
 }
 
-export default function NewsPage() {
+function NewsPageInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [news, setNews] = useState<NewsItem[]>([])
@@ -597,6 +597,14 @@ export default function NewsPage() {
         </>
       )}
     </div>
+  )
+}
+
+export default function NewsPage() {
+  return (
+    <Suspense fallback={null}>
+      <NewsPageInner />
+    </Suspense>
   )
 }
 

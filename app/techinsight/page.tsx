@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 import { enUS } from 'date-fns/locale'
@@ -38,7 +38,7 @@ interface Pagination {
   hasPrevPage: boolean
 }
 
-export default function TechInsightPage() {
+function TechInsightPageInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [insights, setInsights] = useState<TechInsightItem[]>([])
@@ -534,5 +534,13 @@ export default function TechInsightPage() {
         </>
       )}
     </div>
+  )
+}
+
+export default function TechInsightPage() {
+  return (
+    <Suspense fallback={null}>
+      <TechInsightPageInner />
+    </Suspense>
   )
 }
