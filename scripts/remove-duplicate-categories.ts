@@ -23,7 +23,7 @@ async function removeDuplicateCategories() {
 
   // Find duplicates
   const duplicates: any[] = []
-  for (const [key, cats] of categoryMap.entries()) {
+  categoryMap.forEach((cats) => {
     if (cats.length > 1) {
       console.log(`\nFound ${cats.length} categories with name "${cats[0].name}":`)
       cats.forEach((cat, index) => {
@@ -31,7 +31,7 @@ async function removeDuplicateCategories() {
       })
       duplicates.push(...cats.slice(1)) // Keep first, mark others as duplicates
     }
-  }
+  })
 
   if (duplicates.length === 0) {
     console.log('\nNo duplicate categories found!')
