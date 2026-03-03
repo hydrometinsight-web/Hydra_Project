@@ -22,6 +22,7 @@ export default function RichTextEditor({
 }: RichTextEditorProps) {
   const quillRef = useRef<any>(null)
   const [quill, setQuill] = useState<any>(null)
+  const Quill = ReactQuill as any
 
   // Initialize Quill with custom image handler
   useEffect(() => {
@@ -215,7 +216,7 @@ export default function RichTextEditor({
           border: 2px dashed #93D419;
         }
       `}</style>
-      <ReactQuill
+      <Quill
         ref={quillRef}
         theme="snow"
         value={value || ''}
