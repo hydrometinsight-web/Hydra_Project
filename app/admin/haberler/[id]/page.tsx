@@ -14,6 +14,7 @@ interface News {
   excerpt: string | null
   imageUrl: string | null
   published: boolean
+  createdAt?: string
   categoryId: string | null
   category: {
     id: string
