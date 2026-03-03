@@ -178,27 +178,27 @@ export default function NewsPage() {
     
     const category = updates.categoryId !== undefined ? updates.categoryId : selectedCategory
     if (category !== 'all') {
-      params.set('categoryId', category)
+      params.set('categoryId', String(category))
     }
     
     const search = updates.search !== undefined ? updates.search : searchQuery
     if (search) {
-      params.set('search', search)
+      params.set('search', String(search))
     }
     
     const sort = updates.sortBy !== undefined ? updates.sortBy : sortBy
     if (sort && sort !== 'date-desc') {
-      params.set('sortBy', sort)
+      params.set('sortBy', String(sort))
     }
     
     const from = updates.dateFrom !== undefined ? updates.dateFrom : dateFrom
     if (from) {
-      params.set('dateFrom', from)
+      params.set('dateFrom', String(from))
     }
     
     const to = updates.dateTo !== undefined ? updates.dateTo : dateTo
     if (to) {
-      params.set('dateTo', to)
+      params.set('dateTo', String(to))
     }
     
     router.push(`/news?${params.toString()}`)
