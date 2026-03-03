@@ -193,18 +193,14 @@ export async function exportToPDF(
       pdf.addPage()
       addPDFHeader(pdf, logoData || undefined)
       position = headerHeight + 10
-      const pageImgHeight = Math.min(heightLeft, pdfHeight - position - 10)
+      const offsetY = imgScaledHeight - heightLeft
       pdf.addImage(
         imgData,
         'PNG',
         margin,
-        position,
+        position - offsetY,
         imgScaledWidth,
-        imgScaledHeight,
-        undefined,
-        'FAST',
-        0,
-        imgScaledHeight - heightLeft
+        imgScaledHeight
       )
       heightLeft -= (pdfHeight - position - 10)
     }
