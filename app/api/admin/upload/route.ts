@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+  if (!process.env.codejunx_READ_WRITE_TOKEN) {
     return NextResponse.json(
       { error: 'Blob storage is not configured (missing BLOB_READ_WRITE_TOKEN)' },
       { status: 500 }
