@@ -26,9 +26,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  if (!process.env.codejunx_READ_WRITE_TOKEN) {
+  const blobToken = process.env.BLOB_READ_WRITE_TOKEN || process.env.codejunx_READ_WRITE_TOKEN
+
+  if (!blobToken) {
     return NextResponse.json(
-      { error: 'Blob storage is not configured (missing BLOB_READ_WRITE_TOKEN)' },
+      { error: 'Blob storage is not configured (missing BLOB_READ_WRITE_TOKEN or codejunx_READ_WRITE_TOKEN)' },
       { status: 500 }
     )
   }
@@ -87,6 +89,7 @@ export async function POST(request: NextRequest) {
     const filename = `uploads/${timestamp}-${randomString}.${extension}`
 
     const blob = await put(filename, buffer, {
+      token: blobToken,
       access: 'public',
       contentType: file.type,
     })
