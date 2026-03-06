@@ -4,6 +4,8 @@ import type { Metadata } from 'next'
 import HomePageClient from '@/components/HomePageClient'
 import StructuredData from '@/components/StructuredData'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Home',
   description: 'Latest news, research, and developments in hydrometallurgy, critical metals, and battery recycling. Independent insights for engineers and industry experts.',
