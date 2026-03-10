@@ -11,6 +11,8 @@ import SocialShare from '@/components/SocialShare'
 import PDFExportButton from '@/components/PDFExportButton'
 import StructuredData from '@/components/StructuredData'
 
+export const dynamic = 'force-dynamic'
+
 async function getEvent(slug: string) {
   const event = await prisma.event.findUnique({
     where: { slug },

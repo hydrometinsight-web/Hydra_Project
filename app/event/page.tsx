@@ -5,6 +5,8 @@ import Image from 'next/image'
 import AdSense from '@/components/AdSense'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
 
+export const dynamic = 'force-dynamic'
+
 async function getEvents() {
   const events = await prisma.event.findMany({
     where: { published: true },

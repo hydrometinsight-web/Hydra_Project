@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { 
-  FaFacebook, 
   FaTwitter, 
   FaLinkedin, 
   FaWhatsapp, 
@@ -31,7 +30,6 @@ export default function SocialShare({
   const encodedDescription = encodeURIComponent(description)
 
   const shareLinks = {
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
     twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}${description ? `&via=hydrometinsight` : ''}`,
     linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
     whatsapp: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
@@ -65,16 +63,6 @@ export default function SocialShare({
   return (
     <div className={`flex flex-wrap items-center gap-3 ${className}`}>
       <span className="text-sm font-medium text-gray-700 mr-2">Share:</span>
-      
-      {/* Facebook */}
-      <button
-        onClick={() => handleShare('facebook')}
-        className="flex items-center justify-center w-10 h-10 rounded-full bg-[#1877F2] text-white hover:bg-[#166FE5] transition-colors duration-200 shadow-sm hover:shadow-md"
-        aria-label="Share on Facebook"
-        title="Share on Facebook"
-      >
-        <FaFacebook className="w-5 h-5" />
-      </button>
 
       {/* Twitter */}
       <button
