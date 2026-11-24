@@ -109,7 +109,7 @@ export default function SocialShare({
         onClick={handleCopyLink}
         className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200 shadow-sm hover:shadow-md ${
           copied
-            ? 'bg-[#93D419] text-white'
+            ? 'bg-[#93D419] text-gray-900'
             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
         }`}
         aria-label="Copy link"

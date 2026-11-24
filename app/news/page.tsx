@@ -262,7 +262,7 @@ function NewsPageInner() {
               </svg>
               Filters
               {(sortBy !== 'date-desc' || dateFrom || dateTo || selectedCategory !== 'all') && (
-                <span className="bg-[#93D419] text-white text-xs px-2 py-0.5 rounded-full">
+                <span className="bg-[#93D419] text-gray-900 text-xs px-2 py-0.5 rounded-full">
                   {(sortBy !== 'date-desc' ? 1 : 0) + (dateFrom ? 1 : 0) + (dateTo ? 1 : 0) + (selectedCategory !== 'all' ? 1 : 0)}
                 </span>
               )}
@@ -274,7 +274,7 @@ function NewsPageInner() {
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded transition-colors ${
                   viewMode === 'grid'
-                    ? 'bg-white text-[#93D419] shadow-sm'
+                    ? 'bg-white text-lime-700 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
                 aria-label="Grid view"
@@ -287,7 +287,7 @@ function NewsPageInner() {
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded transition-colors ${
                   viewMode === 'list'
-                    ? 'bg-white text-[#93D419] shadow-sm'
+                    ? 'bg-white text-lime-700 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
                 aria-label="List view"
@@ -367,7 +367,7 @@ function NewsPageInner() {
               <div className="mt-4 flex justify-end">
                 <button
                   onClick={clearFilters}
-                  className="text-sm text-gray-600 hover:text-[#93D419] transition-colors font-medium"
+                  className="text-sm text-gray-600 hover:text-lime-700 transition-colors font-medium"
                 >
                   Clear All Filters
                 </button>
@@ -454,7 +454,7 @@ function NewsPageInner() {
                           {format(new Date(item.createdAt), 'MMMM d, yyyy', { locale: enUS })}
                         </span>
                         {item.category && (
-                          <span className="bg-[#93D419] text-white px-2 py-1 rounded">
+                          <span className="bg-[#93D419] text-gray-900 px-2 py-1 rounded">
                             {item.category.name}
                           </span>
                         )}
@@ -520,7 +520,7 @@ function NewsPageInner() {
                             {format(new Date(item.createdAt), 'MMMM d, yyyy', { locale: enUS })}
                           </span>
                           {item.category && (
-                            <span className="bg-[#93D419] text-white px-2 py-1 rounded">
+                            <span className="bg-[#93D419] text-gray-900 px-2 py-1 rounded">
                               {item.category.name}
                             </span>
                           )}
@@ -570,7 +570,7 @@ function NewsPageInner() {
                           onClick={() => handlePageChange(page)}
                           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                             page === currentPage
-                              ? 'bg-[#93D419] text-white'
+                              ? 'bg-[#93D419] text-gray-900'
                               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                           }`}
                         >

@@ -160,7 +160,7 @@ export default function ImageUpload({ value, onChange, label = 'Image URL', clas
                 // Don't clear value, just switch mode
                 setPreview(null)
               }}
-              className="h-4 w-4 text-[#93D419] focus:ring-[#93D419] border-gray-300"
+              className="h-4 w-4 text-lime-700 focus:ring-[#93D419] border-gray-300"
             />
             <span className="ml-2 text-sm font-medium text-gray-700">Upload from File</span>
           </label>
@@ -175,7 +175,7 @@ export default function ImageUpload({ value, onChange, label = 'Image URL', clas
                 // Don't clear value, just switch mode
                 setPreview(null)
               }}
-              className="h-4 w-4 text-[#93D419] focus:ring-[#93D419] border-gray-300"
+              className="h-4 w-4 text-lime-700 focus:ring-[#93D419] border-gray-300"
             />
             <span className="ml-2 text-sm font-medium text-gray-700">Enter URL</span>
           </label>

@@ -122,7 +122,7 @@ export default function BatteryRecyclingAcidCalculator() {
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-12 max-w-7xl mx-auto">
         <Link 
           href="/calculations" 
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-[#93D419] mb-8 text-sm transition-colors font-medium group"
+          className="inline-flex items-center gap-2 text-gray-600 hover:text-lime-700 mb-8 text-sm transition-colors font-medium group"
         >
           <svg className="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -133,7 +133,7 @@ export default function BatteryRecyclingAcidCalculator() {
         {/* Header */}
         <div className="mb-12">
           <div className="mb-4">
-            <span className="inline-block text-xs font-semibold text-[#93D419] uppercase tracking-wider">
+            <span className="inline-block text-xs font-semibold text-lime-700 uppercase tracking-wider">
               Engineering Calculator
             </span>
           </div>
@@ -379,7 +379,7 @@ export default function BatteryRecyclingAcidCalculator() {
                 <p className="text-sm font-semibold text-gray-700 mb-2">Technical Partner</p>
                 <a 
                   href="#" 
-                  className="text-xs text-[#93D419] hover:text-[#7fb315] transition-colors font-medium"
+                  className="text-xs text-lime-700 hover:text-lime-800 transition-colors font-medium"
                 >
                   Learn More →
                 </a>

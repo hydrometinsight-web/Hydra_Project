@@ -146,7 +146,7 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
     <>
       <StructuredData data={articleStructuredData} />
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8 max-w-7xl mx-auto">
-        <Link href="/news" className="text-gray-600 hover:text-[#93D419] mb-4 inline-block text-sm transition-colors">
+        <Link href="/news" className="text-gray-600 hover:text-lime-700 mb-4 inline-block text-sm transition-colors">
           ← Back to News
         </Link>
 
@@ -163,7 +163,7 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
         <div className="p-6 md:p-8">
           <div className="flex items-center gap-4 mb-4 flex-wrap">
             {news.category && (
-              <span className="bg-[#93D419] text-white px-3 py-1 rounded-full text-sm font-medium">
+              <span className="bg-[#93D419] text-gray-900 px-3 py-1 rounded-full text-sm font-medium">
                 {news.category.name}
               </span>
             )}

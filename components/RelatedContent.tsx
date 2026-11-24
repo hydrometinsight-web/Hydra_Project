@@ -91,7 +91,7 @@ export default async function RelatedContent({
                     {format(new Date(item.createdAt), 'MMM d, yyyy', { locale: enUS })}
                   </span>
                   {item.category && (
-                    <span className="bg-[#93D419] text-white px-2 py-1 rounded text-xs">
+                    <span className="bg-[#93D419] text-gray-900 px-2 py-1 rounded text-xs">
                       {item.category.name}
                     </span>
                   )}
@@ -126,7 +126,7 @@ export default async function RelatedContent({
                   <span>
                     {format(new Date(insight.createdAt), 'MMM d, yyyy', { locale: enUS })}
                   </span>
-                  <span className="text-[#93D419] font-medium">TechInsight</span>
+                  <span className="text-lime-700 font-medium">TechInsight</span>
                 </div>
               </div>
             </div>

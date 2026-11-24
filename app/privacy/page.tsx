@@ -10,7 +10,7 @@ export default function PrivacyPage() {
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-12 max-w-4xl mx-auto">
       <div className="mb-8">
-        <Link href="/" className="text-gray-600 hover:text-[#93D419] mb-4 inline-block text-sm transition-colors">
+        <Link href="/" className="text-gray-600 hover:text-lime-700 mb-4 inline-block text-sm transition-colors">
           ← Back to Home
         </Link>
         <h1 className="text-4xl font-bold text-gray-900 mb-4">Privacy Policy</h1>
@@ -136,7 +136,7 @@ export default function PrivacyPage() {
           </p>
           <p className="text-gray-700 leading-relaxed">
             <strong>Email:</strong> privacy@hydrometinsight.com<br />
-            <strong>Website:</strong> <Link href="/" className="text-[#93D419] hover:text-[#7fb315]">www.hydrometinsight.com</Link>
+            <strong>Website:</strong> <Link href="/" className="text-lime-700 hover:text-lime-800">www.hydrometinsight.com</Link>
           </p>
         </section>
       </div>

@@ -68,7 +68,7 @@ export default function BecomeSponsorPage() {
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-16 max-w-7xl mx-auto">
         <Link 
           href="/" 
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-[#93D419] mb-8 text-sm transition-colors font-medium group"
+          className="inline-flex items-center gap-2 text-gray-600 hover:text-lime-700 mb-8 text-sm transition-colors font-medium group"
         >
           <svg className="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -156,7 +156,7 @@ export default function BecomeSponsorPage() {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 group-hover:text-lime-700 transition-colors">
                       Role-Based Technical Audience
                     </h3>
                   </div>
@@ -175,7 +175,7 @@ export default function BecomeSponsorPage() {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 group-hover:text-lime-700 transition-colors">
                       Technical Credibility
                     </h3>
                   </div>
@@ -194,7 +194,7 @@ export default function BecomeSponsorPage() {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 group-hover:text-lime-700 transition-colors">
                       Decision-Maker Access
                     </h3>
                   </div>
@@ -213,7 +213,7 @@ export default function BecomeSponsorPage() {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 group-hover:text-[#93D419] transition-colors">
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 group-hover:text-lime-700 transition-colors">
                       Industry Specialization
                     </h3>
                   </div>
@@ -255,7 +255,7 @@ export default function BecomeSponsorPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 group-hover:text-[#93D419] transition-colors">Tool Sponsorship</h3>
+                  <h3 className="text-2xl font-bold text-gray-900 group-hover:text-lime-700 transition-colors">Tool Sponsorship</h3>
                 </div>
                 <p className="text-gray-600 leading-relaxed mb-4 text-[15px]">
                   Visibility through engineering calculators and technical tools used during active problem-solving and process evaluation.
@@ -296,7 +296,7 @@ export default function BecomeSponsorPage() {
               </div>
               
               <div className="mt-7 pt-6 border-t border-gray-100">
-                <button className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-[#93D419] transition-colors group/btn">
+                <button className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-lime-700 transition-colors group/btn">
                   Learn more
                   <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -314,7 +314,7 @@ export default function BecomeSponsorPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 group-hover:text-[#93D419] transition-colors">Technology Partner</h3>
+                  <h3 className="text-2xl font-bold text-gray-900 group-hover:text-lime-700 transition-colors">Technology Partner</h3>
                 </div>
                 <p className="text-gray-600 leading-relaxed mb-4 text-[15px]">
                   Long-term, multi-channel partnership offering sustained visibility with a highly targeted engineering audience.
@@ -355,7 +355,7 @@ export default function BecomeSponsorPage() {
               </div>
               
               <div className="mt-7 pt-6 border-t border-gray-100">
-                <button className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-[#93D419] transition-colors group/btn">
+                <button className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-lime-700 transition-colors group/btn">
                   Learn more
                   <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -373,7 +373,7 @@ export default function BecomeSponsorPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 group-hover:text-[#93D419] transition-colors">Technical Content Partnership</h3>
+                  <h3 className="text-2xl font-bold text-gray-900 group-hover:text-lime-700 transition-colors">Technical Content Partnership</h3>
                 </div>
                 <p className="text-gray-600 leading-relaxed mb-4 text-[15px]">
                   Sponsor high-quality technical content focused on real engineering challenges and solutions.
@@ -414,7 +414,7 @@ export default function BecomeSponsorPage() {
               </div>
               
               <div className="mt-7 pt-6 border-t border-gray-100">
-                <button className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-[#93D419] transition-colors group/btn">
+                <button className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-lime-700 transition-colors group/btn">
                   Learn more
                   <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -432,7 +432,7 @@ export default function BecomeSponsorPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 group-hover:text-[#93D419] transition-colors">Webinar & Events</h3>
+                  <h3 className="text-2xl font-bold text-gray-900 group-hover:text-lime-700 transition-colors">Webinar & Events</h3>
                 </div>
                 <p className="text-gray-600 leading-relaxed mb-4 text-[15px]">
                   Live technical engagement through educational webinars and engineering-focused events.
@@ -473,7 +473,7 @@ export default function BecomeSponsorPage() {
               </div>
               
               <div className="mt-7 pt-6 border-t border-gray-100">
-                <button className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-[#93D419] transition-colors group/btn">
+                <button className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-lime-700 transition-colors group/btn">
                   Learn more
                   <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -783,7 +783,7 @@ export default function BecomeSponsorPage() {
               <div className="space-y-4 text-gray-700">
                 <div>
                   <strong className="text-gray-900 font-semibold block mb-1">Email:</strong>
-                  <a href="mailto:partners@hydrometinsight.com" className="text-[#93D419] hover:text-[#7fb315] transition-colors font-medium inline-flex items-center gap-2">
+                  <a href="mailto:partners@hydrometinsight.com" className="text-lime-700 hover:text-lime-800 transition-colors font-medium inline-flex items-center gap-2">
                     partners@hydrometinsight.com
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -800,19 +800,19 @@ export default function BecomeSponsorPage() {
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Inquiry Guidelines</h3>
               <ul className="space-y-3 text-gray-700">
                 <li className="flex items-start gap-3">
-                  <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">•</span>
+                  <span className="text-lime-700 mt-1.5 font-bold text-lg leading-none">•</span>
                   <span>Company background and technology focus</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">•</span>
+                  <span className="text-lime-700 mt-1.5 font-bold text-lg leading-none">•</span>
                   <span>Preferred partnership model and objectives</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">•</span>
+                  <span className="text-lime-700 mt-1.5 font-bold text-lg leading-none">•</span>
                   <span>Relevant technical areas or topics of interest</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-[#93D419] mt-1.5 font-bold text-lg leading-none">•</span>
+                  <span className="text-lime-700 mt-1.5 font-bold text-lg leading-none">•</span>
                   <span>Timeline and partnership duration preferences</span>
                 </li>
               </ul>

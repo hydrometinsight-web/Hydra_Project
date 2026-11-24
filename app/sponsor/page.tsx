@@ -30,7 +30,7 @@ export default async function SponsorPage() {
           </p>
           <Link
             href="/sponsor/become"
-            className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-8 py-3 rounded-lg transition-colors duration-200"
+            className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-gray-900 font-medium px-8 py-3 rounded-lg transition-colors duration-200"
           >
             <Image src="/logo1.png" alt="Logo" width={20} height={20} className="w-5 h-5 object-contain" />
             Become a Sponsor
@@ -80,7 +80,7 @@ export default async function SponsorPage() {
                         href={sponsor.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:text-[#93D419] transition-colors"
+                        className="hover:text-lime-700 transition-colors"
                       >
                         {sponsor.name}
                       </a>
@@ -96,7 +96,7 @@ export default async function SponsorPage() {
                   )}
                   
                   {sponsor.tier && (
-                    <span className="inline-block bg-[#93D419] text-white text-xs font-semibold px-3 py-1 rounded-full">
+                    <span className="inline-block bg-[#93D419] text-gray-900 text-xs font-semibold px-3 py-1 rounded-full">
                       {sponsor.tier.charAt(0).toUpperCase() + sponsor.tier.slice(1)}
                     </span>
                   )}
@@ -112,7 +112,7 @@ export default async function SponsorPage() {
             </p>
             <Link
               href="/sponsor/become"
-              className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-8 py-3 rounded-lg transition-colors duration-200"
+              className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-gray-900 font-medium px-8 py-3 rounded-lg transition-colors duration-200"
             >
               <Image src="/logo1.png" alt="Logo" width={20} height={20} className="w-5 h-5 object-contain" />
               Become a Sponsor

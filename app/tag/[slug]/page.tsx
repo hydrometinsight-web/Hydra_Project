@@ -97,7 +97,7 @@ export default async function TagPage({ params }: { params: { slug: string } }) 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8 max-w-7xl mx-auto">
       <div className="mb-8">
-        <Link href="/news" className="text-gray-600 hover:text-[#93D419] mb-4 inline-block text-sm transition-colors">
+        <Link href="/news" className="text-gray-600 hover:text-lime-700 mb-4 inline-block text-sm transition-colors">
           ← Back to News
         </Link>
         <div className="bg-white rounded-xl shadow-md p-6">
@@ -164,7 +164,7 @@ export default async function TagPage({ params }: { params: { slug: string } }) 
                             {format(new Date(item.createdAt), 'MMMM d, yyyy', { locale: enUS })}
                           </span>
                           {item.category && (
-                            <span className="bg-[#93D419] text-white px-2 py-1 rounded">
+                            <span className="bg-[#93D419] text-gray-900 px-2 py-1 rounded">
                               {item.category.name}
                             </span>
                           )}
@@ -212,7 +212,7 @@ export default async function TagPage({ params }: { params: { slug: string } }) 
                           <span>
                             {format(new Date(insight.createdAt), 'MMMM d, yyyy', { locale: enUS })}
                           </span>
-                          <span className="text-[#93D419] font-medium hover:translate-x-1 transition-transform inline-block">
+                          <span className="text-lime-700 font-medium hover:translate-x-1 transition-transform inline-block">
                             Read More →
                           </span>
                         </div>

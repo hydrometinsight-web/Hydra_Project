@@ -82,7 +82,7 @@ export default async function TechInsightDetailPage({ params }: { params: { slug
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8 max-w-7xl mx-auto">
-      <Link href="/techinsight" className="text-[#93D419] hover:text-[#7fb315] mb-4 inline-block">
+      <Link href="/techinsight" className="text-lime-700 hover:text-lime-800 mb-4 inline-block">
         ← Back to TechInsight
       </Link>
 

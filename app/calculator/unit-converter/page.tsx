@@ -166,7 +166,7 @@ export default function UnitConverterPage() {
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-12 max-w-7xl mx-auto">
         <Link 
           href="/calculations" 
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-[#93D419] mb-8 text-sm transition-colors font-medium group"
+          className="inline-flex items-center gap-2 text-gray-600 hover:text-lime-700 mb-8 text-sm transition-colors font-medium group"
         >
           <svg className="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -272,7 +272,7 @@ export default function UnitConverterPage() {
             <div className="flex gap-3">
               <button
                 onClick={handleConvert}
-                className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
+                className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-gray-900 font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
               >
                 <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain" />
                 Convert
@@ -326,7 +326,7 @@ export default function UnitConverterPage() {
                 <p className="text-sm font-semibold text-gray-700 mb-2">Technical Partner</p>
                 <a 
                   href="#" 
-                  className="text-xs text-[#93D419] hover:text-[#7fb315] transition-colors font-medium"
+                  className="text-xs text-lime-700 hover:text-lime-800 transition-colors font-medium"
                 >
                   Learn More →
                 </a>

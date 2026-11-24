@@ -191,7 +191,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
+                className="w-full bg-[#93D419] hover:bg-[#7fb315] text-gray-900 font-medium px-6 py-3 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
               >
                 <Image src="/logo1.png" alt="Logo" width={18} height={18} className="w-4.5 h-4.5 object-contain" />
                 {isSubmitting ? 'Sending...' : 'Send Message'}
@@ -209,7 +209,7 @@ export default function ContactPage() {
                 <p className="text-sm font-medium text-gray-700 mb-1">Email</p>
                 <a 
                   href="mailto:contact@hydrometinsight.com" 
-                  className="text-[#93D419] hover:text-[#7fb315] transition-colors text-sm"
+                  className="text-lime-700 hover:text-lime-800 transition-colors text-sm"
                 >
                   contact@hydrometinsight.com
                 </a>
@@ -218,7 +218,7 @@ export default function ContactPage() {
                 <p className="text-sm font-medium text-gray-700 mb-1">Partnership Inquiries</p>
                 <a 
                   href="mailto:partnerships@hydrometinsight.com" 
-                  className="text-[#93D419] hover:text-[#7fb315] transition-colors text-sm"
+                  className="text-lime-700 hover:text-lime-800 transition-colors text-sm"
                 >
                   partnerships@hydrometinsight.com
                 </a>
@@ -227,7 +227,7 @@ export default function ContactPage() {
                 <p className="text-sm font-medium text-gray-700 mb-1">General Inquiries</p>
                 <a 
                   href="mailto:info@hydrometinsight.com" 
-                  className="text-[#93D419] hover:text-[#7fb315] transition-colors text-sm"
+                  className="text-lime-700 hover:text-lime-800 transition-colors text-sm"
                 >
                   info@hydrometinsight.com
                 </a>

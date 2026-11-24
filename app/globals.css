@@ -3,27 +3,17 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  /* The site uses a light design only. The old dark-mode override turned all
+     text white for visitors whose device is in dark mode, making article text
+     invisible on the white cards. */
+  color-scheme: light;
+  --foreground-rgb: 17, 24, 39;
+  --background-rgb: 249, 250, 251;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: rgb(var(--background-rgb));
 }
 
 /* Prose text alignment support for rich text editor content */

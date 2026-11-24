@@ -114,13 +114,13 @@ export default function CookieConsent() {
                 or reject non-essential cookies.
               </p>
               <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                <Link href="/privacy" className="text-[#93D419] hover:text-[#7fb315] underline">
+                <Link href="/privacy" className="text-lime-700 hover:text-lime-800 underline">
                   Privacy Policy
                 </Link>
                 <span>•</span>
                 <button
                   onClick={() => setShowSettings(!showSettings)}
-                  className="text-[#93D419] hover:text-[#7fb315] underline"
+                  className="text-lime-700 hover:text-lime-800 underline"
                 >
                   Customize Settings
                 </button>
@@ -141,7 +141,7 @@ export default function CookieConsent() {
               </button>
               <button
                 onClick={handleAcceptAll}
-                className="px-6 py-2.5 bg-[#93D419] hover:bg-[#7fb315] text-white font-medium rounded-lg transition-colors text-sm"
+                className="px-6 py-2.5 bg-[#93D419] hover:bg-[#7fb315] text-gray-900 font-medium rounded-lg transition-colors text-sm"
               >
                 Accept All
               </button>
@@ -249,7 +249,7 @@ export default function CookieConsent() {
                 </button>
                 <button
                   onClick={handleSavePreferences}
-                  className="px-6 py-2.5 bg-[#93D419] hover:bg-[#7fb315] text-white font-medium rounded-lg transition-colors text-sm"
+                  className="px-6 py-2.5 bg-[#93D419] hover:bg-[#7fb315] text-gray-900 font-medium rounded-lg transition-colors text-sm"
                 >
                   Save Preferences
                 </button>

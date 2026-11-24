@@ -122,7 +122,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
     <>
       <StructuredData data={eventStructuredData} />
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8 max-w-7xl mx-auto">
-        <Link href="/events" className="text-gray-600 hover:text-[#93D419] mb-4 inline-block text-sm transition-colors">
+        <Link href="/events" className="text-gray-600 hover:text-lime-700 mb-4 inline-block text-sm transition-colors">
           ← Back to Events
         </Link>
 
@@ -179,7 +179,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
                     href={event.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#93D419] hover:underline"
+                    className="text-lime-700 hover:underline"
                     itemProp="url"
                   >
                     {event.website}

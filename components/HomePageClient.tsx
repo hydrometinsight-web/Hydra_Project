@@ -184,7 +184,7 @@ export default function HomePageClient({
         <div className="flex items-center gap-4 mb-4">
           <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">TechInsight</h2>
           <div className="flex-1 border-b border-gray-300"></div>
-          <Link href="/techinsight" className="text-gray-600 hover:text-[#93D419] font-medium text-sm transition-colors">
+          <Link href="/techinsight" className="text-gray-600 hover:text-lime-700 font-medium text-sm transition-colors">
             View All →
           </Link>
         </div>
@@ -208,7 +208,7 @@ export default function HomePageClient({
                   </div>
                 )}
                 <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 leading-snug group-hover:text-[#93D419] transition-colors duration-200">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 leading-snug group-hover:text-lime-700 transition-colors duration-200">
                     {insight.title}
                   </h3>
                   {insight.excerpt && (
@@ -239,7 +239,7 @@ export default function HomePageClient({
         <div className="flex items-center gap-4 mb-4">
           <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">All News</h2>
           <div className="flex-1 border-b border-gray-300"></div>
-          <Link href="/news" className="text-gray-600 hover:text-[#93D419] font-medium text-sm transition-colors">
+          <Link href="/news" className="text-gray-600 hover:text-lime-700 font-medium text-sm transition-colors">
             View All →
           </Link>
         </div>
@@ -292,14 +292,14 @@ export default function HomePageClient({
         <div className="flex items-center gap-4 mb-4">
           <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">Events</h2>
           <div className="flex-1 border-b border-gray-300"></div>
-          <Link href="/events" className="text-gray-600 hover:text-[#93D419] font-medium text-sm transition-colors">
+          <Link href="/events" className="text-gray-600 hover:text-lime-700 font-medium text-sm transition-colors">
             View All →
           </Link>
         </div>
         {events.length === 0 && (
           <div className="bg-white rounded-xl border border-gray-200 p-8 text-center text-gray-600">
             No upcoming events at the moment.{' '}
-            <Link href="/events" className="font-medium text-gray-900 hover:text-[#93D419] transition-colors">
+            <Link href="/events" className="font-medium text-gray-900 hover:text-lime-700 transition-colors">
               Browse all events →
             </Link>
           </div>
@@ -353,7 +353,7 @@ export default function HomePageClient({
           <div className="flex items-center gap-4 mb-6">
             <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">Our Sponsors</h2>
             <div className="flex-1 border-b border-gray-300"></div>
-            <Link href="/sponsor" className="text-gray-600 hover:text-[#93D419] font-medium text-sm transition-colors">
+            <Link href="/sponsor" className="text-gray-600 hover:text-lime-700 font-medium text-sm transition-colors">
               View All →
             </Link>
           </div>
@@ -382,7 +382,7 @@ export default function HomePageClient({
                     </div>
                   ) : (
                     <div className="text-center">
-                      <span className="text-gray-600 text-sm font-semibold group-hover:text-[#93D419] transition-colors">
+                      <span className="text-gray-600 text-sm font-semibold group-hover:text-lime-700 transition-colors">
                         {sponsor.name}
                       </span>
                     </div>
@@ -393,7 +393,7 @@ export default function HomePageClient({
             <div className="text-center">
               <Link
                 href="/sponsor/become"
-                className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-8 py-3 rounded-lg transition-colors duration-200 text-sm"
+                className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-gray-900 font-medium px-8 py-3 rounded-lg transition-colors duration-200 text-sm"
               >
                 <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain" />
                 Become a Sponsor

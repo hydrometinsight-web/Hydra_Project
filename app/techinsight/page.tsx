@@ -224,7 +224,7 @@ function TechInsightPageInner() {
               </svg>
               Filters
               {(sortBy !== 'date-desc' || dateFrom || dateTo) && (
-                <span className="bg-[#93D419] text-white text-xs px-2 py-0.5 rounded-full">
+                <span className="bg-[#93D419] text-gray-900 text-xs px-2 py-0.5 rounded-full">
                   {(sortBy !== 'date-desc' ? 1 : 0) + (dateFrom ? 1 : 0) + (dateTo ? 1 : 0)}
                 </span>
               )}
@@ -236,7 +236,7 @@ function TechInsightPageInner() {
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded transition-colors ${
                   viewMode === 'grid'
-                    ? 'bg-white text-[#93D419] shadow-sm'
+                    ? 'bg-white text-lime-700 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
                 aria-label="Grid view"
@@ -249,7 +249,7 @@ function TechInsightPageInner() {
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded transition-colors ${
                   viewMode === 'list'
-                    ? 'bg-white text-[#93D419] shadow-sm'
+                    ? 'bg-white text-lime-700 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
                 aria-label="List view"
@@ -310,7 +310,7 @@ function TechInsightPageInner() {
               <div className="mt-4 flex justify-end">
                 <button
                   onClick={clearFilters}
-                  className="text-sm text-gray-600 hover:text-[#93D419] transition-colors font-medium"
+                  className="text-sm text-gray-600 hover:text-lime-700 transition-colors font-medium"
                 >
                   Clear All Filters
                 </button>
@@ -396,7 +396,7 @@ function TechInsightPageInner() {
                         <span>
                           {format(new Date(insight.createdAt), 'MMMM d, yyyy', { locale: enUS })}
                         </span>
-                        <span className="text-[#93D419] font-medium hover:translate-x-1 transition-transform inline-block">
+                        <span className="text-lime-700 font-medium hover:translate-x-1 transition-transform inline-block">
                           Read More →
                         </span>
                       </div>
@@ -460,7 +460,7 @@ function TechInsightPageInner() {
                           <span>
                             {format(new Date(insight.createdAt), 'MMMM d, yyyy', { locale: enUS })}
                           </span>
-                          <span className="text-[#93D419] font-medium hover:translate-x-1 transition-transform inline-block">
+                          <span className="text-lime-700 font-medium hover:translate-x-1 transition-transform inline-block">
                             Read More →
                           </span>
                         </div>
@@ -507,7 +507,7 @@ function TechInsightPageInner() {
                           onClick={() => handlePageChange(page)}
                           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                             page === currentPage
-                              ? 'bg-[#93D419] text-white'
+                              ? 'bg-[#93D419] text-gray-900'
                               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                           }`}
                         >

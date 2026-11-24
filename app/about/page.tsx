@@ -159,7 +159,7 @@ export default function AboutPage() {
         </p>
         <a
           href="/sorular"
-          className="inline-flex items-center gap-2 bg-[#93D419] text-white px-8 py-3 rounded-lg hover:bg-[#7fb315] transition-colors font-medium text-sm"
+          className="inline-flex items-center gap-2 bg-[#93D419] text-gray-900 px-8 py-3 rounded-lg hover:bg-[#7fb315] transition-colors font-medium text-sm"
         >
           Contact Us
         </a>

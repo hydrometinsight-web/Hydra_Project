@@ -47,7 +47,7 @@ export default function CommentItem({ comment, newsId, depth = 0 }: CommentItemP
     <div className={`${depth > 0 ? 'mt-4' : ''}`}>
       <div className={`${depth > 0 ? 'pl-6 border-l-2 border-gray-200' : ''}`}>
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 bg-[#93D419] rounded-full flex items-center justify-center text-white font-semibold flex-shrink-0">
+          <div className="w-10 h-10 bg-[#93D419] rounded-full flex items-center justify-center text-gray-900 font-semibold flex-shrink-0">
             {comment.name.charAt(0).toUpperCase()}
           </div>
           <div className="flex-1">

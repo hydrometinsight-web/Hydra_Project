@@ -121,7 +121,7 @@ export default function ReplyForm({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+            className="bg-[#93D419] hover:bg-[#7fb315] text-gray-900 font-medium px-4 py-2 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
           >
             {isSubmitting ? 'Submitting...' : 'Submit Reply'}
           </button>

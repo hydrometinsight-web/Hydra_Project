@@ -439,7 +439,7 @@ function UnitConverter() {
       <div className="flex gap-3">
         <button
           onClick={handleConvert}
-          className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
+          className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-gray-900 font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
         >
           <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain" />
           Convert
@@ -582,7 +582,7 @@ function MolecularWeightCalculator() {
           />
           <button
             onClick={handleCalculate}
-            className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-white font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
+            className="inline-flex items-center gap-2 bg-[#93D419] hover:bg-[#7fb315] text-gray-900 font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 text-sm"
           >
             <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain" />
             Calculate
