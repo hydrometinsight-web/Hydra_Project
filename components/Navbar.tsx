@@ -37,7 +37,7 @@ export default function Navbar() {
               Tech Insights
             </Link>
             <Link 
-              href="/event" 
+              href="/events" 
               className="text-gray-300 hover:text-[#93D419] transition-colors text-sm font-medium"
             >
               Events

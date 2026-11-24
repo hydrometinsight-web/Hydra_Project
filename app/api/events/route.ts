@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { upcomingEventsWhere, pastEventsWhere } from '@/lib/events'
 import { addSecurityHeaders } from '@/lib/security'
 
 export const dynamic = 'force-dynamic'
@@ -10,58 +11,57 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '12')
     const search = searchParams.get('search') || ''
-    const sortBy = searchParams.get('sortBy') || 'startDate-desc'
+    const sortBy =
+      searchParams.get('sortBy') ||
+      ((searchParams.get('when') || 'upcoming') === 'upcoming' ? 'startDate-asc' : 'startDate-desc')
     const dateFrom = searchParams.get('dateFrom')
     const dateTo = searchParams.get('dateTo')
     const location = searchParams.get('location')
 
     const skip = (page - 1) * limit
 
-    // Build where clause
-    const where: any = {
-      published: true,
-    }
+    // "upcoming" (default), "past" or "all"
+    const when = searchParams.get('when') || 'upcoming'
+
+    // Build where clause from independent conditions
+    const and: any[] = [{ published: true }]
+
+    if (when === 'upcoming') and.push(upcomingEventsWhere())
+    if (when === 'past') and.push(pastEventsWhere())
 
     // Search filter
     if (search) {
-      where.OR = [
-        { title: { contains: search } },
-        { description: { contains: search } },
-        { location: { contains: search } },
-      ]
+      and.push({
+        OR: [
+          { title: { contains: search } },
+          { description: { contains: search } },
+          { location: { contains: search } },
+        ],
+      })
     }
 
     // Date filters
     if (dateFrom) {
-      where.startDate = { gte: new Date(dateFrom) }
+      and.push({ startDate: { gte: new Date(dateFrom) } })
     }
     if (dateTo) {
       const toDate = new Date(dateTo)
       toDate.setHours(23, 59, 59, 999) // End of day
-      // Filter: event ends before or on dateTo, or if no endDate, starts before or on dateTo
-      const dateFilter = {
+      // Event ends before or on dateTo, or if no endDate, starts before or on dateTo
+      and.push({
         OR: [
           { endDate: { lte: toDate } },
           { AND: [{ endDate: null }, { startDate: { lte: toDate } }] },
         ],
-      }
-      
-      // Combine with search filter if exists
-      if (where.OR && search) {
-        where.AND = [
-          { OR: where.OR },
-          dateFilter,
-        ]
-        delete where.OR
-      } else if (!search) {
-        where.OR = dateFilter.OR
-      }
+      })
     }
 
     // Location filter
     if (location) {
-      where.location = { contains: location }
+      and.push({ location: { contains: location } })
     }
+
+    const where = { AND: and }
 
     // Sort options
     let orderBy: any = { startDate: 'desc' }

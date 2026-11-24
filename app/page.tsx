@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { upcomingEventsWhere } from '@/lib/events'
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import HomePageClient from '@/components/HomePageClient'
@@ -114,16 +115,11 @@ async function getTechInsights() {
 }
 
 async function getEvents() {
-  // Only show upcoming or ongoing events (from the start of today)
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
+  // Only show upcoming or ongoing events (same rule as the /events page)
   const events = await prisma.event.findMany({
     where: {
       published: true,
-      OR: [
-        { endDate: { gte: today } },
-        { endDate: null, startDate: { gte: today } },
-      ],
+      ...upcomingEventsWhere(),
     },
     orderBy: { startDate: 'asc' },
     take: 3,

@@ -29,6 +29,11 @@ interface Pagination {
   hasPrevPage: boolean
 }
 
+// Upcoming events read best soonest-first; past events most-recent-first
+function defaultSortFor(when: string) {
+  return when === 'past' ? 'startDate-desc' : 'startDate-asc'
+}
+
 function EventsPageInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -37,7 +42,8 @@ function EventsPageInner() {
   const [pagination, setPagination] = useState<Pagination | null>(null)
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
-  const [sortBy, setSortBy] = useState('startDate-desc')
+  const [when, setWhen] = useState<'upcoming' | 'past'>('upcoming')
+  const [sortBy, setSortBy] = useState('startDate-asc')
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
   const [location, setLocation] = useState('')
@@ -60,12 +66,14 @@ function EventsPageInner() {
   useEffect(() => {
     // Initialize filters from URL params
     const urlSearch = searchParams.get('search') || ''
-    const urlSort = searchParams.get('sortBy') || 'startDate-desc'
+    const urlWhen = searchParams.get('when') === 'past' ? 'past' : 'upcoming'
+    const urlSort = searchParams.get('sortBy') || defaultSortFor(urlWhen)
     const urlDateFrom = searchParams.get('dateFrom') || ''
     const urlDateTo = searchParams.get('dateTo') || ''
     const urlLocation = searchParams.get('location') || ''
     
     setSearchQuery(urlSearch)
+    setWhen(urlWhen)
     setSortBy(urlSort)
     setDateFrom(urlDateFrom)
     setDateTo(urlDateTo)
@@ -77,6 +85,7 @@ function EventsPageInner() {
     // Fetch events with pagination and filters
     const params = new URLSearchParams()
     params.set('page', currentPage.toString())
+    params.set('when', when)
     if (searchQuery) {
       params.set('search', searchQuery)
     }
@@ -105,7 +114,7 @@ function EventsPageInner() {
         console.error('Error fetching events:', error)
       })
       .finally(() => setLoading(false))
-  }, [currentPage, searchQuery, sortBy, dateFrom, dateTo, location])
+  }, [currentPage, when, searchQuery, sortBy, dateFrom, dateTo, location])
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -128,14 +137,22 @@ function EventsPageInner() {
     updateURL({ [key]: value, page: 1 })
   }
 
+  const switchTab = (next: 'upcoming' | 'past') => {
+    if (next === when) return
+    setWhen(next)
+    setSortBy(defaultSortFor(next))
+    setCurrentPage(1)
+    updateURL({ when: next, sortBy: defaultSortFor(next), page: 1 })
+  }
+
   const clearFilters = () => {
     setSearchQuery('')
-    setSortBy('startDate-desc')
+    setSortBy(defaultSortFor(when))
     setDateFrom('')
     setDateTo('')
     setLocation('')
     setCurrentPage(1)
-    router.push('/events?page=1')
+    router.push(when === 'past' ? '/events?page=1&when=past' : '/events?page=1')
   }
 
   const updateURL = (updates: Record<string, string | number>) => {
@@ -147,8 +164,13 @@ function EventsPageInner() {
       params.set('search', String(search))
     }
     
+    const tab = updates.when !== undefined ? String(updates.when) : when
+    if (tab === 'past') {
+      params.set('when', 'past')
+    }
+
     const sort = updates.sortBy !== undefined ? updates.sortBy : sortBy
-    if (sort && sort !== 'startDate-desc') {
+    if (sort && sort !== defaultSortFor(tab)) {
       params.set('sortBy', String(sort))
     }
     
@@ -183,6 +205,7 @@ function EventsPageInner() {
   const stripHtml = (html: string) => {
     if (!html) return ''
     return html
+      .replace(/<\/(p|div|h[1-6]|li)>|<br\s*\/?>/gi, ' ') // Keep a space between blocks
       .replace(/<[^>]*>/g, '') // Remove HTML tags
       .replace(/&nbsp;/g, ' ') // Replace &nbsp; with space
       .replace(/&amp;/g, '&') // Replace &amp; with &
@@ -190,12 +213,31 @@ function EventsPageInner() {
       .replace(/&gt;/g, '>') // Replace &gt; with >
       .replace(/&quot;/g, '"') // Replace &quot; with "
       .replace(/&#39;/g, "'") // Replace &#39; with '
+      .replace(/\s+/g, ' ')
       .trim()
   }
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8 max-w-7xl mx-auto">
-      <h1 className="text-4xl font-bold text-gray-900 mb-8">Events</h1>
+      <h1 className="text-4xl font-bold text-gray-900 mb-6">Events</h1>
+
+      {/* Upcoming / Past tabs */}
+      <div className="mb-8 inline-flex rounded-lg border border-gray-200 bg-white p-1 shadow-sm" role="tablist">
+        {(['upcoming', 'past'] as const).map((tab) => (
+          <button
+            key={tab}
+            type="button"
+            role="tab"
+            aria-selected={when === tab}
+            onClick={() => switchTab(tab)}
+            className={`px-5 py-2 rounded-md text-sm font-semibold transition-colors ${
+              when === tab ? 'bg-gray-900 text-white' : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            {tab === 'upcoming' ? 'Upcoming Events' : 'Past Events'}
+          </button>
+        ))}
+      </div>
 
       {/* AdSense Ad */}
       <div className="mb-8">
@@ -250,9 +292,9 @@ function EventsPageInner() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
               </svg>
               Filters
-              {(sortBy !== 'startDate-desc' || dateFrom || dateTo || location) && (
+              {(sortBy !== defaultSortFor(when) || dateFrom || dateTo || location) && (
                 <span className="bg-[#93D419] text-gray-900 text-xs px-2 py-0.5 rounded-full">
-                  {(sortBy !== 'startDate-desc' ? 1 : 0) + (dateFrom ? 1 : 0) + (dateTo ? 1 : 0) + (location ? 1 : 0)}
+                  {(sortBy !== defaultSortFor(when) ? 1 : 0) + (dateFrom ? 1 : 0) + (dateTo ? 1 : 0) + (location ? 1 : 0)}
                 </span>
               )}
             </button>
@@ -301,8 +343,8 @@ function EventsPageInner() {
                   onChange={(e) => handleFilterChange('sortBy', e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#93D419] focus:border-[#93D419] text-sm"
                 >
-                  <option value="startDate-desc">Newest First</option>
-                  <option value="startDate-asc">Oldest First</option>
+                  <option value="startDate-asc">Date: Soonest First</option>
+                  <option value="startDate-desc">Date: Latest First</option>
                   <option value="title-asc">Title (A-Z)</option>
                   <option value="title-desc">Title (Z-A)</option>
                 </select>
@@ -345,7 +387,7 @@ function EventsPageInner() {
             </div>
 
             {/* Clear Filters Button */}
-            {(sortBy !== 'startDate-desc' || dateFrom || dateTo || searchQuery || location) && (
+            {(sortBy !== defaultSortFor(when) || dateFrom || dateTo || searchQuery || location) && (
               <div className="mt-4 flex justify-end">
                 <button
                   onClick={clearFilters}
@@ -369,7 +411,9 @@ function EventsPageInner() {
       ) : events.length === 0 ? (
         <div className="bg-white rounded-lg shadow-md p-8">
           <p className="text-gray-600 text-lg">
-            No events available at the moment. Check back soon!
+            {when === 'upcoming'
+              ? 'No upcoming events at the moment. Check back soon, or browse past events.'
+              : 'No past events found.'}
           </p>
         </div>
       ) : (
@@ -392,16 +436,16 @@ function EventsPageInner() {
                 >
                   <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200 h-full flex flex-col">
                     {event.imageUrl ? (
-                      <div className="relative w-full h-48 flex-shrink-0">
+                      <div className="relative w-full h-48 flex-shrink-0 bg-gray-100">
                         <Image
                           src={event.imageUrl}
                           alt={event.title}
                           fill
-                          className="object-cover"
+                          className="object-contain"
                         />
                       </div>
                     ) : (
-                      <div className="relative w-full h-48 flex-shrink-0">
+                      <div className="relative w-full h-48 flex-shrink-0 bg-gray-100">
                         <ImagePlaceholder />
                       </div>
                     )}
@@ -445,16 +489,16 @@ function EventsPageInner() {
                     <div className="flex flex-col md:flex-row h-full">
                       <div className="md:w-64 flex-shrink-0">
                         {event.imageUrl ? (
-                          <div className="relative w-full h-48 md:h-full min-h-[200px]">
+                          <div className="relative w-full h-48 md:h-full min-h-[200px] bg-gray-100">
                             <Image
                               src={event.imageUrl}
                               alt={event.title}
                               fill
-                              className="object-cover"
+                              className="object-contain"
                             />
                           </div>
                         ) : (
-                          <div className="relative w-full h-48 md:h-full min-h-[200px]">
+                          <div className="relative w-full h-48 md:h-full min-h-[200px] bg-gray-100">
                             <ImagePlaceholder />
                           </div>
                         )}
