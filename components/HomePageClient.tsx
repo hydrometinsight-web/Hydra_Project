@@ -15,6 +15,28 @@ interface HomePageClientProps {
   sponsors: any[]
 }
 
+// Pick a column count that fits the number of cards, so a row never leaves empty columns
+function gridColsFor(count: number) {
+  if (count >= 3) return 'md:grid-cols-2 lg:grid-cols-3'
+  if (count === 2) return 'md:grid-cols-2'
+  return 'md:grid-cols-2 lg:max-w-3xl'
+}
+
+// Turn rich-text HTML into a clean one-line summary (keeps spaces between paragraphs)
+function htmlToText(html: string) {
+  return html
+    .replace(/<\/(p|div|h[1-6]|li)>|<br\s*\/?>/gi, ' ')
+    .replace(/<[^>]*>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 export default function HomePageClient({
   latestNews,
   allNews,
@@ -68,7 +90,7 @@ export default function HomePageClient({
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 800px"
                     />
                     {/* Strong Dark Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/90 via-black/60 to-transparent" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.75) 30%, rgba(0,0,0,0.4) 60%, transparent 100%)' }}></div>
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 35%, rgba(0,0,0,0.12) 65%, transparent 100%)' }}></div>
                     {/* Content Overlay - Bottom Left Aligned */}
                     <div className="absolute inset-0 flex flex-col justify-end p-6 lg:p-8">
                       <div className="w-full pr-4">
@@ -125,10 +147,10 @@ export default function HomePageClient({
                         sizes="(max-width: 768px) 100vw, 400px"
                       />
                       {/* Strong Dark Gradient Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.75) 40%, rgba(0,0,0,0.3) 70%, transparent 100%)' }}></div>
+                      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.05) 80%, transparent 100%)' }}></div>
                       {/* Semi-transparent Dark Text Container */}
                       <div className="absolute inset-0 flex flex-col justify-end">
-                        <div className="bg-black/60 backdrop-blur-sm p-4">
+                        <div className="p-4">
                           <h3 className="text-base lg:text-lg font-bold text-white mb-0 line-clamp-2 leading-tight" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.9), 0 1px 3px rgba(0,0,0,0.7)' }}>
                             {news.title}
                           </h3>
@@ -166,10 +188,10 @@ export default function HomePageClient({
             View All →
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className={`grid grid-cols-1 ${gridColsFor(techInsights.length)} gap-6`}>
           {techInsights.map((insight) => (
-            <Link key={insight.id} href={`/techinsight/${insight.slug}`}>
-              <article className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200 group">
+            <Link key={insight.id} href={`/techinsight/${insight.slug}`} className="block h-full">
+              <article className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200 group h-full flex flex-col">
                 {insight.imageUrl ? (
                   <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-100">
                     <Image
@@ -185,7 +207,7 @@ export default function HomePageClient({
                     <ImagePlaceholder />
                   </div>
                 )}
-                <div className="p-6">
+                <div className="p-6 flex flex-col flex-grow">
                   <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 leading-snug group-hover:text-[#93D419] transition-colors duration-200">
                     {insight.title}
                   </h3>
@@ -194,7 +216,7 @@ export default function HomePageClient({
                       {insight.excerpt}
                     </p>
                   )}
-                  <div className="flex items-center text-sm text-gray-500 font-medium">
+                  <div className="flex items-center text-sm text-gray-500 font-medium mt-auto">
                     <span>Read Article</span>
                     <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -221,10 +243,10 @@ export default function HomePageClient({
             View All →
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className={`grid grid-cols-1 ${gridColsFor(Math.min(filteredAllNews.length, 6))} gap-4`}>
           {filteredAllNews.slice(0, 6).map((news) => (
-            <Link key={news.id} href={`/haber/${news.slug}`}>
-              <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200">
+            <Link key={news.id} href={`/haber/${news.slug}`} className="block h-full">
+              <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200 h-full flex flex-col">
                 {news.imageUrl ? (
                   <div className="relative w-full h-48 overflow-hidden">
                     <Image
@@ -240,7 +262,7 @@ export default function HomePageClient({
                     <ImagePlaceholder />
                   </div>
                 )}
-                <div className="p-4">
+                <div className="p-4 flex flex-col flex-grow">
                   <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
                     {news.title}
                   </h3>
@@ -249,7 +271,7 @@ export default function HomePageClient({
                       {news.excerpt}
                     </p>
                   )}
-                  <button className="inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-900 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg text-sm">
+                  <button className="mt-auto self-start inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-900 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg text-sm">
                     <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain" />
                     Read More →
                   </button>
@@ -274,17 +296,25 @@ export default function HomePageClient({
             View All →
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {events.length === 0 && (
+          <div className="bg-white rounded-xl border border-gray-200 p-8 text-center text-gray-600">
+            No upcoming events at the moment.{' '}
+            <Link href="/events" className="font-medium text-gray-900 hover:text-[#93D419] transition-colors">
+              Browse all events →
+            </Link>
+          </div>
+        )}
+        <div className={`grid grid-cols-1 ${gridColsFor(events.length)} gap-4`}>
           {events.map((event) => (
-            <Link key={event.id} href={`/event/${event.slug}`}>
+            <Link key={event.id} href={`/event/${event.slug}`} className="block h-full">
               <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col h-full border border-gray-200">
                 {event.imageUrl ? (
-                  <div className="relative w-full h-48 flex-shrink-0 overflow-hidden">
+                  <div className="relative w-full h-48 flex-shrink-0 overflow-hidden bg-gray-100">
                     <Image
                       src={event.imageUrl}
                       alt={event.title}
                       fill
-                      className="object-cover"
+                      className="object-contain"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
                     />
                   </div>
@@ -299,15 +329,7 @@ export default function HomePageClient({
                   </h3>
                   {event.description && (
                     <p className="text-gray-600 text-sm mb-2 line-clamp-2 flex-grow">
-                      {event.description
-                        .replace(/<[^>]*>/g, '')
-                        .replace(/&nbsp;/g, ' ')
-                        .replace(/&amp;/g, '&')
-                        .replace(/&lt;/g, '<')
-                        .replace(/&gt;/g, '>')
-                        .replace(/&quot;/g, '"')
-                        .replace(/&#39;/g, "'")
-                        .trim()}
+                      {htmlToText(event.description)}
                     </p>
                   )}
                   <div className="text-xs text-gray-500 mt-auto">

@@ -243,7 +243,7 @@ export default function Footer() {
         {/* Copyright Section */}
         <div className="border-t border-gray-800 pt-8 mt-8">
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-gray-500 text-xs opacity-70">
-            <p>© 2025 HydroMetInsight. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} HydroMetInsight. All rights reserved.</p>
             <div className="flex items-center gap-4">
               <Link href="/privacy" className="hover:text-[#93D419] transition-colors">
                 Privacy Policy

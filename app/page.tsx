@@ -114,8 +114,17 @@ async function getTechInsights() {
 }
 
 async function getEvents() {
+  // Only show upcoming or ongoing events (from the start of today)
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
   const events = await prisma.event.findMany({
-    where: { published: true },
+    where: {
+      published: true,
+      OR: [
+        { endDate: { gte: today } },
+        { endDate: null, startDate: { gte: today } },
+      ],
+    },
     orderBy: { startDate: 'asc' },
     take: 3,
   })
