@@ -34,6 +34,13 @@ const nextConfig = {
         pathname: '/**',
       },
       {
+        // BASF press photos (used with "Photo: BASF" credit)
+        protocol: 'https',
+        hostname: 'www.basf.com',
+        port: '',
+        pathname: '/api/imaging/**',
+      },
+      {
         protocol: 'https',
         hostname: '*.public.blob.vercel-storage.com',
         port: '',
