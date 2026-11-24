@@ -38,6 +38,8 @@ next-env.d.ts
 # uploaded files
 /public/uploads/*
 !/public/uploads/.gitkeep
+# event cover images made for the site are part of the repo
+!/public/uploads/events/
 
 # prisma
 /prisma/*.db
