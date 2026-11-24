@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/lib/site'
 import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import { format } from 'date-fns'
@@ -57,7 +58,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     }
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const baseUrl = SITE_URL
   const url = `${baseUrl}/haber/${news.slug}`
   const imageUrl = news.imageUrl || `${baseUrl}/logo1.png`
 
@@ -109,7 +110,7 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
     console.log('News imageUrl:', news.imageUrl)
   }
 
-      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+      const baseUrl = SITE_URL
       const url = `${baseUrl}/haber/${news.slug}`
       const imageUrl = news.imageUrl || `${baseUrl}/logo1.png`
 
@@ -140,6 +141,9 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
         },
         articleSection: news.category?.name,
         keywords: news.category ? news.category.name : 'hydrometallurgy',
+        inLanguage: 'en',
+        isAccessibleForFree: true,
+        url,
       }
 
   return (

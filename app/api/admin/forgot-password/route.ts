@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/lib/site'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { sanitizeEmail } from '@/lib/validation'
@@ -81,7 +82,7 @@ export async function POST(request: NextRequest) {
     // In a production environment, you would send an email here
     // For now, we'll return the token (only for development)
     // In production, remove the token from the response
-    const resetUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/admin/reset-password?token=${token}`
+    const resetUrl = `${SITE_URL}/admin/reset-password?token=${token}`
 
     // Log the reset request (for security monitoring)
     console.log(`[Password Reset] Request for: ${sanitizedEmail}, Token: ${token.substring(0, 8)}...`)

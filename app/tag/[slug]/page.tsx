@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/lib/site'
 import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import { format } from 'date-fns'
@@ -61,7 +62,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     }
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const baseUrl = SITE_URL
   const url = `${baseUrl}/tag/${tag.slug}`
 
   return {

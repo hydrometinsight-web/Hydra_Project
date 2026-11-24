@@ -1,3 +1,4 @@
+import { SITE_URL, SITE_DESCRIPTION, SOCIAL_PROFILES } from '@/lib/site'
 import { prisma } from '@/lib/prisma'
 import { upcomingEventsWhere } from '@/lib/events'
 import { Suspense } from 'react'
@@ -142,7 +143,7 @@ export default async function Home() {
   const events = await getEvents()
   const sponsors = await getSponsors()
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const baseUrl = SITE_URL
 
   // Organization Structured Data
   const organizationStructuredData = {
@@ -151,8 +152,22 @@ export default async function Home() {
     name: 'HydroMetInsight',
     url: baseUrl,
     logo: `${baseUrl}/logo1.png`,
-    description: 'Independent insights on hydrometallurgy, critical metals, and battery recycling.',
-    sameAs: [],
+    description: SITE_DESCRIPTION,
+    foundingDate: '2026',
+    location: { '@type': 'Place', address: { '@type': 'PostalAddress', addressLocality: 'Madrid', addressCountry: 'ES' } },
+    knowsAbout: [
+      'Hydrometallurgy',
+      'Battery recycling',
+      'Black mass',
+      'Critical minerals',
+      'Solvent extraction',
+      'Leaching',
+      'Lithium',
+      'Nickel and cobalt',
+      'Rare earth elements',
+      'Metal recovery',
+    ],
+    sameAs: SOCIAL_PROFILES,
   }
 
   // Website Structured Data

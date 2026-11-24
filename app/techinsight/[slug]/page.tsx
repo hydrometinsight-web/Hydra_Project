@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/lib/site'
 import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import { format } from 'date-fns'
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     }
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const baseUrl = SITE_URL
   const url = `${baseUrl}/techinsight/${insight.slug}`
   const imageUrl = insight.imageUrl || `${baseUrl}/logo1.png`
 
@@ -77,7 +78,7 @@ export default async function TechInsightDetailPage({ params }: { params: { slug
     notFound()
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const baseUrl = SITE_URL
   const url = `${baseUrl}/techinsight/${insight.slug}`
 
   return (
