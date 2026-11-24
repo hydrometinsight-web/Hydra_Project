@@ -348,10 +348,10 @@ function TechInsightPageInner() {
           {viewMode === 'grid' ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {insights.map((insight) => (
-                <Link key={insight.id} href={`/techinsight/${insight.slug}`}>
-                  <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200">
+                <Link key={insight.id} href={`/techinsight/${insight.slug}`} className="block h-full">
+                  <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200 h-full flex flex-col">
                     {insight.imageUrl ? (
-                      <div className="relative w-full h-48">
+                      <div className="relative w-full h-48 flex-shrink-0">
                         <Image
                           src={insight.imageUrl}
                           alt={insight.title}
@@ -360,21 +360,21 @@ function TechInsightPageInner() {
                         />
                       </div>
                     ) : (
-                      <div className="relative w-full h-48">
+                      <div className="relative w-full h-48 flex-shrink-0">
                         <ImagePlaceholder />
                       </div>
                     )}
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2 line-clamp-2">
+                    <div className="p-6 flex flex-col flex-grow">
+                      {/* Fixed-height blocks so every card is the same size */}
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2 line-clamp-2 min-h-[3.5rem]">
                         {insight.title}
                       </h3>
-                      {insight.excerpt && (
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                          {insight.excerpt}
-                        </p>
-                      )}
+                      <p className="text-gray-600 text-sm mb-4 line-clamp-3 min-h-[3.75rem]">
+                        {insight.excerpt || ''}
+                      </p>
+                      <div className="flex flex-wrap gap-1 mb-3 min-h-[1.875rem] max-h-[1.875rem] overflow-hidden">
                       {insight.tags && insight.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mb-3">
+                        <>
                           {insight.tags.slice(0, 3).map((techInsightTag) => (
                             <Link
                               key={techInsightTag.tag.id}
@@ -390,9 +390,10 @@ function TechInsightPageInner() {
                               +{insight.tags.length - 3}
                             </span>
                           )}
-                        </div>
+                        </>
                       )}
-                      <div className="flex items-center justify-between text-xs text-gray-500">
+                      </div>
+                      <div className="flex items-center justify-between text-xs text-gray-500 mt-auto">
                         <span>
                           {format(new Date(insight.createdAt), 'MMMM d, yyyy', { locale: enUS })}
                         </span>

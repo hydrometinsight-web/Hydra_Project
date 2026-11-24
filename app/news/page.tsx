@@ -405,7 +405,7 @@ function NewsPageInner() {
           {viewMode === 'grid' ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {news.map((item) => (
-                <Link key={item.id} href={`/haber/${item.slug}`} className="h-full">
+                <Link key={item.id} href={`/haber/${item.slug}`} className="block h-full">
                   <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200 h-full flex flex-col">
                     {item.imageUrl ? (
                       <div className="relative w-full h-48 flex-shrink-0">
@@ -422,16 +422,15 @@ function NewsPageInner() {
                       </div>
                     )}
                     <div className="p-6 flex flex-col flex-grow">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2 line-clamp-2">
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2 line-clamp-2 min-h-[3.5rem]">
                         {item.title}
                       </h3>
-                      {item.excerpt && (
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
-                          {item.excerpt}
-                        </p>
-                      )}
+                      <p className="text-gray-600 text-sm mb-4 line-clamp-3 min-h-[3.75rem]">
+                        {item.excerpt || ''}
+                      </p>
+                      <div className="flex flex-wrap gap-1 mb-3 min-h-[1.875rem] max-h-[1.875rem] overflow-hidden">
                       {item.tags && item.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mb-3">
+                        <>
                           {item.tags.slice(0, 3).map((newsTag) => (
                             <Link
                               key={newsTag.tag.id}
@@ -447,8 +446,9 @@ function NewsPageInner() {
                               +{item.tags.length - 3}
                             </span>
                           )}
-                        </div>
+                        </>
                       )}
+                      </div>
                       <div className="flex items-center justify-between text-xs text-gray-500 mt-auto">
                         <span>
                           {format(new Date(item.createdAt), 'MMMM d, yyyy', { locale: enUS })}

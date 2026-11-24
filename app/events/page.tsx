@@ -450,10 +450,10 @@ function EventsPageInner() {
                       </div>
                     )}
                     <div className="p-6 flex flex-col flex-grow">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2 line-clamp-2">
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2 line-clamp-2 min-h-[3.5rem]">
                         {event.title}
                       </h3>
-                      <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
+                      <p className="text-gray-600 text-sm mb-4 line-clamp-3 min-h-[3.75rem]">
                         {stripHtml(event.description)}
                       </p>
                       <div className="flex flex-col gap-2 text-xs text-gray-500 mt-auto">
@@ -507,7 +507,7 @@ function EventsPageInner() {
                         <h3 className="text-xl font-semibold text-gray-900 mb-2">
                           {event.title}
                         </h3>
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">
+                        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                           {stripHtml(event.description)}
                         </p>
                         <div className="flex flex-col gap-2 text-xs text-gray-500 mt-auto">
