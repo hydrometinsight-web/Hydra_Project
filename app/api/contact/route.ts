@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { sendEmail, emailLayout, escapeHtml, CONTACT_TO } from '@/lib/email'
 
 // Simple rate limiting (in-memory, resets on server restart)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
@@ -77,18 +78,32 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Here you would typically send an email or save to database
-    // For now, we'll just return success
-    // TODO: Implement email sending (e.g., using Resend, SendGrid, etc.)
-    // TODO: Optionally save to database for record keeping
-
-    console.log('Contact form submission:', {
-      name: sanitizedName,
-      email: sanitizedEmail,
-      subject: sanitizedSubject,
-      message: sanitizedMessage,
-      timestamp: new Date().toISOString(),
+    // Forward the message to the site inbox; replying goes straight to the sender
+    const result = await sendEmail({
+      to: CONTACT_TO,
+      replyTo: sanitizedEmail,
+      subject: `[Contact] ${sanitizedSubject}`,
+      text: `From: ${sanitizedName} <${sanitizedEmail}>\nSubject: ${sanitizedSubject}\n\n${sanitizedMessage}`,
+      html: emailLayout(
+        'New message from the contact form',
+        `<p><strong>From:</strong> ${escapeHtml(sanitizedName)} &lt;${escapeHtml(sanitizedEmail)}&gt;<br>
+<strong>Subject:</strong> ${escapeHtml(sanitizedSubject)}</p>
+<div style="white-space:pre-wrap;border-left:3px solid #93D419;padding-left:12px">${escapeHtml(sanitizedMessage)}</div>
+<p style="color:#6b7280;font-size:13px">Reply to this email to answer ${escapeHtml(sanitizedName)} directly.</p>`
+      ),
     })
+
+    if (!result.ok) {
+      console.error('Contact form email failed:', result.error, {
+        name: sanitizedName,
+        email: sanitizedEmail,
+        subject: sanitizedSubject,
+      })
+      return NextResponse.json(
+        { error: 'Sorry, your message could not be sent right now. Please email us at ' + CONTACT_TO + '.' },
+        { status: 503 }
+      )
+    }
 
     return NextResponse.json(
       { 

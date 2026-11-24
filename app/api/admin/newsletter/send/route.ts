@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import jwt from 'jsonwebtoken'
+import { sendEmailBatch, emailLayout, escapeHtml, unsubscribeUrl } from '@/lib/email'
 
 const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'your-secret-key'
 
@@ -66,21 +67,39 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    // In a production environment, you would:
-    // 1. Use an email service (SendGrid, Mailgun, AWS SES, etc.)
-    // 2. Queue emails for sending
-    // 3. Track opens and clicks
-    // 4. Handle bounces and unsubscribes
-
-    // For now, we'll simulate sending
-    // In production, replace this with actual email sending logic
-    console.log(`[Newsletter] Sending campaign "${campaign.subject}" to ${subscribers.length} subscribers`)
-    
-    // Simulate email sending (replace with actual email service)
-    subscribers.forEach((subscriber) => {
-      console.log(`[Newsletter] Would send to: ${subscriber.email}`)
-      // In production: await sendEmail(subscriber.email, campaign.subject, campaign.content, campaign.htmlContent)
+    // Send one email per subscriber (nobody sees other subscribers' addresses)
+    const html = campaign.htmlContent || `<div style="white-space:pre-wrap">${escapeHtml(campaign.content)}</div>`
+    const messages = subscribers.map((subscriber) => {
+      const unsub = unsubscribeUrl(subscriber.id)
+      return {
+        to: subscriber.email,
+        subject: campaign.subject,
+        html: emailLayout(
+          campaign.subject,
+          html,
+          `You receive this because you subscribed to the HydroMetInsight newsletter. <a href="${unsub}" style="color:#6b7280">Unsubscribe</a>`
+        ),
+        text: `${campaign.content}\n\n---\nUnsubscribe: ${unsub}`,
+        headers: {
+          'List-Unsubscribe': `<${unsub}>`,
+          'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+        },
+      }
     })
+
+    console.log(`[Newsletter] Sending campaign "${campaign.subject}" to ${subscribers.length} subscribers`)
+    const result = await sendEmailBatch(messages)
+
+    if (result.sent === 0) {
+      await prisma.newsletterCampaign.update({
+        where: { id: campaignId },
+        data: { status: 'failed' },
+      })
+      return NextResponse.json(
+        { error: result.skipped ? 'Email sending is not configured (RESEND_API_KEY missing)' : 'Failed to send newsletter' },
+        { status: 500 }
+      )
+    }
 
     // Update campaign status to sent
     await prisma.newsletterCampaign.update({
@@ -88,12 +107,15 @@ export async function POST(request: NextRequest) {
       data: {
         status: 'sent',
         sentAt: new Date(),
+        recipients: result.sent,
       },
     })
 
     return NextResponse.json({
-      message: `Newsletter sent to ${subscribers.length} subscribers`,
-      recipients: subscribers.length,
+      message: result.failed
+        ? `Newsletter sent to ${result.sent} of ${subscribers.length} subscribers (${result.failed} failed)`
+        : `Newsletter sent to ${result.sent} subscribers`,
+      recipients: result.sent,
     })
   } catch (error: any) {
     console.error('Error sending newsletter:', error)

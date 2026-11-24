@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { sanitizeEmail } from '@/lib/validation'
 import { rateLimit, getClientIdentifier } from '@/lib/rateLimit'
 import crypto from 'crypto'
+import { sendEmail, emailLayout, SITE_URL } from '@/lib/email'
 
 export async function POST(request: NextRequest) {
   try {
@@ -81,7 +82,22 @@ export async function POST(request: NextRequest) {
     // In a production environment, you would send an email here
     // For now, we'll return the token (only for development)
     // In production, remove the token from the response
-    const resetUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/admin/reset-password?token=${token}`
+    const resetUrl = `${SITE_URL}/admin/reset-password?token=${token}`
+
+    const sent = await sendEmail({
+      to: sanitizedEmail,
+      subject: 'Reset your HydroMetInsight admin password',
+      text: `Someone asked to reset the password for your HydroMetInsight admin account.\n\nOpen this link within 1 hour to choose a new password:\n${resetUrl}\n\nIf you did not ask for this, you can ignore this email.`,
+      html: emailLayout(
+        'Reset your password',
+        `<p>Someone asked to reset the password for your HydroMetInsight admin account.</p>
+<p><a href="${resetUrl}" style="display:inline-block;background:#111827;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:6px;font-weight:bold">Choose a new password</a></p>
+<p style="color:#6b7280;font-size:13px">This link works for 1 hour. If you did not ask for this, you can ignore this email.</p>`
+      ),
+    })
+    if (!sent.ok) {
+      console.error('[Password Reset] Email not sent:', sent.error)
+    }
 
     // Log the reset request (for security monitoring)
     console.log(`[Password Reset] Request for: ${sanitizedEmail}, Token: ${token.substring(0, 8)}...`)
