@@ -39,6 +39,8 @@ model News {
   content     String
   excerpt     String?
   imageUrl    String?
+  // Optional text-free image used when the article is shown as a homepage headline
+  heroImageUrl String?
   published   Boolean  @default(false)
   categoryId  String?
   category    Category? @relation(fields: [categoryId], references: [id])

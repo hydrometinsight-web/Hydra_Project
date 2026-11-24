@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
-    const { title, slug, content, excerpt, imageUrl, published, categoryId, tagIds } = body
+    const { title, slug, content, excerpt, imageUrl, heroImageUrl, published, categoryId, tagIds } = body
 
     // Validate required fields
     if (!title || !slug || !content) {
@@ -120,6 +120,10 @@ export async function POST(request: NextRequest) {
         content: sanitizedContent,
         excerpt: sanitizedExcerpt,
         imageUrl: sanitizedImageUrl,
+        heroImageUrl:
+          typeof heroImageUrl === 'string' && heroImageUrl.trim() && validateUrl(heroImageUrl.trim())
+            ? heroImageUrl.trim()
+            : null,
         published: published === true,
         categoryId: categoryId || null,
         authorId: user.userId,

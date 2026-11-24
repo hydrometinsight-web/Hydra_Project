@@ -13,6 +13,7 @@ interface News {
   content: string
   excerpt: string | null
   imageUrl: string | null
+  heroImageUrl?: string | null
   published: boolean
   createdAt?: string
   categoryId: string | null
@@ -52,6 +53,7 @@ export default function EditNewsPage() {
   const [content, setContent] = useState('')
   const [excerpt, setExcerpt] = useState('')
   const [imageUrl, setImageUrl] = useState('')
+  const [heroImageUrl, setHeroImageUrl] = useState('')
   const [published, setPublished] = useState(false)
   const [categoryId, setCategoryId] = useState('')
   const [categories, setCategories] = useState<Category[]>([])
@@ -98,6 +100,7 @@ export default function EditNewsPage() {
           setContent(data.content)
           setExcerpt(data.excerpt || '')
           setImageUrl(data.imageUrl || '')
+          setHeroImageUrl(data.heroImageUrl || '')
           setPublished(data.published)
           setCategoryId(data.categoryId || '')
           // Set selected tags
@@ -168,6 +171,7 @@ export default function EditNewsPage() {
       content,
       excerpt: excerpt || null,
       imageUrl: imageUrl || null,
+      heroImageUrl: heroImageUrl || null,
       category: categories.find(c => c.id === categoryId) || null,
       createdAt: news?.createdAt || new Date().toISOString(),
       author: { name: 'Admin' }, // You can get this from the API if needed
@@ -208,6 +212,7 @@ export default function EditNewsPage() {
           content,
           excerpt: excerpt || null,
           imageUrl: imageUrl || null,
+          heroImageUrl: heroImageUrl || null,
           published,
           categoryId: categoryId || null,
           tagIds: selectedTagIds,
@@ -428,6 +433,18 @@ export default function EditNewsPage() {
               onChange={setImageUrl}
               label="Image"
             />
+          </div>
+
+          <div>
+            <ImageUpload
+              value={heroImageUrl}
+              onChange={setHeroImageUrl}
+              label="Headline image (optional)"
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              Used only when this article is the headline on the homepage, where the title is written over the
+              image. Use a photo without text. If left empty, the main image is used.
+            </p>
           </div>
 
           <div>

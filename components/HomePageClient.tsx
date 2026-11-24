@@ -15,6 +15,11 @@ interface HomePageClientProps {
   sponsors: any[]
 }
 
+// Headline cards write the title over the image, so prefer the text-free headline image
+function headlineImage(news: any): string | null {
+  return news?.heroImageUrl || news?.imageUrl || null
+}
+
 // Pick a column count that fits the number of cards, so a row never leaves empty columns
 function gridColsFor(count: number) {
   if (count >= 3) return 'md:grid-cols-2 lg:grid-cols-3'
@@ -80,10 +85,10 @@ export default function HomePageClient({
           {displayNews.length > 0 && displayNews[0] && (
             <Link href={`/haber/${displayNews[0].slug}`} className="lg:col-span-2 flex">
               <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer w-full relative border border-gray-200 flex flex-col">
-                {displayNews[0].imageUrl ? (
+                {headlineImage(displayNews[0]) ? (
                   <div className="relative w-full flex-1 min-h-[400px] lg:min-h-0 overflow-hidden">
                     <Image
-                      src={displayNews[0].imageUrl}
+                      src={headlineImage(displayNews[0]) as string}
                       alt={displayNews[0].title}
                       fill
                       className="object-cover"
@@ -137,10 +142,10 @@ export default function HomePageClient({
             {displayNews.slice(1, 4).map((news: any) => (
               <Link key={news.id} href={`/haber/${news.slug}`} className="flex-1 flex">
                 <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer relative border border-gray-200 w-full flex flex-col">
-                  {news.imageUrl ? (
+                  {headlineImage(news) ? (
                     <div className="relative w-full flex-1 min-h-[120px] overflow-hidden">
                       <Image
-                        src={news.imageUrl}
+                        src={headlineImage(news) as string}
                         alt={news.title}
                         fill
                         className="object-cover"

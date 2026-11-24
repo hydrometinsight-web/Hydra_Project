@@ -25,6 +25,7 @@ export default function NewNewsPage() {
   const [content, setContent] = useState('')
   const [excerpt, setExcerpt] = useState('')
   const [imageUrl, setImageUrl] = useState('')
+  const [heroImageUrl, setHeroImageUrl] = useState('')
   const [published, setPublished] = useState(false)
   const [categoryId, setCategoryId] = useState('')
   const [categories, setCategories] = useState<Category[]>([])
@@ -105,6 +106,7 @@ export default function NewNewsPage() {
       content,
       excerpt: excerpt || null,
       imageUrl: imageUrl || null,
+      heroImageUrl: heroImageUrl || null,
       category: selectedCategory || null,
       createdAt: new Date().toISOString(),
       author: { name: 'Admin' },
@@ -145,6 +147,7 @@ export default function NewNewsPage() {
           content,
           excerpt: excerpt || null,
           imageUrl: imageUrl || null,
+          heroImageUrl: heroImageUrl || null,
           published,
           categoryId: categoryId || null,
           tagIds: selectedTagIds,
@@ -318,6 +321,18 @@ export default function NewNewsPage() {
               onChange={setImageUrl}
               label="Image"
             />
+          </div>
+
+          <div>
+            <ImageUpload
+              value={heroImageUrl}
+              onChange={setHeroImageUrl}
+              label="Headline image (optional)"
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              Used only when this article is the headline on the homepage, where the title is written over the
+              image. Use a photo without text. If left empty, the main image is used.
+            </p>
           </div>
 
           <div>

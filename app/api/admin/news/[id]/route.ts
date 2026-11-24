@@ -65,7 +65,7 @@ export async function PUT(
 
   try {
     const body = await request.json()
-    const { title, slug, content, excerpt, imageUrl, published, categoryId, tagIds } = body
+    const { title, slug, content, excerpt, imageUrl, heroImageUrl, published, categoryId, tagIds } = body
 
     // Validate required fields
     if (!title || !slug || !content) {
@@ -155,6 +155,15 @@ export async function PUT(
         content: sanitizedContent,
         excerpt: sanitizedExcerpt,
         imageUrl: sanitizedImageUrl,
+        // Only touch the headline image when the request includes it
+        ...(heroImageUrl !== undefined
+          ? {
+              heroImageUrl:
+                typeof heroImageUrl === 'string' && heroImageUrl.trim() && validateUrl(heroImageUrl.trim())
+                  ? heroImageUrl.trim()
+                  : null,
+            }
+          : {}),
         published: published === true,
         categoryId: categoryId || null,
       },
