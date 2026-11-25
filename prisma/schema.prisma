@@ -121,11 +121,32 @@ model CommentLike {
 }
 
 model PageView {
-  id        String   @id @default(cuid())
-  path      String
-  section   String   // 'home', 'news', 'techinsight', 'event', 'sponsor', 'calculations', etc.
-  country   String?  // Country code (e.g., 'US', 'TR', 'GB')
-  createdAt DateTime @default(now())
+  id          String   @id @default(cuid())
+  path        String
+  section     String   // 'home', 'news', 'techinsight', 'events', 'sponsor', 'calculators', etc.
+  country     String?  // Country code (e.g., 'US', 'TR', 'GB')
+  visitorHash String?  // Daily-rotating anonymous id; null for views recorded before Nov 2026
+  referrer    String?  // Referring site host, external only
+  device      String?  // 'mobile' | 'tablet' | 'desktop'
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([visitorHash, path, createdAt])
+}
+
+// Sponsor logo impressions and clicks, measured on the site.
+model SponsorEvent {
+  id          String   @id @default(cuid())
+  sponsorId   String
+  placement   String   // 'home', 'sponsor-page', 'calculator:<slug>'
+  type        String   // 'impression' | 'click'
+  path        String?
+  country     String?
+  visitorHash String?
+  createdAt   DateTime @default(now())
+
+  @@index([sponsorId, createdAt])
+  @@index([visitorHash, sponsorId, placement, type, createdAt])
 }
 
 model Newsletter {

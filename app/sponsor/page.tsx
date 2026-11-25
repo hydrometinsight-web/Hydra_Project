@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma'
 import Image from 'next/image'
 import Link from 'next/link'
 import AdSense from '@/components/AdSense'
+import SponsorTracker from '@/components/SponsorTracker'
 
 async function getSponsors() {
   const sponsors = await prisma.sponsor.findMany({
@@ -45,8 +46,10 @@ export default async function SponsorPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {sponsors.map((sponsor) => (
-                <div
+                <SponsorTracker
                   key={sponsor.id}
+                  sponsorId={sponsor.id}
+                  placement="sponsor-page"
                   className="bg-gray-50 rounded-xl shadow-md p-6 hover:shadow-lg transition-all duration-300 border border-gray-200"
                 >
                   {sponsor.logoUrl ? (
@@ -100,7 +103,7 @@ export default async function SponsorPage() {
                       {sponsor.tier.charAt(0).toUpperCase() + sponsor.tier.slice(1)}
                     </span>
                   )}
-                </div>
+                </SponsorTracker>
               ))}
             </div>
           </div>

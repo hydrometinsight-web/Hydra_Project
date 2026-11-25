@@ -113,6 +113,12 @@ export default function PrivacyPage() {
           <p className="text-gray-700 leading-relaxed mb-3">
             We use cookies and similar tracking technologies to track activity on our website. You can control cookie preferences through your browser settings.
           </p>
+          <p className="text-gray-700 leading-relaxed mb-3">
+            To count visits we use cookieless, anonymous measurement: our own page-view counter and Vercel Web Analytics. They
+            do not set cookies and do not store IP addresses. Each visit is identified only by an anonymous code that changes
+            every day, so visitors cannot be recognised across days. We use these counts, in aggregate only, to improve the
+            site and to report audience figures to our sponsors.
+          </p>
         </section>
 
         <section className="mb-8">

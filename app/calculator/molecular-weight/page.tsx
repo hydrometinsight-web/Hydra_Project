@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import SponsorTracker from '@/components/SponsorTracker'
 
 // Periodic table data with atomic weights
 const ELEMENTS: { [key: string]: number } = {
@@ -394,6 +395,7 @@ export default function MolecularWeightCalculatorPage() {
 
 function CalculatorSponsorSection() {
   const [sponsor, setSponsor] = useState<{
+    id: string
     name: string
     website: string | null
     logoUrl: string | null
@@ -429,7 +431,7 @@ function CalculatorSponsorSection() {
               <span className="text-gray-400 text-xs">Loading...</span>
             </div>
           ) : sponsor ? (
-            <>
+            <SponsorTracker sponsorId={sponsor.id} placement="calculator:molecular-weight">
               {sponsor.logoUrl ? (
                 <div className="w-full h-24 bg-white rounded-lg flex items-center justify-center mb-4 border border-gray-200">
                   <Image
@@ -460,7 +462,7 @@ function CalculatorSponsorSection() {
                   {sponsor.ctaText || 'Learn More'} →
                 </a>
               )}
-            </>
+            </SponsorTracker>
           ) : (
             <>
               <div className="w-full h-24 bg-gray-100 rounded-lg flex items-center justify-center mb-4 border border-gray-200">

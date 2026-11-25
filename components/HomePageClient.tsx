@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import SponsorTracker from '@/components/SponsorTracker'
 import Image from 'next/image'
 import { format } from 'date-fns'
 import { enUS } from 'date-fns/locale'
@@ -368,8 +369,8 @@ export default function HomePageClient({
             </p>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-center justify-items-center mb-8">
               {sponsors.map((sponsor) => (
+                <SponsorTracker key={sponsor.id} sponsorId={sponsor.id} placement="home" className="w-full">
                 <a
-                  key={sponsor.id}
                   href={sponsor.website || '#'}
                   target={sponsor.website ? '_blank' : undefined}
                   rel={sponsor.website ? 'noopener noreferrer' : undefined}
@@ -393,6 +394,7 @@ export default function HomePageClient({
                     </div>
                   )}
                 </a>
+                </SponsorTracker>
               ))}
             </div>
             <div className="text-center">

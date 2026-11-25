@@ -192,7 +192,7 @@ export default function CookieConsent() {
                         reporting information anonymously. This helps us improve our website and user experience.
                       </p>
                       <p className="text-xs text-gray-500">
-                        Used by: Google Analytics, internal analytics
+                        Used by: Google Analytics. Our own visit counter is cookieless and does not need this setting.
                       </p>
                     </div>
                     <div className="ml-4">
