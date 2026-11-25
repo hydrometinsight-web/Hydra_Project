@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import AdSense from '@/components/AdSense'
 
 export const metadata: Metadata = {
-  title: 'Engineering Calculators | HydroMetInsight',
+  title: 'Engineering Calculators',
   description:
     'Free calculation tools for hydrometallurgy, battery recycling and chemical engineering.',
 }
