@@ -369,7 +369,7 @@ export async function downloadReportPdf(report: AnalyticsReport, opts: { sponsor
   lines.forEach((line, i) => doc.text(line, M + 3, y + 3 + i * 3.6))
   y += boxH + 4
 
-  const pages = doc.getNumberOfPages()
+  const pages = (doc.internal as any).getNumberOfPages() as number
   for (let p = 1; p <= pages; p++) {
     doc.setPage(p)
     footer(p, pages)
