@@ -167,9 +167,12 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
         <div className="p-6 md:p-8">
           <div className="flex items-center gap-4 mb-4 flex-wrap">
             {news.category && (
-              <span className="bg-[#93D419] text-gray-900 px-3 py-1 rounded-full text-sm font-medium">
+              <Link
+                href={`/category/${news.category.slug}`}
+                className="bg-[#93D419] hover:bg-lime-500 text-gray-900 px-3 py-1 rounded-full text-sm font-medium transition-colors"
+              >
                 {news.category.name}
-              </span>
+              </Link>
             )}
             {news.tags && news.tags.length > 0 && (
               <div className="flex flex-wrap gap-2">

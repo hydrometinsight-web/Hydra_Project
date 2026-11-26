@@ -17,10 +17,11 @@ function fmtDate(d: Date) {
 }
 
 export async function GET() {
-  const [news, insights, events] = await Promise.all([
+  const [news, insights, events, categories] = await Promise.all([
     prisma.news.findMany({ where: { published: true }, orderBy: { createdAt: 'desc' }, take: 30 }),
     prisma.techInsight.findMany({ where: { published: true }, orderBy: { createdAt: 'desc' }, take: 30 }),
     prisma.event.findMany({ where: { published: true, ...upcomingEventsWhere() }, orderBy: { startDate: 'asc' }, take: 20 }),
+    prisma.category.findMany({ where: { news: { some: { published: true } } }, orderBy: { name: 'asc' } }),
   ])
 
   const lines: string[] = []
@@ -35,6 +36,12 @@ export async function GET() {
   lines.push(`- [Events](${SITE_URL}/events): upcoming conferences and trade shows`)
   lines.push(`- [Calculators](${SITE_URL}/calculations): molecular weight, unit conversion and battery recycling acid calculators`)
   lines.push(`- [About](${SITE_URL}/about)`, '')
+
+  if (categories.length) {
+    lines.push('## News categories', '')
+    for (const c of categories) lines.push(`- [${c.name}](${SITE_URL}/category/${c.slug})${c.description ? `: ${clean(c.description, 160)}` : ''}`)
+    lines.push('')
+  }
 
   if (news.length) {
     lines.push('## Latest news', '')

@@ -72,6 +72,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   })
 
+  // Category landing pages (only categories with published news)
+  const categories = await prisma.category.findMany({
+    where: { news: { some: { published: true } } },
+    select: { slug: true, updatedAt: true, news: { where: { published: true }, select: { updatedAt: true }, orderBy: { updatedAt: 'desc' }, take: 1 } },
+  })
+  const categoryPages: MetadataRoute.Sitemap = categories.map((c) => ({
+    url: `${baseUrl}/category/${c.slug}`,
+    lastModified: c.news[0]?.updatedAt || c.updatedAt,
+    changeFrequency: 'daily' as const,
+    priority: 0.7,
+  }))
+
   const newsPages: MetadataRoute.Sitemap = news.map((item) => ({
     url: `${baseUrl}/haber/${item.slug}`,
     lastModified: item.updatedAt,
@@ -111,6 +123,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
-  return [...staticPages, ...newsPages, ...techInsightPages, ...eventPages]
+  return [...staticPages, ...categoryPages, ...newsPages, ...techInsightPages, ...eventPages]
 }
 

@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      // Tag slug typo fixed in Nov 2026; keep the old URL working for search engines
+      { source: '/tag/hydrometallugry', destination: '/tag/hydrometallurgy', permanent: true },
+    ]
+  },
   reactStrictMode: true,
   images: {
     remotePatterns: [
