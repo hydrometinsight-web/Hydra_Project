@@ -11,7 +11,6 @@ import ImagePlaceholder from './ImagePlaceholder'
 interface HomePageClientProps {
   latestNews: any[]
   allNews: any[]
-  topics?: { id: string; name: string; slug: string; count: number; news: { id: string; title: string; slug: string; createdAt: string | Date }[] }[]
   techInsights: any[]
   events: any[]
   sponsors: any[]
@@ -50,7 +49,6 @@ export default function HomePageClient({
   techInsights,
   events,
   sponsors,
-  topics = [],
 }: HomePageClientProps) {
   // Separate main featured and secondary featured
   const mainFeatured = latestNews.find((news: any) => news.featuredType === 'main') || latestNews[0]
@@ -274,51 +272,54 @@ export default function HomePageClient({
         <AdSense adSlot="1234567890" className="w-full" />
       </div>
 
-      {/* Browse by topic: latest headlines per category */}
-      {topics.length > 0 && (
-        <section className="mb-6">
-          <div className="flex items-center gap-4 mb-4">
-            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">Browse by Topic</h2>
-            <div className="flex-1 border-b border-gray-300"></div>
-            <Link href="/news" className="text-gray-600 hover:text-lime-700 font-medium text-sm transition-colors">
-              All News →
-            </Link>
-          </div>
-          <div className={`grid grid-cols-1 ${gridColsFor(topics.length)} gap-4`}>
-            {topics.map((topic) => (
-              <div key={topic.id} className="bg-white rounded-xl shadow-md border border-gray-200 p-5 flex flex-col">
-                <div className="flex items-baseline justify-between gap-3 mb-3 pb-3 border-b border-gray-100">
-                  <h3 className="text-lg font-bold text-gray-900">
-                    <Link href={`/category/${topic.slug}`} className="hover:text-lime-700 transition-colors">
-                      {topic.name}
-                    </Link>
+      {/* All News Section */}
+      {filteredAllNews.length > 4 && (
+      <section className="mb-6">
+        <div className="flex items-center gap-4 mb-4">
+          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">All News</h2>
+          <div className="flex-1 border-b border-gray-300"></div>
+          <Link href="/news" className="text-gray-600 hover:text-lime-700 font-medium text-sm transition-colors">
+            View All →
+          </Link>
+        </div>
+        <div className={`grid grid-cols-1 ${gridColsFor(Math.min(Math.max(filteredAllNews.length - 4, 0), 6))} gap-4`}>
+          {filteredAllNews.slice(4, 10).map((news) => (
+            <Link key={news.id} href={`/haber/${news.slug}`} className="block h-full">
+              <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200 h-full flex flex-col">
+                {news.imageUrl ? (
+                  <div className="relative w-full h-48 overflow-hidden">
+                    <Image
+                      src={news.imageUrl}
+                      alt={news.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+                    />
+                  </div>
+                ) : (
+                  <div className="relative w-full h-48">
+                    <ImagePlaceholder />
+                  </div>
+                )}
+                <div className="p-4 flex flex-col flex-grow">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+                    {news.title}
                   </h3>
-                  <span className="text-xs text-gray-500">{topic.count} {topic.count === 1 ? 'article' : 'articles'}</span>
+                  {news.excerpt && (
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                      {news.excerpt}
+                    </p>
+                  )}
+                  <button className="mt-auto self-start inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-900 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg text-sm">
+                    <Image src="/logo1.png" alt="Logo" width={16} height={16} className="w-4 h-4 object-contain" />
+                    Read More →
+                  </button>
                 </div>
-                <ul className="space-y-3 flex-grow">
-                  {topic.news.map((item) => (
-                    <li key={item.id}>
-                      <Link href={`/haber/${item.slug}`} className="group block">
-                        <span className="block text-sm font-medium text-gray-800 group-hover:text-lime-700 line-clamp-2 leading-snug transition-colors">
-                          {item.title}
-                        </span>
-                        <span className="block mt-1 text-xs text-gray-500">
-                          {new Date(item.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href={`/category/${topic.slug}`}
-                  className="mt-4 self-start text-sm font-semibold text-lime-700 hover:text-lime-800 transition-colors"
-                >
-                  View all {topic.name} →
-                </Link>
               </div>
-            ))}
-          </div>
-        </section>
+            </Link>
+          ))}
+        </div>
+      </section>
       )}
 
       {/* AdSense Ad - Between All News and Events */}

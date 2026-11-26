@@ -106,29 +106,6 @@ async function getAllNews() {
   return news
 }
 
-// Category blocks on the homepage ("Browse by topic")
-async function getTopics() {
-  const categories = await prisma.category.findMany({
-    where: { slug: { not: 'platform-updates' }, news: { some: { published: true } } },
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      _count: { select: { news: { where: { published: true } } } },
-      news: {
-        where: { published: true },
-        orderBy: { createdAt: 'desc' },
-        take: 3,
-        select: { id: true, title: true, slug: true, createdAt: true },
-      },
-    },
-  })
-  return categories
-    .map((c) => ({ id: c.id, name: c.name, slug: c.slug, count: c._count.news, news: c.news }))
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
-    .slice(0, 6)
-}
-
 async function getTechInsights() {
   const insights = await prisma.techInsight.findMany({
     where: { published: true },
@@ -165,7 +142,6 @@ export default async function Home() {
   const techInsights = await getTechInsights()
   const events = await getEvents()
   const sponsors = await getSponsors()
-  const topics = await getTopics()
 
   const baseUrl = SITE_URL
 
@@ -221,7 +197,6 @@ export default async function Home() {
           techInsights={techInsights}
           events={events}
           sponsors={sponsors}
-          topics={topics}
         />
       </Suspense>
     </>
