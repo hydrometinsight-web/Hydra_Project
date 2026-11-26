@@ -74,7 +74,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Category landing pages (only categories with published news)
   const categories = await prisma.category.findMany({
-    where: { news: { some: { published: true } } },
+    // 'platform-updates' only holds site announcements, so it stays out of the sitemap
+    where: { news: { some: { published: true } }, slug: { not: 'platform-updates' } },
     select: { slug: true, updatedAt: true, news: { where: { published: true }, select: { updatedAt: true }, orderBy: { updatedAt: 'desc' }, take: 1 } },
   })
   const categoryPages: MetadataRoute.Sitemap = categories.map((c) => ({
