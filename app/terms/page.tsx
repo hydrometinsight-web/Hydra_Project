@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
+  alternates: { canonical: '/terms' },
   description: 'Terms of Service for HydroMetInsight - Read our terms and conditions for using our website and services.',
 }
 

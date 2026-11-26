@@ -4,6 +4,7 @@ import AdSense from '@/components/AdSense'
 
 export const metadata: Metadata = {
   title: 'Engineering Calculators',
+  alternates: { canonical: '/calculations' },
   description:
     'Free calculation tools for hydrometallurgy, battery recycling and chemical engineering.',
 }

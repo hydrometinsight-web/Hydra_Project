@@ -9,12 +9,16 @@ import StructuredData from '@/components/StructuredData'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Home',
-  description: 'Latest news, research, and developments in hydrometallurgy, critical metals, and battery recycling. Independent insights for engineers and industry experts.',
+  title: { absolute: 'HydroMetInsight: Hydrometallurgy & Battery Recycling News' },
+  description:
+    'Independent news and technical insight on hydrometallurgy, battery recycling, rare earths and critical metals for engineers and industry professionals.',
+  alternates: { canonical: '/' },
   openGraph: {
-    title: 'HydroMetInsight - Hydrometallurgy News and Content Platform',
-    description: 'Latest news, research, and developments in hydrometallurgy, critical metals, and battery recycling.',
+    title: 'HydroMetInsight: Hydrometallurgy & Battery Recycling News',
+    description: 'Independent news and technical insight on hydrometallurgy, battery recycling, rare earths and critical metals.',
     type: 'website',
+    url: '/',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'HydroMetInsight' }],
   },
 }
 
@@ -151,7 +155,8 @@ export default async function Home() {
     '@type': 'Organization',
     name: 'HydroMetInsight',
     url: baseUrl,
-    logo: `${baseUrl}/logo1.png`,
+    logo: { '@type': 'ImageObject', url: `${baseUrl}/logo-square.png`, width: 512, height: 512 },
+    image: `${baseUrl}/og-image.png`,
     description: SITE_DESCRIPTION,
     foundingDate: '2026',
     location: { '@type': 'Place', address: { '@type': 'PostalAddress', addressLocality: 'Madrid', addressCountry: 'ES' } },
@@ -175,7 +180,8 @@ export default async function Home() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'HydroMetInsight',
-    url: baseUrl,
+    alternateName: ['HydroMet Insight', 'hydrometinsight.com'],
+    url: `${baseUrl}/`,
     potentialAction: {
       '@type': 'SearchAction',
       target: {

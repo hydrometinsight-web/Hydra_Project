@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
+  alternates: { canonical: '/privacy' },
   description: 'Privacy Policy for HydroMetInsight - Learn how we collect, use, and protect your personal information.',
 }
 
