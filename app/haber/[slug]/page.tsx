@@ -60,7 +60,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   const baseUrl = SITE_URL
   const url = `${baseUrl}/haber/${news.slug}`
-  const imageUrl = news.imageUrl || `${baseUrl}/logo1.png`
+  const imageUrl = news.imageUrl || `${baseUrl}/og-image.png`
 
   return {
     title: news.title,
@@ -112,7 +112,7 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
 
       const baseUrl = SITE_URL
       const url = `${baseUrl}/haber/${news.slug}`
-      const imageUrl = news.imageUrl || `${baseUrl}/logo1.png`
+      const imageUrl = news.imageUrl || `${baseUrl}/og-image.png`
 
       // Structured Data for Article
       const articleStructuredData = {
@@ -132,7 +132,7 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
           name: 'HydroMetInsight',
           logo: {
             '@type': 'ImageObject',
-            url: `${baseUrl}/logo1.png`,
+            url: `${baseUrl}/logo-square.png`,
           },
         },
         mainEntityOfPage: {

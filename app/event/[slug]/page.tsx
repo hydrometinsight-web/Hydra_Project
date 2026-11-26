@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   const baseUrl = SITE_URL
   const url = `${baseUrl}/event/${event.slug}`
-  const imageUrl = event.imageUrl || `${baseUrl}/logo1.png`
+  const imageUrl = event.imageUrl || `${baseUrl}/og-image.png`
 
   return {
     title: event.title,
@@ -75,7 +75,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
 
   const baseUrl = SITE_URL
   const url = `${baseUrl}/event/${event.slug}`
-  const imageUrl = event.imageUrl || `${baseUrl}/logo1.png`
+  const imageUrl = event.imageUrl || `${baseUrl}/og-image.png`
 
   // Structured Data for Event
   const eventStructuredData = {

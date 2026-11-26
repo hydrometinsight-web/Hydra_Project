@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   const baseUrl = SITE_URL
   const url = `${baseUrl}/techinsight/${insight.slug}`
-  const imageUrl = insight.imageUrl || `${baseUrl}/logo1.png`
+  const imageUrl = insight.imageUrl || `${baseUrl}/og-image.png`
 
   return {
     title: insight.title,
