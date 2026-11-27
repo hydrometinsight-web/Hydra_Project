@@ -6,7 +6,7 @@ import { enUS } from 'date-fns/locale'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import AdSense, { AD_SLOTS } from '@/components/AdSense'
+import AdSense from '@/components/AdSense'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
 import SocialShare from '@/components/SocialShare'
 import RelatedContent from '@/components/RelatedContent'
@@ -158,7 +158,7 @@ export default async function TechInsightDetailPage({ params }: { params: { slug
 
       {/* AdSense Ad */}
       <div className="my-8">
-        <AdSense adSlot={AD_SLOTS.article} className="w-full" />
+        <AdSense placement="article" className="w-full" />
       </div>
 
       {/* Related Content */}

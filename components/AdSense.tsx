@@ -13,16 +13,17 @@ import { useEffect, useRef } from 'react'
 
 const CLIENT = 'ca-pub-2342049878330495'
 
-export const AD_SLOTS = {
+const SLOTS: Record<string, string> = {
   article: process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE || '',
 }
 
 interface AdSenseProps {
-  adSlot: string
+  placement: 'article'
   className?: string
 }
 
-export default function AdSense({ adSlot, className = '' }: AdSenseProps) {
+export default function AdSense({ placement, className = '' }: AdSenseProps) {
+  const adSlot = SLOTS[placement] || ''
   const pushed = useRef(false)
 
   useEffect(() => {
