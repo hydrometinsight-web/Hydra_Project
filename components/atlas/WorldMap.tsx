@@ -29,11 +29,8 @@ function makeProjection(view: MapView): GeoProjection {
   const bbox = VIEWS[view].bbox
   if (!bbox) return geoEqualEarth().fitExtent([[8, 8], [W - 8, H - 8]], COUNTRIES)
   const [[x0, y0], [x1, y1]] = bbox
-  const box = {
-    type: 'Feature',
-    properties: {},
-    geometry: { type: 'Polygon', coordinates: [[[x0, y0], [x1, y0], [x1, y1], [x0, y1], [x0, y0]]] },
-  }
+  // Corner points (not a polygon) so winding order cannot invert the fit
+  const box = { type: 'MultiPoint', coordinates: [[x0, y0], [x1, y0], [x1, y1], [x0, y1]] }
   return geoMercator().fitExtent([[10, 10], [W - 10, H - 10]], box as any)
 }
 

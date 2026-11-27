@@ -101,7 +101,17 @@ export default function AtlasExplorer({ facilities }: { facilities: Facility[] }
         <div className="flex flex-wrap items-center gap-2">
           <span className="w-20 text-xs font-semibold uppercase tracking-wide text-gray-500">Region</span>
           {present.region.map((r) => (
-            <Chip key={r} active={region.has(r)} onClick={() => setRegion(toggle(region, r))}>
+            <Chip
+              key={r}
+              active={region.has(r)}
+              onClick={() => {
+                const next = toggle(region, r)
+                setRegion(next)
+                // Follow a single selected region with the matching map view
+                const only = next.size === 1 ? Array.from(next)[0] : null
+                setView(only === 'Europe' ? 'europe' : only === 'North America' ? 'north-america' : only === 'Asia' ? 'east-asia' : 'world')
+              }}
+            >
               {r}
             </Chip>
           ))}
