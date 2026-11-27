@@ -1,6 +1,7 @@
 import { SITE_URL } from '@/lib/site'
 import { MetadataRoute } from 'next'
 import { prisma } from '@/lib/prisma'
+import { getFacilities } from '@/lib/atlas'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_URL
@@ -25,6 +26,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/atlas`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    ...getFacilities().map((f) => ({
+      url: `${baseUrl}/atlas/${f.slug}`,
+      lastModified: new Date(f.lastVerified),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
     {
       url: `${baseUrl}/events`,
       lastModified: new Date(),
