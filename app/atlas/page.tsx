@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { FaCarBattery, FaIndustry, FaMagnet, FaFlask, FaArrowRight } from 'react-icons/fa'
 import { SITE_URL, SITE_NAME } from '@/lib/site'
-import { getFacilities, atlasStats, CATEGORIES } from '@/lib/atlas'
-import AtlasExplorer from '@/components/atlas/AtlasExplorer'
+import { CATEGORIES, getFacilities, atlasStats } from '@/lib/atlas'
+import MiniWorld from '@/components/atlas/MiniWorld'
 
-const TITLE = 'Battery Recycling Atlas: Plants, Start-ups and Industrial Groups'
+const TITLE = 'HydroMetInsight Atlas: Maps of Hydrometallurgy and Battery Recycling'
 const DESCRIPTION =
-  'Interactive map of lithium-ion battery recycling plants: black mass, hydrometallurgical refining and pre-treatment sites of start-ups and industrial groups, with status, capacity and sources.'
+  'Interactive maps of the hydrometallurgy industry: battery recycling plants today, with HPAL, rare earth separation and lithium refining layers to follow.'
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -15,39 +16,21 @@ export const metadata: Metadata = {
   openGraph: { title: TITLE, description: DESCRIPTION, url: `${SITE_URL}/atlas`, type: 'website' },
 }
 
-export default function AtlasPage() {
-  const facilities = getFacilities('battery-recycling')
-  const stats = atlasStats(facilities)
+const ICONS = { battery: FaCarBattery, industry: FaIndustry, magnet: FaMagnet, flask: FaFlask }
+
+export default function AtlasHub() {
+  const all = getFacilities()
+  const total = atlasStats(all)
+  const live = CATEGORIES.filter((c) => c.enabled)
 
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'CollectionPage',
-        name: TITLE,
-        description: DESCRIPTION,
-        url: `${SITE_URL}/atlas`,
-        isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: SITE_URL },
-        dateModified: stats.lastVerified,
-        mainEntity: {
-          '@type': 'ItemList',
-          numberOfItems: facilities.length,
-          itemListElement: facilities.map((f, i) => ({
-            '@type': 'ListItem',
-            position: i + 1,
-            url: `${SITE_URL}/atlas/${f.slug}`,
-            name: f.name,
-          })),
-        },
-      },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
-          { '@type': 'ListItem', position: 2, name: 'Atlas', item: `${SITE_URL}/atlas` },
-        ],
-      },
-    ],
+    '@type': 'CollectionPage',
+    name: TITLE,
+    description: DESCRIPTION,
+    url: `${SITE_URL}/atlas`,
+    isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: SITE_URL },
+    hasPart: live.map((c) => ({ '@type': 'CollectionPage', name: c.title, url: `${SITE_URL}/atlas/${c.id}` })),
   }
 
   return (
@@ -55,62 +38,101 @@ export default function AtlasPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <section className="bg-gradient-to-b from-gray-900 to-black text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#93D419]">HydroMetInsight Atlas · Beta</p>
-          <h1 className="mt-2 text-3xl md:text-4xl font-bold">Battery Recycling Atlas</h1>
-          <p className="mt-3 max-w-3xl text-gray-300">
-            Where lithium-ion batteries are recycled, and by whom. The map covers pre-treatment, black mass and refining plants run by
-            start-ups and by industrial groups. Each site shows its status and capacity, with public sources.
+          <h1 className="mt-2 text-3xl md:text-5xl font-bold">The hydrometallurgy industry, mapped</h1>
+          <p className="mt-4 max-w-3xl text-lg text-gray-300">
+            Plant-by-plant maps of the industries we cover: who operates where, what each site does, how big it is and whether it is
+            running. Every entry is sourced and dated.
           </p>
-          <dl className="mt-6 grid grid-cols-2 sm:grid-cols-5 gap-3">
-            {[
-              ['Facilities', stats.facilities],
-              ['Countries', stats.countries],
-              ['Companies', stats.companies],
-              ['Operating', stats.operating],
-              ['Start-up sites', stats.startups],
-            ].map(([k, v]) => (
-              <div key={k as string} className="rounded-lg border border-gray-800 bg-gray-900/60 px-4 py-3">
-                <dt className="text-xs text-gray-400">{k}</dt>
-                <dd className="text-2xl font-bold text-white">{v}</dd>
-              </div>
-            ))}
-          </dl>
+          <div className="mt-6 flex flex-wrap gap-6 text-sm text-gray-400">
+            <span><strong className="text-2xl text-white">{total.facilities}</strong> facilities</span>
+            <span><strong className="text-2xl text-white">{total.countries}</strong> countries</span>
+            <span><strong className="text-2xl text-white">{live.length}</strong> of {CATEGORIES.length} maps live</span>
+          </div>
         </div>
       </section>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
-        <AtlasExplorer facilities={facilities} />
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="grid gap-6 md:grid-cols-2">
+          {CATEGORIES.map((c) => {
+            const Icon = ICONS[c.icon]
+            const list = c.enabled ? getFacilities(c.id) : []
+            const s = atlasStats(list)
+            const body = (
+              <>
+                <div className="relative overflow-hidden bg-[#0b1220]">
+                  <MiniWorld points={list} accent={c.accent} muted={!c.enabled} />
+                  {!c.enabled && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="rounded-full border border-slate-600 bg-slate-900/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-slate-300">
+                        Coming soon
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-1 flex-col p-6">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ background: `${c.accent}22`, color: c.accent }}>
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <h2 className="text-xl font-bold text-gray-900">{c.label}</h2>
+                    {c.enabled && (
+                      <span className="ml-auto rounded-full bg-lime-100 px-2.5 py-0.5 text-xs font-semibold text-lime-800">Live</span>
+                    )}
+                  </div>
+                  <p className="mt-3 text-sm text-gray-600">{c.tagline}</p>
+                  {c.enabled ? (
+                    <div className="mt-auto flex items-end justify-between pt-5">
+                      <div className="flex gap-5 text-sm text-gray-500">
+                        <span><strong className="block text-xl text-gray-900">{s.facilities}</strong>facilities</span>
+                        <span><strong className="block text-xl text-gray-900">{s.countries}</strong>countries</span>
+                        <span><strong className="block text-xl text-gray-900">{s.startups}</strong>start-up sites</span>
+                      </div>
+                      <span className="inline-flex items-center gap-2 rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white group-hover:bg-gray-700">
+                        Open map <FaArrowRight className="h-3 w-3" />
+                      </span>
+                    </div>
+                  ) : (
+                    <p className="mt-auto pt-5 text-sm text-gray-500">
+                      In preparation.{' '}
+                      <Link href="/contact" className="font-medium text-lime-700 hover:underline">Suggest a plant or source</Link>
+                    </p>
+                  )}
+                </div>
+              </>
+            )
+            return c.enabled ? (
+              <Link
+                key={c.id}
+                href={`/atlas/${c.id}`}
+                className="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+                style={{ borderTop: `4px solid ${c.accent}` }}
+              >
+                {body}
+              </Link>
+            ) : (
+              <div
+                key={c.id}
+                className="flex flex-col overflow-hidden rounded-2xl border border-dashed border-gray-300 bg-white/70"
+                style={{ borderTop: `4px solid ${c.accent}66` }}
+              >
+                {body}
+              </div>
+            )
+          })}
+        </div>
 
-        <section className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900">How the atlas is built</h2>
-            <ul className="mt-3 space-y-2 text-sm text-gray-700 list-disc pl-5">
-              <li>Every facility comes from public sources: company releases, regulatory filings and trade press. Sources are listed on each profile.</li>
-              <li>Status and capacity are as reported by the company or the cited source. Capacities use different bases (battery feed, black mass or product), so they are labelled and not added up.</li>
-              <li>Locations are shown at city level.</li>
-              <li>
-                Last checked: {stats.lastVerified}. Spotted something out of date?{' '}
-                <Link href="/contact" className="text-lime-700 hover:underline">Send us a correction</Link>.
-              </li>
-            </ul>
+        <section className="mt-10 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm md:flex md:items-center md:justify-between">
+          <div>
+            <h2 className="text-lg font-bold text-gray-900">Know a plant we are missing?</h2>
+            <p className="mt-1 text-sm text-gray-600">
+              Operators, investors and engineers can send new sites, corrections or sources. Each update is checked against public information before it goes on the map.
+            </p>
           </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900">Coming next</h2>
-            <p className="mt-2 text-sm text-gray-700">The atlas will grow into more hydrometallurgy layers on the same map:</p>
-            <ul className="mt-3 space-y-2 text-sm">
-              {CATEGORIES.map((c) => (
-                <li key={c.id} className="flex items-start gap-2">
-                  <span className={`mt-1 h-2 w-2 rounded-full ${c.enabled ? 'bg-[#93D419]' : 'bg-gray-300'}`} />
-                  <span>
-                    <span className="font-semibold text-gray-900">{c.label}</span>
-                    <span className="text-gray-500"> · {c.enabled ? 'live' : 'coming soon'}</span>
-                    <span className="block text-gray-600">{c.description}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Link href="/contact" className="mt-4 inline-block shrink-0 rounded-md bg-[#93D419] px-5 py-2.5 text-sm font-semibold text-gray-900 hover:bg-lime-400 md:mt-0">
+            Send an update
+          </Link>
         </section>
       </main>
     </div>

@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import WorldMap, { VIEWS, type MapView } from './WorldMap'
 import type { CompanyType, Facility, FacilityStatus, ProcessStep, Region } from '@/lib/atlas/types'
-import { COMPANY_TYPE, PROCESS, STATUS } from '@/lib/atlas/categories'
+import { COMPANY_TYPE, PROCESS, STATUS, facilityHref } from '@/lib/atlas/categories'
 
 function toggle<T>(set: Set<T>, v: T) {
   const n = new Set(set)
@@ -192,7 +192,7 @@ export default function AtlasExplorer({ facilities }: { facilities: Facility[] }
                 <div><dt className="text-gray-500">Capacity</dt><dd className="font-medium text-gray-900">{capacityText(sel)}</dd></div>
                 <div><dt className="text-gray-500">Start</dt><dd className="font-medium text-gray-900">{sel.startYear || '—'}</dd></div>
               </dl>
-              <Link href={`/atlas/${sel.slug}`} className="inline-block rounded-md bg-gray-900 px-3 py-2 text-xs font-semibold text-white hover:bg-gray-700">
+              <Link href={facilityHref(sel)} className="inline-block rounded-md bg-gray-900 px-3 py-2 text-xs font-semibold text-white hover:bg-gray-700">
                 Facility profile →
               </Link>
             </div>
@@ -223,7 +223,7 @@ export default function AtlasExplorer({ facilities }: { facilities: Facility[] }
             {filtered.map((f) => (
               <tr key={f.slug} className={`hover:bg-lime-50/50 ${selected === f.slug ? 'bg-lime-50' : ''}`} onMouseEnter={() => setSelected(f.slug)}>
                 <td className="px-4 py-3 font-medium">
-                  <Link href={`/atlas/${f.slug}`} className="text-gray-900 hover:text-lime-700 hover:underline">{f.name}</Link>
+                  <Link href={facilityHref(f)} className="text-gray-900 hover:text-lime-700 hover:underline">{f.name}</Link>
                 </td>
                 <td className="px-4 py-3 text-gray-700">
                   {f.company}

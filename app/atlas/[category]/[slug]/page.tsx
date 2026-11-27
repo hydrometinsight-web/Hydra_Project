@@ -8,24 +8,29 @@ import { feature } from 'topojson-client'
 import world from 'world-atlas/countries-110m.json'
 import { prisma } from '@/lib/prisma'
 import { SITE_URL } from '@/lib/site'
-import { getFacilities, getFacility, formatCapacity, STATUS, COMPANY_TYPE, PROCESS, categoryById } from '@/lib/atlas'
+import { getFacilities, getFacility, formatCapacity, STATUS, COMPANY_TYPE, PROCESS, categoryById, facilityHref } from '@/lib/atlas'
 
 export const revalidate = 600
 
 export function generateStaticParams() {
-  return getFacilities().map((f) => ({ slug: f.slug }))
+  return getFacilities().map((f) => ({ category: f.category, slug: f.slug }))
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
+function load(params: { category: string; slug: string }) {
   const f = getFacility(params.slug)
+  return f && f.category === params.category ? f : undefined
+}
+
+export function generateMetadata({ params }: { params: { category: string; slug: string } }): Metadata {
+  const f = load(params)
   if (!f) return { title: 'Facility not found' }
   const title = `${f.name} – ${f.company}`
   const description = `${STATUS[f.status].label} ${categoryById(f.category).label.toLowerCase()} facility in ${f.city}, ${f.country}. ${f.summary}`.slice(0, 300)
   return {
     title,
     description,
-    alternates: { canonical: `/atlas/${f.slug}` },
-    openGraph: { title, description, url: `${SITE_URL}/atlas/${f.slug}`, type: 'article' },
+    alternates: { canonical: facilityHref(f) },
+    openGraph: { title, description, url: `${SITE_URL}${facilityHref(f)}`, type: 'article' },
   }
 }
 
@@ -65,8 +70,8 @@ function MiniMap({ lat, lng }: { lat: number; lng: number }) {
   )
 }
 
-export default async function FacilityPage({ params }: { params: { slug: string } }) {
-  const f = getFacility(params.slug)
+export default async function FacilityPage({ params }: { params: { category: string; slug: string } }) {
+  const f = load(params)
   if (!f) notFound()
   const news = await relatedNews(f.newsKeywords)
   const siblings = getFacilities(f.category).filter((o) => o.slug !== f.slug && (o.parent || o.company) === (f.parent || f.company))
@@ -79,7 +84,7 @@ export default async function FacilityPage({ params }: { params: { slug: string 
         '@type': 'Place',
         name: f.name,
         description: f.summary,
-        url: `${SITE_URL}/atlas/${f.slug}`,
+        url: `${SITE_URL}${facilityHref(f)}`,
         geo: { '@type': 'GeoCoordinates', latitude: f.lat, longitude: f.lng },
         address: { '@type': 'PostalAddress', addressLocality: f.city, addressCountry: f.countryCode },
         ...(f.website ? { sameAs: [f.website] } : {}),
@@ -89,7 +94,8 @@ export default async function FacilityPage({ params }: { params: { slug: string 
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
           { '@type': 'ListItem', position: 2, name: 'Atlas', item: `${SITE_URL}/atlas` },
-          { '@type': 'ListItem', position: 3, name: f.name, item: `${SITE_URL}/atlas/${f.slug}` },
+          { '@type': 'ListItem', position: 3, name: categoryById(f.category).title, item: `${SITE_URL}/atlas/${f.category}` },
+          { '@type': 'ListItem', position: 4, name: f.name, item: `${SITE_URL}${facilityHref(f)}` },
         ],
       },
     ],
@@ -111,7 +117,9 @@ export default async function FacilityPage({ params }: { params: { slug: string 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <nav className="text-sm text-gray-500">
-          <Link href="/atlas" className="text-lime-700 hover:underline">← Battery Recycling Atlas</Link>
+          <Link href="/atlas" className="text-lime-700 hover:underline">Atlas</Link>
+          <span className="mx-1.5">/</span>
+          <Link href={`/atlas/${f.category}`} className="text-lime-700 hover:underline">{categoryById(f.category).title}</Link>
         </nav>
 
         <div className="mt-4 grid gap-6 lg:grid-cols-[1fr_360px]">
@@ -175,7 +183,7 @@ export default async function FacilityPage({ params }: { params: { slug: string 
                 <ul className="mt-3 space-y-2 text-sm">
                   {siblings.map((o) => (
                     <li key={o.slug}>
-                      <Link href={`/atlas/${o.slug}`} className="text-gray-900 hover:text-lime-700">{o.name}</Link>
+                      <Link href={facilityHref(o)} className="text-gray-900 hover:text-lime-700">{o.name}</Link>
                       <span className="text-gray-500"> · {STATUS[o.status].label}</span>
                     </li>
                   ))}

@@ -1,7 +1,7 @@
 import { SITE_URL } from '@/lib/site'
 import { MetadataRoute } from 'next'
 import { prisma } from '@/lib/prisma'
-import { getFacilities } from '@/lib/atlas'
+import { getFacilities, CATEGORIES, facilityHref } from '@/lib/atlas'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_URL
@@ -32,8 +32,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
+    ...CATEGORIES.filter((c) => c.enabled).map((c) => ({
+      url: `${baseUrl}/atlas/${c.id}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    })),
     ...getFacilities().map((f) => ({
-      url: `${baseUrl}/atlas/${f.slug}`,
+      url: `${baseUrl}${facilityHref(f)}`,
       lastModified: new Date(f.lastVerified),
       changeFrequency: 'monthly' as const,
       priority: 0.6,
