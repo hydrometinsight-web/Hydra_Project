@@ -6,7 +6,6 @@ import { format } from 'date-fns'
 import { enUS } from 'date-fns/locale'
 import Image from 'next/image'
 import Link from 'next/link'
-import AdSense from '@/components/AdSense'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
 
 interface Category {
@@ -208,10 +207,6 @@ function NewsPageInner() {
     <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-8 max-w-7xl mx-auto">
       <h1 className="text-4xl font-bold text-gray-900 mb-8">News</h1>
 
-      {/* AdSense Ad */}
-      <div className="mb-8">
-        <AdSense adSlot="1234567890" className="w-full" />
-      </div>
 
       {/* Advanced Filters with Categories */}
       <div className="mb-6 bg-white rounded-lg shadow-md border border-gray-200 p-4">

@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import AdSense from '@/components/AdSense'
 
 export const metadata: Metadata = {
   title: 'Engineering Calculators',
@@ -19,10 +18,6 @@ export default function CalculationsPage() {
         </p>
       </div>
 
-      {/* AdSense Ad */}
-      <div className="mb-10">
-        <AdSense adSlot="1234567890" className="w-full" />
-      </div>
 
       {/* All Calculators and Converters - Module Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -6,7 +6,6 @@ import { enUS } from 'date-fns/locale'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import AdSense from '@/components/AdSense'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
 import SocialShare from '@/components/SocialShare'
 import PDFExportButton from '@/components/PDFExportButton'
@@ -247,10 +246,6 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
           </div>
         </article>
 
-        {/* AdSense Ad - Outside the article */}
-        <div className="mt-8">
-          <AdSense adSlot="1234567890" className="w-full" />
-        </div>
       </div>
     </>
   )

@@ -112,7 +112,8 @@ export default function PrivacyPage() {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold text-gray-900 mb-4">9. Cookies and Tracking Technologies</h2>
           <p className="text-gray-700 leading-relaxed mb-3">
-            We use cookies and similar tracking technologies to track activity on our website. You can control cookie preferences through your browser settings.
+            Our own pages do not set tracking cookies. Cookies and similar technologies are used only by the advertising
+            service described below, and only as your consent choices allow.
           </p>
           <p className="text-gray-700 leading-relaxed mb-3">
             To count visits we use cookieless, anonymous measurement: our own page-view counter and Vercel Web Analytics. They
@@ -123,21 +124,46 @@ export default function PrivacyPage() {
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">10. Children's Privacy</h2>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">10. Advertising (Google AdSense)</h2>
+          <p className="text-gray-700 leading-relaxed mb-3">
+            To help fund the site we show a small number of clearly labelled ads, served by Google AdSense, on article pages.
+            Google and its partners may use cookies or similar technologies to show ads, limit how often you see them and
+            measure their performance, and, where you allow it, to personalise them based on your visits to this and other websites.
+          </p>
+          <p className="text-gray-700 leading-relaxed mb-3">
+            Visitors in the European Economic Area, the United Kingdom and Switzerland are asked for consent through Google&apos;s
+            certified consent message before any of this happens; if you do not consent, only non-personalised or limited ads are shown.
+            You can change your choice at any time with the &quot;Privacy &amp; cookie settings&quot; link at the bottom of every page.
+          </p>
+          <p className="text-gray-700 leading-relaxed">
+            Learn how Google uses information from sites that use its services at{' '}
+            <a href="https://policies.google.com/technologies/partner-sites" className="text-lime-700 underline" target="_blank" rel="noopener noreferrer">
+              policies.google.com/technologies/partner-sites
+            </a>
+            , and manage personalised advertising at{' '}
+            <a href="https://adssettings.google.com" className="text-lime-700 underline" target="_blank" rel="noopener noreferrer">
+              adssettings.google.com
+            </a>
+            .
+          </p>
+        </section>
+
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">11. Children's Privacy</h2>
           <p className="text-gray-700 leading-relaxed">
             Our services are not directed to individuals under the age of 16. We do not knowingly collect personal information from children.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">11. Changes to This Privacy Policy</h2>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">12. Changes to This Privacy Policy</h2>
           <p className="text-gray-700 leading-relaxed">
             We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">12. Contact Us</h2>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">13. Contact Us</h2>
           <p className="text-gray-700 leading-relaxed mb-2">
             If you have any questions about this Privacy Policy or wish to exercise your rights, please contact us:
           </p>

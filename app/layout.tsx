@@ -6,7 +6,6 @@ import './globals.css'
 import LayoutWrapper from '@/components/LayoutWrapper'
 import AnalyticsTracker from '@/components/AnalyticsTracker'
 import { Analytics } from '@vercel/analytics/next'
-import ConditionalScripts from '@/components/ConditionalScripts'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -106,7 +105,6 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <ConditionalScripts />
         <AnalyticsTracker />
         <LayoutWrapper>{children}</LayoutWrapper>
         <Analytics />

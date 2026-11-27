@@ -6,7 +6,6 @@ import { enUS } from 'date-fns/locale'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import AdSense from '@/components/AdSense'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
 
 async function getTag(slug: string) {
@@ -116,10 +115,6 @@ export default async function TagPage({ params }: { params: { slug: string } }) 
         </div>
       </div>
 
-      {/* AdSense Ad */}
-      <div className="mb-8">
-        <AdSense adSlot="1234567890" className="w-full" />
-      </div>
 
       {totalItems === 0 ? (
         <div className="bg-white rounded-lg shadow-md p-8 text-center">

@@ -6,7 +6,7 @@ import { enUS } from 'date-fns/locale'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import AdSense from '@/components/AdSense'
+import AdSense, { AD_SLOTS } from '@/components/AdSense'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
 import SafeImage from '@/components/SafeImage'
 import CommentForm from '@/components/CommentForm'
@@ -237,7 +237,7 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
 
       {/* AdSense Ad */}
       <div className="my-8">
-        <AdSense adSlot="1234567890" className="w-full" />
+        <AdSense adSlot={AD_SLOTS.article} className="w-full" />
       </div>
 
       {/* Related Content */}

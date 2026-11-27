@@ -252,6 +252,19 @@ export default function Footer() {
               <Link href="/terms" className="hover:text-[#93D419] transition-colors">
                 Terms of Service
               </Link>
+              <span className="text-gray-600">|</span>
+              <button
+                type="button"
+                onClick={() => {
+                  const w = window as any
+                  w.googlefc = w.googlefc || {}
+                  w.googlefc.callbackQueue = w.googlefc.callbackQueue || []
+                  w.googlefc.callbackQueue.push(() => w.googlefc.showRevocationMessage?.())
+                }}
+                className="hover:text-[#93D419] transition-colors"
+              >
+                Privacy &amp; cookie settings
+              </button>
             </div>
           </div>
         </div>

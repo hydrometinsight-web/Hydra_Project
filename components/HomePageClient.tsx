@@ -5,7 +5,6 @@ import SponsorTracker from '@/components/SponsorTracker'
 import Image from 'next/image'
 import { format } from 'date-fns'
 import { enUS } from 'date-fns/locale'
-import AdSense from './AdSense'
 import ImagePlaceholder from './ImagePlaceholder'
 
 interface HomePageClientProps {
@@ -212,10 +211,6 @@ export default function HomePageClient({
         )}
       </section>
 
-      {/* AdSense Ad - Between Latest News and TechInsight */}
-      <div className="my-6">
-        <AdSense adSlot="1234567890" className="w-full" />
-      </div>
 
       {/* TechInsight Section */}
       <section className="mb-6">
@@ -267,10 +262,6 @@ export default function HomePageClient({
         </div>
       </section>
 
-      {/* AdSense Ad - Between TechInsight and All News */}
-      <div className="my-6">
-        <AdSense adSlot="1234567890" className="w-full" />
-      </div>
 
       {/* All News Section */}
       {filteredAllNews.length > 4 && (
@@ -322,10 +313,6 @@ export default function HomePageClient({
       </section>
       )}
 
-      {/* AdSense Ad - Between All News and Events */}
-      <div className="my-6">
-        <AdSense adSlot="1234567890" className="w-full" />
-      </div>
 
       {/* Events Section */}
       <section className="mb-6">
@@ -382,10 +369,6 @@ export default function HomePageClient({
         </div>
       </section>
 
-      {/* AdSense Ad - Between Events and Sponsors */}
-      <div className="my-6">
-        <AdSense adSlot="1234567890" className="w-full" />
-      </div>
 
       {/* Sponsors Section */}
       {sponsors.length > 0 && (

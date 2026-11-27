@@ -6,7 +6,6 @@ import { format } from 'date-fns'
 import { enUS } from 'date-fns/locale'
 import Image from 'next/image'
 import Link from 'next/link'
-import AdSense from '@/components/AdSense'
 import ImagePlaceholder from '@/components/ImagePlaceholder'
 
 interface EventItem {
@@ -239,10 +238,6 @@ function EventsPageInner() {
         ))}
       </div>
 
-      {/* AdSense Ad */}
-      <div className="mb-8">
-        <AdSense adSlot="1234567890" className="w-full" />
-      </div>
 
       {/* Advanced Filters */}
       <div className="mb-6 bg-white rounded-lg shadow-md border border-gray-200 p-4">

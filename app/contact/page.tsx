@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import AdSense from '@/components/AdSense'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -69,10 +68,6 @@ export default function ContactPage() {
         </p>
       </div>
 
-      {/* AdSense Ad */}
-      <div className="mb-10">
-        <AdSense adSlot="1234567890" className="w-full" />
-      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Contact Form */}
