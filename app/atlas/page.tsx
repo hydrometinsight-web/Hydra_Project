@@ -123,7 +123,17 @@ export default function AtlasHub() {
           })}
         </div>
 
-        <section className="mt-10 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm md:flex md:items-center md:justify-between">
+        <section id="how-it-is-built" className="mt-10 scroll-mt-24 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+          <h2 className="text-lg font-bold text-gray-900">How the atlas is built</h2>
+          <ul className="mt-3 grid gap-x-8 gap-y-2 text-sm text-gray-700 list-disc pl-5 md:grid-cols-2">
+            <li>Every facility comes from public sources: company releases, regulatory filings and trade press. Sources are listed on each profile.</li>
+            <li>Status and capacity are as reported by the company or the cited source. Capacities use different bases (battery feed, black mass or product), so they are labelled and not added up.</li>
+            <li>Locations are shown at city level.</li>
+            <li>Last checked: {total.lastVerified}. Spotted something out of date? <Link href="/contact" className="text-lime-700 hover:underline">Send us a correction</Link>.</li>
+          </ul>
+        </section>
+
+        <section className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm md:flex md:items-center md:justify-between">
           <div>
             <h2 className="text-lg font-bold text-gray-900">Know a plant we are missing?</h2>
             <p className="mt-1 text-sm text-gray-600">

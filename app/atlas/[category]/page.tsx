@@ -104,36 +104,14 @@ export default function AtlasCategoryPage({ params }: { params: { category: stri
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
         <AtlasExplorer facilities={facilities} />
 
-        <section className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900">How the atlas is built</h2>
-            <ul className="mt-3 space-y-2 text-sm text-gray-700 list-disc pl-5">
-              <li>Every facility comes from public sources: company releases, regulatory filings and trade press. Sources are listed on each profile.</li>
-              <li>Status and capacity are as reported by the company or the cited source. Capacities use different bases (battery feed, black mass or product), so they are labelled and not added up.</li>
-              <li>Locations are shown at city level.</li>
-              <li>
-                Last checked: {stats.lastVerified}. Spotted something out of date?{' '}
-                <Link href="/contact" className="text-lime-700 hover:underline">Send us a correction</Link>.
-              </li>
-            </ul>
-          </div>
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900">Coming next</h2>
-            <p className="mt-2 text-sm text-gray-700">The atlas will grow into more hydrometallurgy layers on the same map:</p>
-            <ul className="mt-3 space-y-2 text-sm">
-              {CATEGORIES.map((c) => (
-                <li key={c.id} className="flex items-start gap-2">
-                  <span className={`mt-1 h-2 w-2 rounded-full ${c.enabled ? 'bg-[#93D419]' : 'bg-gray-300'}`} />
-                  <span>
-                    <span className="font-semibold text-gray-900">{c.label}</span>
-                    <span className="text-gray-500"> · {c.enabled ? 'live' : 'coming soon'}</span>
-                    <span className="block text-gray-600">{c.description}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+        <p className="text-sm text-gray-600">
+          Sources are listed on each facility profile. Last checked: {stats.lastVerified}.{' '}
+          <Link href="/atlas#how-it-is-built" className="text-lime-700 hover:underline">How the atlas is built</Link>
+          {' · '}
+          <Link href="/contact" className="text-lime-700 hover:underline">Send a correction</Link>
+          {' · '}
+          <Link href="/atlas" className="text-lime-700 hover:underline">Other atlas maps</Link>
+        </p>
       </main>
     </div>
   )
