@@ -183,7 +183,7 @@ export default function WorldMap({
 
   // Company labels once zoomed in; greedy placement skips labels that would overlap
   const labelled = new Set<string>()
-  if (t.k >= 3) {
+  if (view === 'world' ? t.k >= 3 : true) {
     const boxes: { x0: number; y0: number; x1: number; y1: number }[] = []
     const order = [...visible].sort((a, b) => (b.f.capacity?.value || 0) - (a.f.capacity?.value || 0))
     for (const p of order) {
