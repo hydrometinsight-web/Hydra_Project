@@ -181,6 +181,20 @@ export default function WorldMap({
   const hovered = visible.find((p) => p.f.slug === hover)
   const markerScale = Math.min(1.6, 1 + Math.log2(t.k) * 0.15)
 
+  // Company labels once zoomed in; greedy placement skips labels that would overlap
+  const labelled = new Set<string>()
+  if (t.k >= 3) {
+    const boxes: { x0: number; y0: number; x1: number; y1: number }[] = []
+    const order = [...visible].sort((a, b) => (b.f.capacity?.value || 0) - (a.f.capacity?.value || 0))
+    for (const p of order) {
+      const text = p.f.company.replace(/ \(.*\)$/, '')
+      const b = { x0: p.x + 8, y0: p.y - 9, x1: p.x + 14 + text.length * 6.6, y1: p.y + 7 }
+      if (boxes.some((o) => b.x0 < o.x1 && b.x1 > o.x0 && b.y0 < o.y1 && b.y1 > o.y0)) continue
+      boxes.push(b)
+      labelled.add(p.f.slug)
+    }
+  }
+
   return (
     <div className="relative w-full select-none">
       <svg
@@ -229,7 +243,7 @@ export default function WorldMap({
               {(isSel || isHover) && <circle r={r + 5} fill="none" stroke={color} strokeOpacity={0.6} strokeWidth={2} />}
               <circle r={r} fill={color} fillOpacity={0.92} stroke="#0b1220" strokeWidth={1.6} />
               {f.companyType === 'startup' && <circle r={Math.max(1.6, r / 3)} fill="#0b1220" />}
-              {t.k >= 3 && (
+              {labelled.has(f.slug) && (
                 <text x={r + 6} y={4} fontSize={12} fill="#e2e8f0" stroke="#0b1220" strokeWidth={3} paintOrder="stroke" style={{ pointerEvents: 'none' }}>
                   {f.company.replace(/ \(.*\)$/, '')}
                 </text>
