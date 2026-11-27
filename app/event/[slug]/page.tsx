@@ -77,22 +77,55 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
   const url = `${baseUrl}/event/${event.slug}`
   const imageUrl = event.imageUrl || `${baseUrl}/og-image.png`
 
-  // Structured Data for Event
+  // Structured Data for Event (schema.org/Event, Google event rich results)
+  // Events listed here are third-party industry events: the organizer is the
+  // event's own website, not HydroMetInsight.
+  const website = event.website?.trim() || null
+  let organizerName = event.title
+  if (website) {
+    try {
+      organizerName = new URL(website).hostname.replace(/^www\./, '')
+    } catch {}
+  }
+  const organizer = {
+    '@type': 'Organization',
+    name: organizerName,
+    url: website || url,
+  }
+  const locationParts = event.location.split(',').map((p: string) => p.trim()).filter(Boolean)
+  const country = locationParts.length > 1 ? locationParts[locationParts.length - 1] : undefined
+  const locality = locationParts.length > 1 ? locationParts[locationParts.length - 2] : locationParts[0]
+  const endDate = event.endDate || event.startDate
+  const isUpcoming = endDate.getTime() >= Date.now()
+
   const eventStructuredData = {
     '@context': 'https://schema.org',
     '@type': 'Event',
     name: event.title,
     description: event.description.replace(/<[^>]*>/g, '').substring(0, 500),
     image: imageUrl,
+    url,
     startDate: event.startDate.toISOString(),
-    endDate: event.endDate ? event.endDate.toISOString() : event.startDate.toISOString(),
+    endDate: endDate.toISOString(),
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     location: {
       '@type': 'Place',
-      name: event.location,
+      name: locationParts[0] || event.location,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: event.location,
+        ...(locality ? { addressLocality: locality } : {}),
+        ...(country ? { addressCountry: country } : {}),
+      },
     },
-    organizer: {
-      '@type': 'Organization',
-      name: 'HydroMetInsight',
+    organizer,
+    performer: organizer,
+    offers: {
+      '@type': 'Offer',
+      url: website || url,
+      availability: isUpcoming ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut',
+      validFrom: event.createdAt.toISOString(),
     },
   }
 
