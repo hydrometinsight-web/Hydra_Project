@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { FaCarBattery, FaIndustry, FaMagnet, FaFlask, FaArrowRight } from 'react-icons/fa'
 import { SITE_URL, SITE_NAME } from '@/lib/site'
-import { CATEGORIES, getFacilities, atlasStats } from '@/lib/atlas'
+import { CATEGORIES, getFacilities, atlasStats, facilityHref } from '@/lib/atlas'
 import MiniWorld from '@/components/atlas/MiniWorld'
+import HeroMap from '@/components/atlas/HeroMap'
 
 const TITLE = 'HydroMetInsight Atlas: Maps of Hydrometallurgy and Battery Recycling'
 const DESCRIPTION =
@@ -37,19 +38,55 @@ export default function AtlasHub() {
     <div className="min-h-screen bg-gray-50">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <section className="bg-gradient-to-b from-gray-900 to-black text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#93D419]">HydroMetInsight Atlas · Beta</p>
-          <h1 className="mt-2 text-3xl md:text-5xl font-bold">The hydrometallurgy industry, mapped</h1>
-          <p className="mt-4 max-w-3xl text-lg text-gray-300">
-            Plant-by-plant maps of the industries we cover: who operates where, what each site does, how big it is and whether it is
-            running. Every entry is sourced and dated.
+      <section className="overflow-hidden bg-[#05080f] text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#93D419]">HydroMetInsight Atlas · Beta</p>
+          <h1 className="mt-3 text-4xl md:text-6xl font-extrabold tracking-tight">The hydrometallurgy industry, mapped</h1>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-400">
+            Who operates where, what each site does, how big it is and whether it is running. Every entry is sourced and dated.
           </p>
-          <div className="mt-6 flex flex-wrap gap-6 text-sm text-gray-400">
-            <span><strong className="text-2xl text-white">{total.facilities}</strong> facilities</span>
-            <span><strong className="text-2xl text-white">{total.countries}</strong> countries</span>
-            <span><strong className="text-2xl text-white">{live.length}</strong> of {CATEGORIES.length} maps live</span>
+          <div className="mt-6 flex flex-wrap justify-center gap-2.5">
+            {CATEGORIES.map((c) =>
+              c.enabled ? (
+                <Link
+                  key={c.id}
+                  href={`/atlas/${c.id}`}
+                  className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium transition-colors hover:bg-white/10"
+                  style={{ borderColor: c.accent, background: `${c.accent}22`, color: '#ecfccb' }}
+                >
+                  <span className="h-2 w-2 rounded-full" style={{ background: c.accent }} />
+                  {c.shortLabel} · live
+                </Link>
+              ) : (
+                <span key={c.id} className="inline-flex items-center gap-2 rounded-full border border-slate-700 px-4 py-1.5 text-sm text-slate-300">
+                  <span className="h-2 w-2 rounded-full" style={{ background: c.accent }} />
+                  {c.shortLabel} · soon
+                </span>
+              ),
+            )}
           </div>
+        </div>
+        <div
+          className="mx-auto mt-4 max-w-5xl overflow-hidden px-4"
+          style={{ height: 'min(330px, 33vw)', WebkitMaskImage: 'linear-gradient(#000 60%, transparent)', maskImage: 'linear-gradient(#000 60%, transparent)' }}
+        >
+          <HeroMap points={all.map((f) => ({ lat: f.lat, lng: f.lng, slug: f.slug, name: f.name, href: facilityHref(f) }))} />
+        </div>
+        <div className="border-t border-slate-900 bg-[#070b14]">
+          <dl className="mx-auto flex max-w-4xl flex-wrap justify-center gap-x-14 gap-y-2 px-4 py-4 text-sm text-slate-400">
+            {[
+              [total.facilities, 'facilities'],
+              [total.countries, 'countries'],
+              [total.companies, 'companies'],
+              [`${live.length} / ${CATEGORIES.length}`, 'maps live'],
+            ].map(([v, k]) => (
+              <div key={k as string} className="flex items-baseline gap-2">
+                <dt className="sr-only">{k}</dt>
+                <dd className="text-2xl font-bold text-white">{v}</dd>
+                <span>{k}</span>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
