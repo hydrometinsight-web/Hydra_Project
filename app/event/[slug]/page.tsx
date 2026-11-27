@@ -160,7 +160,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
           ← Back to Events
         </Link>
 
-        <article className="bg-white rounded-xl shadow-md overflow-hidden" itemScope itemType="https://schema.org/Event">
+        <article className="bg-white rounded-xl shadow-md overflow-hidden">
           {event.imageUrl ? (
             <div className="relative w-full h-96">
               <Image
@@ -177,7 +177,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
           )}
 
           <div className="p-6 md:p-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6" itemProp="name">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
               {event.title}
             </h1>
 
@@ -188,7 +188,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 <span className="font-medium">Date:</span>
-                <span itemProp="startDate" content={event.startDate.toISOString()}>
+                <span>
                   {formatEventDate(event.startDate, event.endDate)}
                 </span>
               </div>
@@ -199,8 +199,8 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 <span className="font-medium">Location:</span>
-                <span itemProp="location" itemScope itemType="https://schema.org/Place">
-                  <span itemProp="name">{event.location}</span>
+                <span>
+                  <span>{event.location}</span>
                 </span>
               </div>
               {event.website && (
@@ -214,7 +214,6 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-lime-700 hover:underline"
-                    itemProp="url"
                   >
                     {event.website}
                   </a>
@@ -241,7 +240,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
             <div id="event-content" className="print-content">
               <div
                 className="prose prose-lg max-w-none"
-                itemProp="description"
+               
                 dangerouslySetInnerHTML={{ __html: event.description }}
               />
             </div>
