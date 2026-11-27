@@ -14,7 +14,7 @@ const LAND_PATH = geoPath(projection)(LAND) || ''
 
 export default function MiniWorld({ points, accent, muted = false }: { points: { lat: number; lng: number }[]; accent: string; muted?: boolean }) {
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" className="block h-44 w-full" aria-hidden="true">
+    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMin slice" className="block h-44 w-full" aria-hidden="true">
       <path d={LAND_PATH} fill={muted ? '#1a2333' : '#1f2a3d'} stroke="#2b384d" strokeWidth={0.5} />
       {points.map((p, i) => {
         const xy = projection([p.lng, p.lat])
