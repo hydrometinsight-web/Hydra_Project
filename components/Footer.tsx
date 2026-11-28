@@ -122,58 +122,31 @@ export default function Footer() {
           <div className="px-4 md:px-8">
             <h3 className="text-white font-semibold text-sm mb-5 tracking-wide uppercase">Links</h3>
             <nav className="grid grid-cols-2 gap-x-6 gap-y-2.5">
-              <Link 
-                href="/" 
-                className="text-gray-400 hover:text-[#93D419] transition-colors text-sm"
-              >
+              <Link href="/" className="text-gray-400 hover:text-[#93D419] transition-colors text-sm">
                 Home
               </Link>
-              <Link 
-                href="/news" 
-                className="text-gray-400 hover:text-[#93D419] transition-colors text-sm"
-              >
+              <Link href="/news" className="text-gray-400 hover:text-[#93D419] transition-colors text-sm">
                 News
               </Link>
-              <Link 
-                href="/techinsight" 
-                className="text-gray-400 hover:text-[#93D419] transition-colors text-sm"
-              >
+              <Link href="/techinsight" className="text-gray-400 hover:text-[#93D419] transition-colors text-sm">
                 Tech Insights
               </Link>
-              <Link 
-                href="/sponsor" 
-                className="text-gray-400 hover:text-[#93D419] transition-colors text-sm"
-              >
-                Sponsors
+              <Link href="/atlas" className="text-gray-400 hover:text-[#93D419] transition-colors text-sm">
+                Atlas
               </Link>
-              <Link 
-                href="/calculations" 
-                className="text-gray-400 hover:text-[#93D419] transition-colors text-sm"
-              >
+              <Link href="/events" className="text-gray-400 hover:text-[#93D419] transition-colors text-sm">
+                Events
+              </Link>
+              <Link href="/calculations" className="text-gray-400 hover:text-[#93D419] transition-colors text-sm">
                 Calculations
               </Link>
-              <Link 
-                href="/about" 
-                className="text-gray-400 hover:text-[#93D419] transition-colors text-sm"
-              >
+              <Link href="/sponsor" className="text-gray-400 hover:text-[#93D419] transition-colors text-sm">
+                Sponsors
+              </Link>
+              <Link href="/about" className="text-gray-400 hover:text-[#93D419] transition-colors text-sm">
                 About
               </Link>
-              <Link 
-                href="/privacy" 
-                className="text-gray-400 hover:text-[#93D419] transition-colors text-sm"
-              >
-                Privacy Policy
-              </Link>
-              <Link 
-                href="/terms" 
-                className="text-gray-400 hover:text-[#93D419] transition-colors text-sm"
-              >
-                Terms of Service
-              </Link>
-              <Link 
-                href="/contact" 
-                className="text-gray-400 hover:text-[#93D419] transition-colors text-sm"
-              >
+              <Link href="/contact" className="text-gray-400 hover:text-[#93D419] transition-colors text-sm">
                 Contact Us
               </Link>
             </nav>
@@ -263,7 +236,7 @@ export default function Footer() {
                 }}
                 className="hover:text-[#93D419] transition-colors"
               >
-                Privacy &amp; cookie settings
+                Cookie settings
               </button>
             </div>
           </div>

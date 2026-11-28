@@ -133,7 +133,7 @@ export default function PrivacyPage() {
           <p className="text-gray-700 leading-relaxed mb-3">
             Visitors in the European Economic Area, the United Kingdom and Switzerland are asked for consent through Google&apos;s
             certified consent message before any of this happens; if you do not consent, only non-personalised or limited ads are shown.
-            You can change your choice at any time with the &quot;Privacy &amp; cookie settings&quot; link at the bottom of every page.
+            You can change your choice at any time with the &quot;Cookie settings&quot; link at the bottom of every page.
           </p>
           <p className="text-gray-700 leading-relaxed">
             Learn how Google uses information from sites that use its services at{' '}
