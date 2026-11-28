@@ -14,7 +14,7 @@ import { useEffect, useRef } from 'react'
 const CLIENT = 'ca-pub-2342049878330495'
 
 const SLOTS: Record<string, string> = {
-  article: process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE || '',
+  article: process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE || '2118863343', // "Article end - news and TechInsight" display unit
 }
 
 interface AdSenseProps {
